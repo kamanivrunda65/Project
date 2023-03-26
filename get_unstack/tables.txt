@@ -1,0 +1,85 @@
+Question table
+1  id
+2  userid
+3  question
+4  tags
+5  category
+6  details
+7  notified email
+8  date
+
+  $table->id('question_id');
+            $table->unSignedBigInteger('id');
+            $table->foreign('id')->references('id')->on('users');
+            $table->text('question',200)->unique();
+            $table->text('tags',50);
+            $table->string('category',50);
+            $table->text('discription',500);
+            $table->enum('permit',["Y","N"]);
+            $table->timestamps();
+
+
+  $table->id();
+            $table->string('name',100);
+            $table->string('email',100)->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password',50);
+            $table->rememberToken();
+            $table->text('profile_pic',100);
+            $table->text('country',50);
+            $table->text('objective',600);
+            $table->text('web_link',50);
+            $table->text('facebook_link',50);
+            $table->text('youtube_link',50);
+            $table->text('github_link',50);
+            $table->text('twitter_link',50);
+            $table->text('insta_link',50);
+            $table->integer('total_question',50);
+            $table->integer('Total_answer',50);
+            $table->integer('accepted_answer',50);
+            $table->integer('points',100);
+            $table->timestamps();
+
+
+
+$table->text('profile_pic',100)->nullable();
+            $table->text('country',50)->nullable();
+            $table->text('objective',600)->nullable();
+            $table->text('web_link',50)->nullable();
+            $table->text('facebook_link',50)->nullable();
+            $table->text('youtube_link',50)->nullable();
+            $table->text('github_link',50)->nullable();
+            $table->text('twitter_link',50)->nullable();
+            $table->text('insta_link',50)->nullable();
+            $table->bigInteger('total_question')->default(0);
+            $table->bigInteger('Total_answer')->default(0);
+            $table->bigInteger('accepted_answer')->default(0);
+            $table->bigInteger('points')->default(0);
+            $table->integer('role_id')->default(0);
+
+
+$table->id();
+            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->bigInteger('user_name')->unsigned()->nullable();
+            $table->foreign('user_name')->references('name')->on('name');
+            $table->text('blog_title');
+            $table->text('blog_content');
+            $table->string('category');
+            $table->text('tags');
+            $table->text('image');
+            $table->bigInteger('comments');
+            $table->timestamps();
+
+ $table->id();
+            $table->bigInteger('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->text('user_name',50);
+           
+            $table->text('blog_title',500);
+            $table->text('blog_content',1000);
+            $table->string('category',50);
+            $table->text('tags',100);
+            $table->text('image',100);
+            $table->bigInteger('comments',500);
+            $table->timestamps();
