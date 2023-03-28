@@ -36,7 +36,7 @@ class AnswerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Answer $answer)
+    public function store(Request $request,Answer $answer,Question $question)
     {
         $request->validate([
             'user_id'=>'required',
@@ -57,6 +57,14 @@ class AnswerController extends Controller
         $answer->user_name=$request->user_name;
         $answer->question_id=$request->question_id;
         $answer->answer=$request->answer;
+
+         $qid=$request->question_id;
+         $qdata=$question->find($qid);
+         $answers=$qdata->answers;
+         $answers=$answers+1;
+         $qdata->answers=$answers;
+         $qdata->save();
+
         $answer->save();
 
        // dd($request->all());
@@ -82,6 +90,7 @@ class AnswerController extends Controller
 
     public function votes($id,$uid,Answer $answer)
     {
+        
         // $votebyaid=$answer->find($id);
         // $vote=$votebyaid->votes;
         // $vote=$vote+1;
@@ -122,10 +131,16 @@ class AnswerController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Answer $answer)
+    public function destroy($id,Answer $answer,Question $question)
     {
         $answerbyid=$answer->find($id);
         //echo $answerbyid;
+        $qid=$answerbyid->question_id;
+        $qdata=$question->find($qid);
+        $answers=$qdata->answers;
+        $answers=$answers-1;
+        $qdata->$answers=$answers;
+        $qdata->save();
         $answerbyid->delete();
     }
 }

@@ -32,6 +32,10 @@ class Question extends Model
     {
         return $this->hasMany(QuestionComment::class);
     }
+    public function questionvotes()
+    {
+        return $this->hasMany(Questionvote::class);
+    }
     public function categories()
     {
         return $this->belongsTo(Category::class,'category');

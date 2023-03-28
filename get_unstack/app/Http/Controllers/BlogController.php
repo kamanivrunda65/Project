@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\User;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
@@ -58,8 +59,9 @@ class BlogController extends Controller
     {
         $result= DB::table('blogs')->join('users', 'users.id', '=', 'blogs.user_id')->join('categories','categories.id','=','blogs.category')
         ->select('blogs.*', 'users.profile_pic','users.name','categories.categoryname')->orderby('id','DESC')
-        ->where('category', "=","$id")->get();   
+        ->where('category', "=","$id")->get();  
         return view('layouts.blogs',compact('result'));
+        //echo $resultdata;
     }
     /**
      * Display a listing of the resource.
@@ -87,13 +89,10 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Blog $blog,Request $request)
+    public function store(Blog $blog,Request $request,Category $category)
     {
-       // dd($request->all());
-        // dd($request->file('image'));
-        // dd($file);
-        // echo "<pre>";
-        // print_r($request);
+        //dd($request->all());
+        
         $request->validate([
             'user_id'=>'required',
              'user_name'=>'required',
@@ -103,6 +102,7 @@ class BlogController extends Controller
             'blog_content'=>'required',
             'image'=>'required','mimes:jpeg,jpg','max:6'
          ]);
+
          //dd($request->all());
          $image=$request->file('image');
          //dd($image);
@@ -122,6 +122,15 @@ class BlogController extends Controller
          $blog->tags=$request->tags;
          $blog->image=$imagearray;
          $blog->category=$request->category;
+
+
+        $cid=$request->category;
+        $cdata=$category->find($cid);
+        $total=$cdata->total;
+        $total=$total+1;
+        $cdata->total=$total;
+        $cdata->save();
+         //dd($cdata->total);
          $blog->save();
          return redirect('/blogs');
     }
@@ -198,9 +207,14 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy($blog_id,Blog $blog)
+    public function destroy($blog_id,Blog $blog,Category $category)
     {
         $blogbyid=$blog->find($blog_id);
+        $cid=$blogbyid->category;
+        $cdata=$category->find($cid);
+        $total=$cdata->total;
+        $total=$total-1;
+        $cdata->total=$total;
         echo $blogbyid->delete();
     }
 }

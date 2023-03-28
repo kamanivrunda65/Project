@@ -29,4 +29,8 @@ class Answer extends Model
     {
         return $this->hasMany(AnswerComment::class);
     }
+    public function answervotes()
+    {
+        return $this->hasMany(Answervotes::class);
+    }
 }

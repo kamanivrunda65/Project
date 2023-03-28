@@ -35,6 +35,7 @@ Route::get('/notification', [App\Http\Controllers\ProfileController::class, 'not
 Route::get('/post', [App\Http\Controllers\BlogController::class, 'post'])->name('post');
 Route::get('/blogs', [App\Http\Controllers\BlogController::class, 'blogs'])->name('blogs');
 Route::get('/blog/{id}', [App\Http\Controllers\BlogController::class, 'singleblog'])->name('singleblog');
+Route::get('/category/{id}', [App\Http\Controllers\BlogController::class, 'categoryblog']);
 
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answervote;
+use App\Models\Answer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -34,9 +35,17 @@ class AnswervoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($aid,$uid,Answer $answer,Answervote $answervote)
     {
-        //
+        // dd($aid,$uid);
+        $answervote->answer_id=$aid;
+        $answervote->user_id=$uid;
+        $adata=$answer->find($aid);
+        $votes=$adata->votes;
+        $votes=$votes+1;
+        $adata->votes=$votes;
+        $adata->save();
+        echo $answervote->save();
     }
 
     /**

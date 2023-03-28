@@ -61,7 +61,14 @@
             <div class="col-lg-4">
                 <div class="card card-item">
                     <div class="card-body">
-                        
+                        <div class="form-group">
+                            <label class="fs-14 text-black fw-medium lh-20">Category</label>
+                            <select class="custom-select custom--select" name="category" id="category-type">
+                                {{-- <option value="0">Select a Category</option>
+                                <option value="1">Uncategorized</option>
+                                <option value="2">Work</option> --}}
+                            </select>
+                        </div><!-- end form-group -->
                         <div class="form-group mb-0">
                             <label class="fs-14 text-black fw-medium lh-20">Tags</label>
                             <input class="input-tags input--tags" type="text" name="tags" placeholder="e.g. javascript">
@@ -96,4 +103,16 @@
 <!-- ================================
          END QUESTION AREA
 ================================= -->
+<script>
+    fetch('http://localhost:8000/api/category').then(response=>response.json()).then((res)=>{
+        console.log(res);
+        category=""
+        category+=`<option value="">Select a Category</option> `
+        res.forEach(element => {
+            
+            category+=` <option value="${element.id}">${element.categoryname}</option>`
+        });
+        document.getElementById('category-type').innerHTML=category;
+    })
+</script>
 @include('layouts.footer')

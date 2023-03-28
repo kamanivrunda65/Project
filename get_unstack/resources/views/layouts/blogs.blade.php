@@ -142,12 +142,6 @@
         <div class="col-lg-8">
             @if(isset($result))
             
-                
-            write full code in laravel that click on category and that pass categoryid by function in javascript that data of blog where from that 
-            category fetch by api and show to view page display with with variable and how pass that blog category data from controller
-
-
-            
             <div class="row" >
                 @foreach ($result as $searchdata)
                 <div class="col-lg-6 responsive-column-half">
@@ -203,7 +197,8 @@
 ================================= -->
 @push('front-blog')
 <script>
-  
+
+
     showblog(1,10)
     function showblog(page, perPage)
   {
@@ -274,7 +269,7 @@
        // console.log(res);
         categorydata=""
         res.forEach(element => {
-            categorydata+=` <a onclick="categoryblog(${element.id})" class="cat-item d-flex align-items-center justify-content-between mb-3 hover-y">
+            categorydata+=` <a href="/category/${element.id}" class="cat-item d-flex align-items-center justify-content-between mb-3 hover-y">
                                 <span class="cat-title">${element.categoryname}</span>
                                 <span class="cat-number">${element.total}</span>
                             </a>`
@@ -282,12 +277,8 @@
         document.getElementById('category-data').innerHTML= categorydata;
     })
  }
- function categoryblog(id)
- {
-    fetch("http://localhost:8000/api/categoryblog/"+id).then(response=>response.json()).then((res)=>{
-        console.log(res);
-    })
- }
+
+ 
 </script> 
 @endpush
 

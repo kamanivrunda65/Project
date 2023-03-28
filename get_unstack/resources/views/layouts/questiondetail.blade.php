@@ -82,9 +82,8 @@
                     <div class="question d-flex">
                         <div class="votes votes-styled w-auto">
                             <div id="vote" class="upvotejs">
-                                <a class="upvote upvote-on" data-toggle="tooltip" data-placement="right" title="This question is useful"></a>
-                                <span class="count">1</span>
-                                <a class="downvote" data-toggle="tooltip" data-placement="right" title="This question is not useful"></a>
+                                <span class="count">{{$data->votes}}</span>
+                                <button class="btn btn-success" title="This answer is useful" onclick="questionvotes({{$data->id}},{{Auth::user()->id}})">Vote</button>
                                 <a class="star" data-toggle="tooltip" data-placement="right" title="Bookmark this question."></a>
                             </div>
                         </div><!-- end votes -->
@@ -394,13 +393,15 @@
 @push('question-comment')
     <script>
        
-       
+ //page-data      
     var qdata={{Js::from($data)}};
     var id=qdata.id;
     var userid={{Auth::user()->id}}
     //console.log(qdata);
     // console.log(id);
     //console.log(userid);
+
+//post-question-coment
     $('form#questioncomment').submit(function(event) {
     event.preventDefault();
 
@@ -419,7 +420,7 @@
     });
 });
 
-
+//show-question-comment
 
 
     showquestioncomment()
@@ -521,7 +522,6 @@
         })
     }
 //show answer comment
-    // showanswercomment()
     function showanswercomment(id){
         fetch("http://localhost:8000/api/answercomment").then(response=>response.json()).then((res)=>{
             //console.log(res);
@@ -563,6 +563,19 @@
             location.reload();
         })
     }
+
+//question-cotes
+    function questionvotes(qid,uid)
+    {
+        // console.log(qid);
+        // console.log(uid);
+        fetch("http://localhost:8000/api/questionvote/"+qid+"/"+uid).then(response=>response.json()).then((res)=>{
+            console.log(res);
+            //alert(res);
+            location.reload();
+        })
+    }
+
 //post-answer-comment
     function postcomment(){
         // var id=5;

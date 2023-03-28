@@ -96,7 +96,6 @@ class QuestionController extends Controller
          $question->user_id=$request->user_id;
          $question->question=$request->question;
          $question->tags=$request->tags;
-        
          $question->discription=$request->discription;
          $question->permit=$permit;
  
