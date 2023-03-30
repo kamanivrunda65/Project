@@ -105,8 +105,9 @@ class BlogCommentController extends Controller
      * @param  \App\Models\BlogComment  $blogComment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BlogComment $blogComment)
+    public function destroy($id,BlogComment $blogComment)
     {
-        //
+        $bcdata=$blogComment->find($id);
+        echo $bcdata->delete();
     }
 }

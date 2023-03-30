@@ -37,15 +37,28 @@ class AnswervoteController extends Controller
      */
     public function store($aid,$uid,Answer $answer,Answervote $answervote)
     {
+        $data=$answervote->select('answervotes.*')->where("answer_id","=","$qid")->where("user_id","=","$uid")->get();
+        $avdata=$data->all();
+        
+        if($avdata!=null)
+        {
+            $avid=$avdata->id;
+            $avdata=$answervote->where("id","=","$avid")->get();
+            echo $avdata->save();
+        }
         // dd($aid,$uid);
-        $answervote->answer_id=$aid;
-        $answervote->user_id=$uid;
-        $adata=$answer->find($aid);
-        $votes=$adata->votes;
-        $votes=$votes+1;
-        $adata->votes=$votes;
-        $adata->save();
-        echo $answervote->save();
+        else
+        {
+            $answervote->answer_id=$aid;
+            $answervote->user_id=$uid;
+            $adata=$answer->find($aid);
+            $votes=$adata->votes;
+            $votes=$votes+1;
+            $adata->votes=$votes;
+            $adata->save();
+            echo $answervote->save();
+        }
+        
     }
 
     /**

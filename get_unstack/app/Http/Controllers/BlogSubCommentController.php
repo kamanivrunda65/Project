@@ -99,8 +99,10 @@ class BlogSubCommentController extends Controller
      * @param  \App\Models\BlogSubComment  $blogSubComment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BlogSubComment $blogSubComment)
+    public function destroy($id,BlogSubComment $blogSubComment)
     {
-        //
+        $bscdata=$blogSubComment->find($id);
+        echo $bscdata->delete();
+        
     }
 }

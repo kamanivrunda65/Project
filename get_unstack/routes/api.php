@@ -41,8 +41,12 @@ Route::post('/postcategory', [App\Http\Controllers\CategoryController::class, 's
 Route::get('/deletequestion/{id}', [App\Http\Controllers\QuestionController::class, 'destroy']);
 Route::get('/deleteblog/{id}', [App\Http\Controllers\BlogController::class, 'destroy']);
 Route::get('/deleteanswer/{id}', [App\Http\Controllers\AnswerController::class, 'destroy']);
+Route::get('/deletesubcomment/{id}', [App\Http\Controllers\BlogSubCommentController::class, 'destroy']);
+Route::get('/deletecomment/{id}', [App\Http\Controllers\BlogCommentController::class, 'destroy']);
 
 Route::get('/answervote/{aid}/{uid}', [App\Http\Controllers\AnswervoteController::class, 'store']);
+Route::get('/rightanswer/{aid}/{qid}', [App\Http\Controllers\AnswerController::class, 'rightanswer']);
+Route::get('/wronganswer/{aid}/{qid}', [App\Http\Controllers\AnswerController::class, 'wronganswer']);
 Route::get('/questionvote/{qid}/{uid}', [App\Http\Controllers\QuestionvoteController::class, 'store']);
 Route::get('/categorystatus/{id}/{status}', [App\Http\Controllers\CategoryController::class, 'statuschange']);
 

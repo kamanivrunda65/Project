@@ -280,7 +280,7 @@ fetch("http://localhost:8000/api/questiondata").then(response=>response.json()).
          questions+=      `</div>
                    <div class="media media-card user-media align-items-center px-0 border-bottom-0 pb-0">
                                 <a href="user-profile.html" class="media-img d-block">
-                                    <img src="storage/${element.profile_pic}" alt="avatar">
+                                    <img src="{{URL::asset('asset/${element.profile_pic}')}}" alt="avatar">
                                 </a>
                                 <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
                                     <div>

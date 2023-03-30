@@ -396,6 +396,7 @@
  //page-data      
     var qdata={{Js::from($data)}};
     var id=qdata.id;
+    var user=qdata.user_id;
     var userid={{Auth::user()->id}}
     //console.log(qdata);
     // console.log(id);
@@ -451,7 +452,7 @@
             document.getElementById('question-comment').innerHTML= qcdata;
         })
     }
-
+//show answer
     showanswer()
     function showanswer(){
         fetch("http://localhost:8000/api/answer").then(response=>response.json()).then((res)=>{
@@ -467,9 +468,27 @@
                                 <div class="votes votes-styled w-auto" >
                                     <div id="vote2" class="upvotejs">
                                         <span class="count">${element.votes}</span>
-                                        <button class="btn btn-success" title="This answer is useful" onclick="answervote(${element.id},${userid})">Vote</button>
-                                        <a class="star check " data-toggle="tooltip" data-placement="right" title="The question owner accepted this answer"></a>
-                                    </div>
+                                        <button class="btn btn-info" title="This answer is useful" onclick="answervote(${element.id},${userid})">Vote</button>
+                                        <br><br>`
+
+                        if(user=={{Auth::user()->id}}){
+                            if(element.correct_answer==0)
+                            {
+                            answerpart+= `<button class="btn btn-sm btn-success" onclick="rightanswer(${element.id},${id})" title="The question owner accepted this answer"><i class="la la-check"></i></button>`
+                            }else{
+                            answerpart+= `<button class="btn btn-sm btn-danger" onclick="wronganswer(${element.id},${id})" title="The question owner accepted this answer"><i class="la la-close"></i></button>`
+  
+                            }
+                        }
+                     
+                            if(element.correct_answer==1)
+                            {
+                                answerpart+=   `<a class="star check star-on" data-toggle="tooltip" data-placement="right" title="The question owner accepted this answer"></a>`
+                            }
+                            
+                           
+                        
+                    answerpart+=`</div>
                                 </div>
                                
                                 <div class="answer-body-wrap " >
@@ -560,7 +579,7 @@
         // console.log(uid);
         fetch("http://localhost:8000/api/answervote/"+id+"/"+uid).then(response=>response.json()).then((res)=>{
             console.log(res);
-            location.reload();
+            showanswer();
         })
     }
 
@@ -572,7 +591,7 @@
         fetch("http://localhost:8000/api/questionvote/"+qid+"/"+uid).then(response=>response.json()).then((res)=>{
             console.log(res);
             //alert(res);
-            location.reload();
+            showanswer();
         })
     }
 
@@ -594,7 +613,7 @@
         data: result,
         success: function(response) {
             console.log(response);
-            location.reload();
+            showanswer();
         },
         error: function(error) {
             console.log(error);
@@ -639,6 +658,30 @@
  document.getElementById('popup-box-answer-comment').innerHTML=popupbox;
  }
 
+
+//right-answer
+ function rightanswer(aid,qid)
+ {
+    // console.log(id);
+    // console.log(qid);
+    fetch("http://localhost:8000/api/rightanswer/"+aid+"/"+qid).then(response=>response.json()).then((res)=>{
+        //console.log(res);
+        // showanswer();
+        showanswer();
+    })
+ }
+//wrong-answer
+function wronganswer(aid,qid)
+ {
+    // console.log(id);
+    // console.log(qid);
+    fetch("http://localhost:8000/api/wronganswer/"+aid+"/"+qid).then(response=>response.json()).then((res)=>{
+        //console.log(res);
+        showanswer();
+    })
+ }
     </script>
+
+
 @endpush
 @include('layouts.footer')

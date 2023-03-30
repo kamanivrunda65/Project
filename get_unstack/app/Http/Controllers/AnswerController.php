@@ -86,7 +86,40 @@ class AnswerController extends Controller
         // $userdata=$user->find($uid);
         echo $answerdata;
     }
+    function rightanswer($aid,$qid,Answer $answer)
+    {
+        $data=Answer::select('answers.id')->where("question_id","=","$qid")->where("correct_answer","=","1")->value('id');
 
+        if($data!=null)
+        {
+            //$data1=$data->correct_answer;
+             //dd($data);
+             $answerdata=$answer->find($data);
+             $correct=$answerdata->correct_answer;
+             $correct=0;
+             $answerdata->correct_answer=$correct;
+            // dd($answerdata);
+             echo $answerdata->save();
+        }
+        
+            $adata=$answer->find($aid);
+            $correct=$adata->correct_answer;
+            if($correct==0){
+                $correct=1;
+                //dd($correct);
+                $adata->correct_answer=$correct;
+                echo $adata->save();
+            }
+   }
+
+   public function wronganswer($aid,$qid,Answer $answer)
+   {
+        $adata=$answer->find($aid);
+        $correct=$adata->correct_answer;
+        $correct=0;
+        $adata->correct_answer=$correct;
+        echo $adata->save();
+   }
 
     public function votes($id,$uid,Answer $answer)
     {

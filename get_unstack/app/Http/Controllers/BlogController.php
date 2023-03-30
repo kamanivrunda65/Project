@@ -20,12 +20,14 @@ class BlogController extends Controller
     {
         return view('layouts.blogs');
     }
-    public function singleblog($id,Blog $blog,User $user)
+    public function singleblog($id,Blog $blog,User $user,Category $category)
     {
         $blogbyid=$blog->find($id);
         $userid=$blogbyid->user_id;
+        $cid=$blogbyid->category;
+        $categorybyid=$category->find($cid);
         $userbyid=$user->find($userid);
-        return view('layouts.blog')->with(['blogdata'=>$blogbyid])->with(['userdata'=>$userbyid]);
+        return view('layouts.blog')->with(['blogdata'=>$blogbyid])->with(['userdata'=>$userbyid])->with(['categorydata'=>$categorybyid]);
         //return view('layouts.blog');
 
     }
@@ -106,6 +108,7 @@ class BlogController extends Controller
          //dd($request->all());
          $image=$request->file('image');
          //dd($image);
+         $blogtitle=ucfirst($request->blog_title);
          $imagefile=[];
          for($i=0;$i<sizeof($image);$i++){
             $filename=time()."-blog-".$image[$i]->getClientOriginalName();
@@ -117,7 +120,7 @@ class BlogController extends Controller
          
          $blog->user_id=$request->user_id;
          $blog->user_name=$request->user_name;
-         $blog->blog_title=$request->blog_title;
+         $blog->blog_title=$blogtitle;
          $blog->blog_content=$request->blog_content;
          $blog->tags=$request->tags;
          $blog->image=$imagearray;
