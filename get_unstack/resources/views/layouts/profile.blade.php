@@ -1,49 +1,68 @@
 @include('layouts.header')
+<style>
+  
+.card-item .card-img img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width: 290px;
+    height: 170px;
+}
+.hover:hover{
+    color:rgb(235, 75, 26);
+}
+</style>
 <!--======================================
         START HERO AREA
 ======================================-->
 <section class="hero-area bg-white shadow-sm overflow-hidden pt-60px">
-    <span class="stroke-shape stroke-shape-1"></span>
-    <span class="stroke-shape stroke-shape-2"></span>
-    <span class="stroke-shape stroke-shape-3"></span>
-    <span class="stroke-shape stroke-shape-4"></span>
-    <span class="stroke-shape stroke-shape-5"></span>
-    <span class="stroke-shape stroke-shape-6"></span>
+   
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
                 <div class="hero-content">
                     <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
                         <div class="media-img media--img">
-                            <img src="assets/images/img4.jpg" alt="avatar">
+                            <img src="{{URL::asset('asset/'.$userbyid->profile_pic)}}" alt="avatar">
                         </div>
                         <div class="media-body">
-                            <h5>Arden Smith</h5>
+                           
+                            <h5>{{$userbyid->name}}</h5>
                             <small class="meta d-block lh-20 pb-2">
-                                <span>United States, member since 11 years ago</span>
+                                <span>{{$userbyid->location}}<br> member since {{date('d M,Y', strtotime($userbyid->created_at))}}</span>
                             </small>
-                            <div class="stats fs-14 fw-medium d-flex align-items-center lh-18">
-                                <span class="text-black pr-2" title="Reputation">224,110</span>
-                                <span class="pr-2 d-inline-flex align-items-center" title="Gold"><span class="ball ml-1 gold"></span>16</span>
-                                <span class="pr-2 d-inline-flex align-items-center" title="Silver"><span class="ball ml-1 silver"></span>93</span>
-                                <span class="pr-2 d-inline-flex align-items-center" title="Bronze"><span class="ball ml-1"></span>136</span>
-                            </div>
+                           
                         </div>
                     </div><!-- end media -->
                 </div><!-- end hero-content -->
             </div><!-- end col-lg-8 -->
+            @if ($userbyid->id==Auth::user()->id)
             <div class="col-lg-4">
                 <div class="hero-btn-box text-right py-3">
                     <a href="setting.php" class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i class="la la-gear mr-1"></i> Edit Profile</a>
                 </div>
             </div><!-- end col-lg-4 -->
+            @endif
+           
             <div class="col-lg-12">
                 <ul class="nav nav-tabs generic-tabs generic--tabs generic--tabs-2 mt-4" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="user-profile-tab" data-toggle="tab" href="#user-profile" role="tab" aria-controls="user-profile" aria-selected="true">Profile</a>
+                        <a class="nav-link active" data-toggle="tab" href="#user-profile" role="tab"  aria-selected="true">Profile</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#user-blog" role="tab"  aria-selected="false">Blogs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="user-activity-tab" data-toggle="tab" href="#user-activity" role="tab" aria-controls="user-activity" aria-selected="false">Activity</a>
+                        <a class="nav-link"  data-toggle="tab" href="#user-question" role="tab"  aria-selected="false">Questions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  data-toggle="tab" href="#user-answer" role="tab"  aria-selected="false">Answers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  data-toggle="tab" href="#user-cart-question" role="tab"  aria-selected="false">Saved Question</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  data-toggle="tab" href="#user-cart-blog" role="tab"  aria-selected="false">Saved Blog</a>
                     </li>
                 </ul>
             </div><!-- end col-lg-4 -->
@@ -62,19 +81,25 @@
         <div class="row">
             <div class="col-lg-9">
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="user-profile" role="tabpanel" aria-labelledby="user-profile-tab">
-                        <div class="user-panel-main-bar">
+                    <div class="tab-pane fade show active" id="user-profile"  aria-labelledby="user-profile-tab">
+                        <div class="user-panel-main-bar ">
                             <div class="user-panel mb-30px">
-                                <p class="pb-2">I am a programmer. My principal language is C++. I've also done commercial work in Java, C, Perl, Python, Javascript and APL. I've also been known to dabble in lisp, Haskell, assembler (ARM, x86, amd64) and probably a few other languages that haven't left as big a mark.</p>
-                                <p class="pb-2">Programmer at <a href="#" class="text-color hover-underline">Bloomberg</a>. Posts and commments are my opinions and are not sponsored or endorsed by my employer.</p>
-                                <p>If my answers helped you can <a href="#" class="text-color hover-underline">buy me a coffee.</a></p>
+                                <p class="pb-2">{{$userbyid->objective}}</p>
                             </div><!-- end user-panel -->
                             <div class="user-panel mb-30px pt-30px border-top border-top-gray">
                                 <ul class="generic-list-item generic-list-item-bullet">
-                                    <li class="pl-3"><a href="#" class="d-inline-block">ardensmith.com</a></li>
-                                    <li class="pl-3"><a href="#" class="d-inline-block">Facebook</a></li>
-                                    <li class="pl-3"><a href="#" class="d-inline-block">Twitter</a></li>
-                                    <li class="pl-3"><a href="#" class="d-inline-block">Instagram</a></li>
+                                    @if($userbyid->webiste!=null)<li class="pl-3"><a href="#" class="d-inline-block">{{$userbyid->web_link}}</a></li>
+                                    @endif
+                                    @if($userbyid->facebook_link!=null)<li class="pl-3"><a href="#" class="d-inline-block">{{$userbyid->facebook_link}}</a></li>
+                                    @endif
+                                    @if($userbyid->twitter_link!=null)<li class="pl-3"><a href="#" class="d-inline-block">{{$userbyid->twitter_link}}</a></li>
+                                    @endif
+                                    @if($userbyid->insta_link!=null)<li class="pl-3"><a href="#" class="d-inline-block">{{$userbyid->insta_link}}</a></li>
+                                    @endif
+                                    @if($userbyid->github_link!=null)<li class="pl-3"><a href="#" class="d-inline-block">{{$userbyid->github_link}}</a></li>
+                                    @endif
+                                    @if($userbyid->youtube_link!=null)<li class="pl-3"><a href="#" class="d-inline-block">{{$userbyid->youtube_link}}</a></li>
+                                    @endif
                                 </ul>
                             </div><!-- end user-panel -->
                             <div class="user-panel mb-30px">
@@ -98,7 +123,7 @@
                                                 </svg>
                                             </div>
                                             <div class="media-body">
-                                                <h5 class="fw-medium">1,979</h5>
+                                                <h5 class="fw-medium">{{$userbyid->total_answer}}</h5>
                                                 <p class="fs-15">Answers</p>
                                             </div>
                                         </div>
@@ -140,7 +165,7 @@
                                                 </svg>
                                             </div>
                                             <div class="media-body">
-                                                <h5 class="fw-medium">11</h5>
+                                                <h5 class="fw-medium">{{$userbyid->total_question}}</h5>
                                                 <p class="fs-15">Questions</p>
                                             </div>
                                         </div>
@@ -153,1049 +178,22 @@
                                                 </svg>
                                             </div>
                                             <div class="media-body">
-                                                <h5 class="fw-medium">~46.3m</h5>
-                                                <p class="fs-15">People reached</p>
+                                                <h5 class="fw-medium">{{$userbyid->total_blogs}}</h5>
+                                                <p class="fs-15">Blogs</p>
                                             </div>
                                         </div>
                                     </div><!-- end col-lg-4 -->
                                 </div><!-- end row -->
                             </div><!-- end user-panel -->
-                            <div class="user-panel mb-30px">
-                                <div class="bg-gray p-3 rounded-rounded">
-                                    <h3 class="fs-17">Top tags <span>(865)</span></h3>
-                                </div>
-                                <div class="vertical-list">
-                                    <div class="item tags d-flex align-items-center justify-content-between">
-                                       <div class="flex-grow-1">
-                                           <a href="#" class="tag-link tag-link-md tag-link-blue mb-0">git</a>
-                                           <a href="#" class="ball ball-lg ml-1 gold"></a>
-                                       </div>
-                                        <div class="user-stats d-flex align-items-center">
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">58,420</strong>
-                                                <small class="d-block lh-15">score</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">413</strong>
-                                                <small class="d-block lh-15">posts</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">21</strong>
-                                                <small class="d-block lh-15">posts %</small>
-                                            </div>
-                                        </div>
-                                    </div><!-- end item -->
-                                    <div class="item tags d-flex align-items-center justify-content-between">
-                                        <div class="flex-grow-1">
-                                            <a href="#" class="tag-link tag-link-md tag-link-blue mb-0">c++</a>
-                                            <a href="#" class="ball ball-lg ml-1 gold"></a>
-                                        </div>
-                                        <div class="user-stats d-flex align-items-center">
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">12,420</strong>
-                                                <small class="d-block lh-15">score</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">313</strong>
-                                                <small class="d-block lh-15">posts</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">21</strong>
-                                                <small class="d-block lh-15">posts %</small>
-                                            </div>
-                                        </div>
-                                    </div><!-- end item -->
-                                    <div class="item tags d-flex align-items-center justify-content-between">
-                                        <div class="flex-grow-1">
-                                            <a href="#" class="tag-link tag-link-md tag-link-blue mb-0">c#</a>
-                                            <a href="#" class="ball ball-lg ml-1 gold"></a>
-                                        </div>
-                                        <div class="user-stats d-flex align-items-center">
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">3,049</strong>
-                                                <small class="d-block lh-15">score</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">244</strong>
-                                                <small class="d-block lh-15">posts</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">6</strong>
-                                                <small class="d-block lh-15">posts %</small>
-                                            </div>
-                                        </div>
-                                    </div><!-- end item -->
-                                    <div class="item tags d-flex align-items-center justify-content-between">
-                                        <div class="flex-grow-1">
-                                            <a href="#" class="tag-link tag-link-md tag-link-blue mb-0">stl</a>
-                                            <a href="#" class="ball ball-lg ml-1 silver"></a>
-                                        </div>
-                                        <div class="user-stats d-flex align-items-center">
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">913</strong>
-                                                <small class="d-block lh-15">score</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">60</strong>
-                                                <small class="d-block lh-15">posts</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">5</strong>
-                                                <small class="d-block lh-15">posts %</small>
-                                            </div>
-                                        </div>
-                                    </div><!-- end item -->
-                                    <div class="item tags d-flex align-items-center justify-content-between">
-                                        <div class="flex-grow-1">
-                                            <a href="#" class="tag-link tag-link-md tag-link-blue mb-0">pointers</a>
-                                            <a href="#" class="ball ball-lg ml-1 silver"></a>
-                                        </div>
-                                        <div class="user-stats d-flex align-items-center">
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">824</strong>
-                                                <small class="d-block lh-15">score</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">100</strong>
-                                                <small class="d-block lh-15">posts</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">3</strong>
-                                                <small class="d-block lh-15">posts %</small>
-                                            </div>
-                                        </div>
-                                    </div><!-- end item -->
-                                    <div class="item tags d-flex align-items-center justify-content-between">
-                                        <div class="flex-grow-1">
-                                            <a href="#" class="tag-link tag-link-md tag-link-blue mb-0">arrays</a>
-                                            <a href="#" class="ball ball-lg ml-1"></a>
-                                        </div>
-                                        <div class="user-stats d-flex align-items-center">
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">777</strong>
-                                                <small class="d-block lh-15">score</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">63</strong>
-                                                <small class="d-block lh-15">posts</small>
-                                            </div>
-                                            <div class="stat text-center">
-                                                <strong class="text-black fs-14">3</strong>
-                                                <small class="d-block lh-15">posts %</small>
-                                            </div>
-                                        </div>
-                                    </div><!-- end item -->
-                                    <div class="view-more pt-3 px-3">
-                                        <a href="#" class="btn-text fs-15">View all tags <i class="la la-arrow-right icon ml-1"></i></a>
-                                    </div>
-                                </div><!-- end vertical-list -->
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-30px">
-                                <div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
-                                    <h3 class="fs-17">Top posts <span>(865)</span></h3>
-                                    <div class="filter-option-box w-100px lh-1">
-                                        <select class="select-container">
-                                            <option selected="selected" value="Votes">Votes</option>
-                                            <option value="Newest">Newest</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="vertical-list">
-                                    <div class="item p-0">
-                                        <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                            <div class="votes py-2 answered-accepted">
-                                                <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                    <span class="vote-counts">6475</span>
-                                                    <span class="vote-icon"></span>
-                                                </div>
-                                                <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                    <span class="vote-counts">22</span>
-                                                    <span class="answer-icon"></span>
-                                                </div>
-                                            </div>
-                                            <div class="media-body">
-                                                <h5><a href="question-details.html">How to make Git “forget” about a file that was tracked but is now in .gitignore?</a></h5>
-                                                <small class="meta">
-                                                    <span>May 12 '20</span>
-                                                </small>
-                                            </div>
-                                        </div><!-- end media -->
-                                    </div><!-- end item -->
-                                    <div class="item p-0">
-                                        <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                            <div class="votes py-2 answered-accepted">
-                                                <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                    <span class="vote-counts">4711</span>
-                                                    <span class="vote-icon"></span>
-                                                </div>
-                                                <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                    <span class="vote-counts">-2</span>
-                                                    <span class="answer-icon"></span>
-                                                </div>
-                                            </div>
-                                            <div class="media-body">
-                                                <h5><a href="question-details.html">Undoing a git rebase</a></h5>
-                                                <small class="meta">
-                                                    <span>May 12 '20</span>
-                                                </small>
-                                            </div>
-                                        </div><!-- end media -->
-                                    </div><!-- end item -->
-                                    <div class="item p-0">
-                                        <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                            <div class="votes py-2 answered-accepted">
-                                                <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                    <span class="vote-counts">4448</span>
-                                                    <span class="vote-icon"></span>
-                                                </div>
-                                                <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                    <span class="vote-counts">11</span>
-                                                    <span class="answer-icon"></span>
-                                                </div>
-                                            </div>
-                                            <div class="media-body">
-                                                <h5><a href="question-details.html">Difference between “git add -A” and “git add .”</a></h5>
-                                                <small class="meta">
-                                                    <span>May 12 '20</span>
-                                                </small>
-                                            </div>
-                                        </div><!-- end media -->
-                                    </div><!-- end item -->
-                                    <div class="item p-0">
-                                        <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                            <div class="votes py-2 answered-accepted">
-                                                <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                    <span class="vote-counts">3274</span>
-                                                    <span class="vote-icon"></span>
-                                                </div>
-                                                <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                    <span class="vote-counts">33</span>
-                                                    <span class="answer-icon"></span>
-                                                </div>
-                                            </div>
-                                            <div class="media-body">
-                                                <h5><a href="question-details.html">How to find and restore a deleted file in a Git repository</a></h5>
-                                                <small class="meta">
-                                                    <span>May 12 '20</span>
-                                                </small>
-                                            </div>
-                                        </div><!-- end media -->
-                                    </div><!-- end item -->
-                                    <div class="item p-0">
-                                        <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                            <div class="votes py-2 answered-accepted">
-                                                <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                    <span class="vote-counts">2822</span>
-                                                    <span class="vote-icon"></span>
-                                                </div>
-                                                <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                    <span class="vote-counts">11</span>
-                                                    <span class="answer-icon"></span>
-                                                </div>
-                                            </div>
-                                            <div class="media-body">
-                                                <h5><a href="question-details.html">How to undo “git commit --amend” done instead of “git commit”</a></h5>
-                                                <small class="meta">
-                                                    <span>May 12 '20</span>
-                                                </small>
-                                            </div>
-                                        </div><!-- end media -->
-                                    </div><!-- end item -->
-                                    <div class="item p-0">
-                                        <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                            <div class="votes py-2 answered-accepted">
-                                                <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                    <span class="vote-counts">2741</span>
-                                                    <span class="vote-icon"></span>
-                                                </div>
-                                                <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                    <span class="vote-counts">33</span>
-                                                    <span class="answer-icon"></span>
-                                                </div>
-                                            </div>
-                                            <div class="media-body">
-                                                <h5><a href="question-details.html">Branch from a previous commit using Git</a></h5>
-                                                <small class="meta">
-                                                    <span>May 12 '20</span>
-                                                </small>
-                                            </div>
-                                        </div><!-- end media -->
-                                    </div><!-- end item -->
-                                    <div class="view-more pt-3 px-3">
-                                        <a href="#" class="btn-text fs-15">View all questions and answers <i class="la la-arrow-right icon ml-1"></i></a>
-                                    </div>
-                                </div><!-- end vertical-list -->
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-30px">
-                                <div class="bg-gray p-3 rounded-rounded mb-3">
-                                    <h3 class="fs-17">Rarest badges <span>(1,328)</span></h3>
-                                </div>
-                                <div class="badge-top-list">
-                                    <div class="badge-top badge-top-gold">
-                                        <div class="badge-top-name">
-                                            <span class="fs-20 lh-18 fw-regular d-block">91</span>
-                                            <strong>Gold</strong>
-                                        </div><!-- end badge-top-name -->
-                                        <div class="badge-top-details flex-grow-1">
-                                            <div class="vertical-list">
-                                                <div class="item tags">
-                                                    <a href="#" class="badge badge-md badge-gray"><span class="ball gold"></span> git</a>
-                                                    <span class="fs-12 pl-1 font-italic">Jul 29 '10</span>
-                                                </div><!-- end item -->
-                                                <div class="item tags">
-                                                    <a href="#" class="badge badge-md badge-gray"><span class="ball gold"></span> c#</a>
-                                                    <span class="fs-12 pl-1 font-italic">Feb 28 '11</span>
-                                                </div><!-- end item -->
-                                                <div class="item tags border-bottom-0">
-                                                    <a href="#" class="badge badge-md badge-dark"><span class="ball gold"></span> Legendary</a>
-                                                    <span class="fs-12 pl-1 font-italic">Jan 11 '12</span>
-                                                </div><!-- end item -->
-                                            </div><!-- end vertical-list -->
-                                        </div><!-- end badge-top-details -->
-                                    </div><!-- end badge-top -->
-                                    <div class="badge-top badge-top-silver">
-                                        <div class="badge-top-name text-gray">
-                                            <span class="fs-20 lh-18 fw-regular d-block">560</span>
-                                            <strong>silver</strong>
-                                        </div><!-- end badge-top-name -->
-                                        <div class="badge-top-details flex-grow-1">
-                                            <div class="vertical-list">
-                                                <div class="item tags">
-                                                    <a href="#" class="badge badge-md badge-gray"><span class="ball silver"></span> stl</a>
-                                                    <span class="fs-12 pl-1 font-italic">Dec 13 '12</span>
-                                                </div><!-- end item -->
-                                                <div class="item tags">
-                                                    <a href="#" class="badge badge-md badge-gray"><span class="ball silver"></span> pointers</a>
-                                                    <span class="fs-12 pl-1 font-italic">May 5 '12</span>
-                                                </div><!-- end item -->
-                                                <div class="item tags border-bottom-0">
-                                                    <a href="#" class="badge badge-md badge-dark"><span class="ball silver"></span> Epic</a>
-                                                    <span class="fs-12 pl-1 font-italic">Mar 24 '10</span>
-                                                </div><!-- end item -->
-                                            </div><!-- end vertical-list -->
-                                        </div><!-- end badge-top-details -->
-                                    </div><!-- end badge-top -->
-                                    <div class="badge-top badge-top-bronze">
-                                        <div class="badge-top-name">
-                                            <span class="fs-20 lh-18 fw-regular d-block">632</span>
-                                            <strong>bronze</strong>
-                                        </div><!-- end badge-top-name -->
-                                        <div class="badge-top-details flex-grow-1">
-                                            <div class="vertical-list">
-                                                <div class="item tags">
-                                                    <a href="#" class="badge badge-md badge-gray"><span class="ball"></span> standards</a>
-                                                    <span class="fs-12 pl-1 font-italic">Jun 10 '12</span>
-                                                </div><!-- end item -->
-                                                <div class="item tags">
-                                                    <a href="#" class="badge badge-md badge-gray"><span class="ball"></span> branch</a>
-                                                    <span class="fs-12 pl-1 font-italic">Apr 3 '13</span>
-                                                </div><!-- end item -->
-                                                <div class="item tags border-bottom-0">
-                                                    <a href="#" class="badge badge-md badge-gray"><span class="ball"></span> namespaces</a>
-                                                    <span class="fs-12 pl-1 font-italic">Jul 7 '12</span>
-                                                </div><!-- end item -->
-                                            </div><!-- end vertical-list -->
-                                        </div><!-- end badge-top-details -->
-                                    </div><!-- end badge-top -->
-                                    <div class="view-more pt-3 px-3">
-                                        <a href="#" class="btn-text fs-15">View all badges <i class="la la-arrow-right icon ml-1"></i></a>
-                                    </div>
-                                </div><!-- end vertical-list -->
-                            </div><!-- end user-panel -->
+                           
+                           
                         </div><!-- end user-panel-main-bar -->
                     </div><!-- end tab-pane -->
-                    <div class="tab-pane fade" id="user-activity" role="tabpanel" aria-labelledby="user-activity-tab">
-                        <div class="user-panel-main-bar">
-                            <div class="user-panel mb-40px">
-                                <div class="bg-gray p-3 rounded-rounded mb-3">
-                                    <h3 class="fs-17">Reputation</h3>
-                                </div>
-                                <div class="media media-card align-items-center shadow-none border border-gray p-3 text-center">
-                                    <div class="media-body">
-                                        <h5 class="fw-medium">224,110</h5>
-                                        <p class="fs-15">top 0.01% overall</p>
-                                    </div>
-                                </div>
-                                <div class="user-stats d-flex flex-wrap align-items-center">
-                                    <div class="stat flex-grow-1 my-1">
-                                        <h4 class="fs-15 text-gray pb-2">Next tag badge:</h4>
-                                        <span class="badge badge-md badge-gray"><span class="ball"></span> function-pointers</span>
-                                    </div>
-                                    <div class="stat text-center mr-3 my-1">
-                                        <small class="d-block lh-15 pb-1">149/100 score</small>
-                                        <div class="progress progress-slim bg-gray-2">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                    <div class="stat text-center ml-0 my-1">
-                                        <small class="d-block lh-15 pb-1">19/20 answers</small>
-                                        <div class="progress progress-slim bg-gray-2">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-40px">
-                                <div class="bg-gray p-3 rounded-rounded mb-3">
-                                    <h3 class="fs-17">Badges</h3>
-                                </div>
-                                <div class="badge-stats d-flex align-items-center mb-4 text-center">
-                                    <div class="stat flex-grow-1">
-                                        <span class="badge d-block mr-2 badge-md badge-gold" title="Gold"><span class="ball gold"></span> 91</span>
-                                    </div>
-                                    <div class="stat flex-grow-1">
-                                        <span class="badge d-block mr-2 badge-md badge-gray" title="Silver"><span class="ball silver"></span> 560</span>
-                                    </div>
-                                    <div class="stat flex-grow-1">
-                                        <span class="badge d-block badge-md badge-bronze" title="Bronze"><span class="ball"></span> 632</span>
-                                    </div>
-                                </div><!-- end badge-stats -->
-                                <div class="user-stats d-flex align-items-center">
-                                    <div class="stat flex-grow-1">
-                                        <h4 class="fs-15 text-gray pb-2">Newest</h4>
-                                        <a href="#" class="badge badge-md badge-dark"><span class="ball silver"></span> Good Answer</a>
-                                    </div>
-                                    <div class="stat flex-grow-1">
-                                        <div class="d-flex align-items-center justify-content-between pb-2">
-                                            <h4 class="fs-15 text-gray">Next badge</h4>
-                                            <span class="count fs-14">72/80</span>
-                                        </div>
-                                        <div class="progress progress-fat">
-                                            <div class="progress-bar bg-gray-2" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"><span class="text-black">Deputy</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-10px">
-                                <div class="bg-gray p-3 rounded-rounded mb-3">
-                                    <h3 class="fs-17">Impact</h3>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="media media-card align-items-center shadow-none border border-gray p-3 text-center">
-                                            <div class="media-body">
-                                                <h5 class="fw-medium">~46.3m</h5>
-                                                <p class="fs-15">people reached</p>
-                                            </div>
-                                        </div>
-                                    </div><!-- end col-lg-3 -->
-                                    <div class="col-lg-3">
-                                        <div class="media media-card align-items-center shadow-none border border-gray p-3 text-center">
-                                            <div class="media-body">
-                                                <h5 class="fw-medium">122</h5>
-                                                <p class="fs-15">posts edited</p>
-                                            </div>
-                                        </div>
-                                    </div><!-- end col-lg-3 -->
-                                    <div class="col-lg-3">
-                                        <div class="media media-card align-items-center shadow-none border border-gray p-3 text-center">
-                                            <div class="media-body">
-                                                <h5 class="fw-medium">72</h5>
-                                                <p class="fs-15">helpful flags</p>
-                                            </div>
-                                        </div>
-                                    </div><!-- end col-lg-3 -->
-                                    <div class="col-lg-3">
-                                        <div class="media media-card align-items-center shadow-none border border-gray p-3 text-center">
-                                            <div class="media-body">
-                                                <h5 class="fw-medium">1,351</h5>
-                                                <p class="fs-15">votes cast</p>
-                                            </div>
-                                        </div>
-                                    </div><!-- end col-lg-3 -->
-                                </div><!-- end row -->
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-40px">
-                                <div class="bg-gray p-3 rounded-rounded">
-                                    <div class="filter-option-box w-20">
-                                        <select class="select-container">
-                                            <option value="summary" selected="">Summary</option>
-                                            <option value="answers">Answers</option>
-                                            <option value="questions">Questions</option>
-                                            <option value="tags">Tags</option>
-                                            <option value="badges">Badges</option>
-                                            <option value="bookmarks">Bookmarks</option>
-                                            <option value="bounties">Bounties</option>
-                                            <option value="reputation">Reputation</option>
-                                            <option value="activity">All actions</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="summary-panel">
-                                    <div class="border-bottom border-bottom-gray p-3 d-flex align-items-center justify-content-between">
-                                        <h4 class="fs-15 fw-regular">Answers <span>(1,979)</span></h4>
-                                        <div class="filter-option-box flex-grow-1 d-flex align-items-center justify-content-end lh-1">
-                                            <label class="fs-14 fw-medium mr-2 mb-0">Sort</label>
-                                            <div class="w-100px">
-                                                <select class="select-container">
-                                                    <option selected="selected" value="Votes">Votes</option>
-                                                    <option value="Activity">Activity</option>
-                                                    <option value="Newest">Newest</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="vertical-list">
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">999k</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">How to make Git “forget” about a file that was tracked but is now in .gitignore?</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">4714</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Undoing a git rebase</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">4448</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Difference between “git add -A” and “git add .”</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">3275</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">How to find and restore a deleted file in a Git repository</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">2822</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Branch from a previous commit using Git</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="pager pt-30px">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination generic-pagination generic--pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <p class="fs-13 pt-2">Showing 1-5 of (1,979) results</p>
-                                        </div>
-                                    </div>
-                                </div><!-- end summary-panel -->
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-40px">
-                                <div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
-                                    <h3 class="fs-17">Questions <span>(50)</span></h3>
-                                    <div class="filter-option-box flex-grow-1 d-flex align-items-center justify-content-end lh-1">
-                                        <label class="fs-14 fw-medium mr-2 mb-0">Sort</label>
-                                        <div class="w-100px">
-                                            <select class="select-container">
-                                                <option selected="selected" value="Votes">Votes</option>
-                                                <option value="Activity">Activity</option>
-                                                <option value="Newest">Newest</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="summary-panel">
-                                    <div class="vertical-list">
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">2653</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">What are the correct version numbers for C#?</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">563</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Curious null-coalescing operator custom implicit conversion behaviour</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">363</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">What's your most controversial programming opinion?</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">336</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Performance surprise with “as” and nullable types</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">322</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">What's the strangest corner case you've seen in C# or .NET? [closed]</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="pager pt-30px">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination generic-pagination generic--pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <p class="fs-13 pt-2">Showing 1-5 of (50) results</p>
-                                        </div>
-                                    </div>
-                                </div><!-- end summary-panel -->
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-40px">
-                                <div class="bg-gray p-3 rounded-rounded">
-                                    <h3 class="fs-17">Tags <span>(4,654)</span></h3>
-                                </div>
-                                <div class="summary-panel">
-                                    <div class="vertical-list">
-                                        <div class="item tags d-flex align-items-center">
-                                            <span class="tag-stat mr-2 fs-14">244k</span>
-                                            <div class="flex-grow-1">
-                                                <a href="#" class="tag-link tag-link-md tag-link-blue mb-0 lh-20">c#</a>
-                                            </div>
-                                            <span class="item-multiplier fs-14">
-                                                <span>×</span>
-                                                <span>19616</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="item tags d-flex align-items-center">
-                                            <span class="tag-stat mr-2 fs-14">146k</span>
-                                            <div class="flex-grow-1">
-                                                <a href="#" class="tag-link tag-link-md tag-link-blue mb-0 lh-20">java</a>
-                                            </div>
-                                            <span class="item-multiplier fs-14">
-                                                <span>×</span>
-                                                <span>10512</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="item tags d-flex align-items-center">
-                                            <span class="tag-stat mr-2 fs-14">89k</span>
-                                            <div class="flex-grow-1">
-                                                <a href="#" class="tag-link tag-link-md tag-link-blue mb-0 lh-20">.net</a>
-                                            </div>
-                                            <span class="item-multiplier fs-14">
-                                                <span>×</span>
-                                                <span>5569</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="item tags d-flex align-items-center">
-                                            <span class="tag-stat mr-2 fs-14">34k</span>
-                                            <div class="flex-grow-1">
-                                                <a href="#" class="tag-link tag-link-md tag-link-blue mb-0 lh-20">linq</a>
-                                            </div>
-                                            <span class="item-multiplier fs-14">
-                                                <span>×</span>
-                                                <span>2982</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="item tags d-flex align-items-center">
-                                            <span class="tag-stat mr-2 fs-14">23k</span>
-                                            <div class="flex-grow-1">
-                                                <a href="#" class="tag-link tag-link-md tag-link-blue mb-0 lh-20">string</a>
-                                            </div>
-                                            <span class="item-multiplier fs-14">
-                                                <span>×</span>
-                                                <span>999</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="pager pt-30px">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination generic-pagination generic--pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <p class="fs-13 pt-2">Showing 1-5 of (4,654) results</p>
-                                        </div>
-                                    </div>
-                                </div><!-- end summary-panel -->
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-40px">
-                                <div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
-                                    <h3 class="fs-17">Badges <span>(765)</span></h3>
-                                    <div class="filter-option-box flex-grow-1 d-flex align-items-center justify-content-end lh-1">
-                                        <label class="fs-14 fw-medium mr-2 mb-0">Sort</label>
-                                        <div class="w-100px">
-                                            <select class="select-container">
-                                                <option selected="selected" value="Recent">Recent</option>
-                                                <option value="Class">Class</option>
-                                                <option value="Name">Name</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="summary-panel">
-                                    <div class="vertical-list">
-                                        <div class="item">
-                                            <a href="#" class="badge badge-md badge-dark d-inline-flex align-items-center mr-1"><span class="ball silver"></span> Good Answer</a>
-                                            <span class="item-multiplier fs-14 fw-medium">
-                                                <span>×</span>
-                                                <span>4142</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="item">
-                                            <a href="#" class="badge badge-md badge-dark d-inline-flex align-items-center mr-1"><span class="ball"></span> Nice Answer</a>
-                                            <span class="item-multiplier fs-14 fw-medium">
-                                                <span>×</span>
-                                                <span>586</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="item">
-                                            <a href="#" class="badge badge-md badge-dark d-inline-flex align-items-center mr-1"><span class="ball gold"></span> Great Answer</a>
-                                            <span class="item-multiplier fs-14 fw-medium">
-                                                <span>×</span>
-                                                <span>1310</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="item">
-                                            <a href="#" class="badge badge-md badge-dark d-inline-flex align-items-center mr-1"><span class="ball silver"></span> Enlightened</a>
-                                            <span class="item-multiplier fs-14 fw-medium">
-                                                <span>×</span>
-                                                <span>2863</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="item">
-                                            <a href="#" class="badge badge-md badge-dark d-inline-flex align-items-center mr-1"><span class="ball silver"></span> Guru</a>
-                                            <span class="item-multiplier fs-14 fw-medium">
-                                                <span>×</span>
-                                                <span>131</span>
-                                            </span>
-                                        </div><!-- item -->
-                                        <div class="pager pt-30px">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination generic-pagination generic--pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <p class="fs-13 pt-2">Showing 1-5 of (765) results</p>
-                                        </div>
-                                    </div>
-                                </div><!-- end summary-panel -->
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-40px">
-                                <div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
-                                    <h3 class="fs-17">Followed posts <span>(20)</span></h3>
-                                    <div class="filter-option-box flex-grow-1 d-flex align-items-center justify-content-end lh-1">
-                                        <label class="fs-14 fw-medium mr-2 mb-0">Sort</label>
-                                        <div class="w-100px">
-                                            <select class="select-container">
-                                                <option value="Votes">Votes</option>
-                                                <option selected="selected" value="Activity">Activity</option>
-                                                <option value="Newest">Newest</option>
-                                                <option value="Views">Views</option>
-                                                <option value="Added">Added</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="summary-panel">
-                                    <div class="vertical-list">
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <svg aria-hidden="true" class="svg-icon ml-3 icon-question" width="18" height="18" viewBox="0 0 18 18"><path fill="#7d848c" d="M4 14l-3 3V3c0-1.1.9-2 2-2h12a2 2 0 012 2v9a2 2 0 01-2 2H4zm7.75-3.97c.32-.37.55-.75.7-1.15.18-.51.28-1.11.28-1.79 0-1.29-.35-2.29-1.03-3a3.66 3.66 0 00-2.78-1.07 3.7 3.7 0 00-2.8 1.07c-.73.82-1.1 1.9-1.03 3 0 1.29.35 2.29 1.03 3a3.76 3.76 0 002.85 1.07c.62 0 1.2-.11 1.71-.34.65.44 1 .68 1.06.7.23.13.46.23.7.3l.59-1.13a5.2 5.2 0 01-1.28-.66zm-1.27-.9a5.4 5.4 0 00-1.5-.8l-.45.9c.33.12.66.29.98.5-.2.07-.42.11-.65.11-.61 0-1.12-.23-1.52-.68-.4-.46-.6-1.15-.6-2.07 0-.9.2-1.58.6-2.04a2 2 0 011.57-.67 2 2 0 011.58.67c.4.45.6 1.13.6 2.04 0 .44-.05.83-.16 1.17-.1.34-.25.63-.45.87z"></path></svg>
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">1203</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">git: undo all working dir changes including new files</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <svg aria-hidden="true" class="svg-icon ml-3 icon-answer" width="18" height="18" viewBox="0 0 18 18"><path fill="#7d848c"  d="M14 14H3a2 2 0 01-2-2V3c0-1.1.9-2 2-2h12a2 2 0 012 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"></path></svg>
-                                                <div class="votes">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">1117</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">How to revert uncommitted changes including files and folders?</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <svg aria-hidden="true" class="svg-icon ml-3 icon-answer" width="18" height="18" viewBox="0 0 18 18"><path fill="#7d848c"  d="M14 14H3a2 2 0 01-2-2V3c0-1.1.9-2 2-2h12a2 2 0 012 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"></path></svg>
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">76</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Detected package downgrade warning (dotnet core, vs 2017)</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <svg aria-hidden="true" class="svg-icon ml-3 icon-answer" width="18" height="18" viewBox="0 0 18 18"><path fill="#7d848c"  d="M14 14H3a2 2 0 01-2-2V3c0-1.1.9-2 2-2h12a2 2 0 012 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"></path></svg>
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">73</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">What is the difference between a variable, object, and reference? [duplicate]</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <svg aria-hidden="true" class="svg-icon ml-3 icon-question" width="18" height="18" viewBox="0 0 18 18"><path fill="#7d848c" d="M4 14l-3 3V3c0-1.1.9-2 2-2h12a2 2 0 012 2v9a2 2 0 01-2 2H4zm7.75-3.97c.32-.37.55-.75.7-1.15.18-.51.28-1.11.28-1.79 0-1.29-.35-2.29-1.03-3a3.66 3.66 0 00-2.78-1.07 3.7 3.7 0 00-2.8 1.07c-.73.82-1.1 1.9-1.03 3 0 1.29.35 2.29 1.03 3a3.76 3.76 0 002.85 1.07c.62 0 1.2-.11 1.71-.34.65.44 1 .68 1.06.7.23.13.46.23.7.3l.59-1.13a5.2 5.2 0 01-1.28-.66zm-1.27-.9a5.4 5.4 0 00-1.5-.8l-.45.9c.33.12.66.29.98.5-.2.07-.42.11-.65.11-.61 0-1.12-.23-1.52-.68-.4-.46-.6-1.15-.6-2.07 0-.9.2-1.58.6-2.04a2 2 0 011.57-.67 2 2 0 011.58.67c.4.45.6 1.13.6 2.04 0 .44-.05.83-.16 1.17-.1.34-.25.63-.45.87z"></path></svg>
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">24</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">I've found a bug in the JIT/CLR - now how do I debug or reproduce it?</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="pager pt-30px">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination generic-pagination generic--pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <p class="fs-13 pt-2">Showing 1-5 of (20) results</p>
-                                        </div>
-                                    </div>
-                                </div><!-- end summary-panel -->
-                            </div><!-- end user-panel -->
-                            <div class="user-panel mb-40px">
-                                <div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
-                                    <h3 class="fs-17">Bookmarks <span>(12)</span></h3>
-                                    <div class="filter-option-box flex-grow-1 d-flex align-items-center justify-content-end lh-1">
-                                        <label class="fs-14 fw-medium mr-2 mb-0">Sort</label>
-                                        <div class="w-100px">
-                                            <select class="select-container">
-                                                <option value="Votes">Votes</option>
-                                                <option selected="selected" value="Activity">Activity</option>
-                                                <option value="Newest">Newest</option>
-                                                <option value="Views">Views</option>
-                                                <option value="Added">Added</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="summary-panel">
-                                    <div class="vertical-list">
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">1203</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">git: undo all working dir changes including new files</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">1117</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">How to revert uncommitted changes including files and folders?</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">76</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Detected package downgrade warning (dotnet core, vs 2017)</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">73</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">What is the difference between a variable, object, and reference? [duplicate]</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">24</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">I've found a bug in the JIT/CLR - now how do I debug or reproduce it?</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="pager pt-30px">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination generic-pagination generic--pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <p class="fs-13 pt-2">Showing 1-5 of (12) results</p>
-                                        </div>
-                                    </div>
-                                </div><!-- end summary-panel -->
-                            </div><!-- end user-panel -->
+                    
+                    <div class="tab-pane fade" id="user-cart-question"  aria-labelledby="user-cart-tab">
+                        <div class="user-panel-main-bar ">
+                            
+                           
                             <div class="user-panel mb-40px">
                                 <div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
                                     <h3 class="fs-17">Active bounties <span>(20)</span></h3>
@@ -1368,68 +366,147 @@
                                     </div>
                                 </div><!-- end summary-panel -->
                             </div><!-- end user-panel -->
+                           
+                        </div><!-- end user-panel-main-bar -->
+                    </div><!-- end tab-pane -->
+                    <div class="tab-pane fade" id="user-blog" aria-labelledby="user-blog-tab" >
+                        <div class="user-panel-main-bar  ">
                             <div class="user-panel mb-40px">
-                                <div class="bg-gray p-3 rounded-rounded">
-                                    <h3 class="fs-17">Votes cast <span>(18,850)</span></h3>
+                                <div class="row  " id="user-blogdata">
+                           
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="tab-pane fade" id="user-question"  aria-labelledby="user-question-tab">
+                        <div class="user-panel-main-bar">
+                            <div class="user-panel mb-30px">
+                                <div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
+                                    <h3 class="fs-17">Questions <span>{{$userbyid->total_question}}</span></h3>
+                                    
                                 </div>
                                 <div class="summary-panel">
-                                    <div class="vertical-list">
-                                        <div class="item">
-                                            <p class="fs-14">Of the votes cast, <span class="text-black">18,808</span> were upvotes and <span class="text-black">42</span> were downvotes. <span class="text-black">Arden Smith</span> voted on questions <span class="text-black">7,553</span> times and <span class="text-black">11,297</span> times on answers.</p>
-                                        </div><!-- end item -->
-                                         <div class="item">
-                                            <p class="fs-14"><span class="text-black">50</span> votes in the last month</p>
-                                        </div><!-- end item -->
-                                        <div class="item">
-                                            <p class="fs-14"><span class="text-black">62</span> votes in the last week</p>
-                                        </div><!-- end item -->
-                                        <div class="item">
-                                            <p class="fs-14"><span class="text-black">1</span> vote in the last day</p>
-                                        </div><!-- end item -->
+                                    <div class="vertical-list" id="user-questiondata">
+                                       
                                     </div>
                                 </div><!-- end summary-panel -->
                             </div><!-- end user-panel -->
-                        </div><!-- end user-panel-main-bar -->
-                    </div><!-- end tab-pane -->
-                </div>
+                            
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="user-answer"  aria-labelledby="user-answer-tab">
+                        <div class="user-panel-main-bar ">
+                            <div class="user-panel ">
+                               
+                                <div class="summary-panel ">
+                                    <div class="border-bottom border-bottom-gray bg-gray p-3 d-flex align-items-center justify-content-between">
+                                        <h4 class="fs-15 fw-regular">Answers <span>{{$userbyid->total_answer}}</span></h4>
+                                    </div>
+                                    <div class="vertical-list" id="user-answerdata">
+                                        {{-- <div class="item post p-0">
+                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
+                                                <div class="votes answered-accepted">
+                                                    <div class="vote-block" title="Votes">
+                                                        <span class="vote-counts">999k</span>
+                                                    </div>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h5 class="fs-15"><a href="question-details.html">How to make Git “forget” about a file that was tracked but is now in .gitignore?</a></h5>
+                                                </div>
+                                            </div><!-- end media -->
+                                        </div><!-- end item -->
+                                        <div class="item post p-0">
+                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
+                                                <div class="votes answered-accepted">
+                                                    <div class="vote-block" title="Votes">
+                                                        <span class="vote-counts">4714</span>
+                                                    </div>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h5 class="fs-15"><a href="question-details.html">Undoing a git rebase</a></h5>
+                                                </div>
+                                            </div><!-- end media -->
+                                        </div><!-- end item -->
+                                        <div class="item post p-0">
+                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
+                                                <div class="votes answered-accepted">
+                                                    <div class="vote-block" title="Votes">
+                                                        <span class="vote-counts">4448</span>
+                                                    </div>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h5 class="fs-15"><a href="question-details.html">Difference between “git add -A” and “git add .”</a></h5>
+                                                </div>
+                                            </div><!-- end media -->
+                                        </div><!-- end item -->
+                                        <div class="item post p-0">
+                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
+                                                <div class="votes answered-accepted">
+                                                    <div class="vote-block" title="Votes">
+                                                        <span class="vote-counts">3275</span>
+                                                    </div>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h5 class="fs-15"><a href="question-details.html">How to find and restore a deleted file in a Git repository</a></h5>
+                                                </div>
+                                            </div><!-- end media -->
+                                        </div><!-- end item -->
+                                        <div class="item post p-0">
+                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
+                                                <div class="votes answered-accepted">
+                                                    <div class="vote-block" title="Votes">
+                                                        <span class="vote-counts">2822</span>
+                                                    </div>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h5 class="fs-15"><a href="question-details.html">Branch from a previous commit using Git</a></h5>
+                                                </div>
+                                            </div><!-- end media -->
+                                        </div><!-- end item -->
+                                        <div class="pager pt-30px">
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination generic-pagination generic--pagination">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Previous">
+                                                            <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="#" aria-label="Next">
+                                                            <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                            <p class="fs-13 pt-2">Showing 1-5 of (1,979) results</p>
+                                        </div> --}}
+                                    </div>
+                                </div><!-- end summary-panel -->
+                            </div><!-- end user-panel -->
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="user-cart-blog" aria-labelledby="user-blog-tab" >
+                        <div class="user-panel-main-bar  ">
+                            <div class="user-panel mb-40px">
+                                <div class="row  " >
+                                    cart blog
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
             </div><!-- end col-lg-9 -->
+           
             <div class="col-lg-3">
                 <div class="sidebar">
-                    <div class="card card-item">
-                        <div class="card-body">
-                            <h3 class="fs-17 pb-3">Number Achievement</h3>
-                            <div class="divider"><span></span></div>
-                            <div class="row no-gutters text-center">
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color">980k</span>
-                                        <p class="fs-14">Questions</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-2">610k</span>
-                                        <p class="fs-14">Answers</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-3">650k</span>
-                                        <p class="fs-14">Answer accepted</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-4">320k</span>
-                                        <p class="fs-14">Users</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-12 pt-3">
-                                    <p class="fs-14">To get answer of question <a href="signup.html" class="text-color hover-underline">Join<i class="la la-arrow-right ml-1"></i></a></p>
-                                </div>
-                            </div><!-- end row -->
-                        </div>
-                    </div><!-- end card -->
+                   
                     <div class="card card-item">
                         <div class="card-body">
                             <h3 class="fs-17 pb-3">Trending Questions</h3>
@@ -1559,15 +636,7 @@
                             </div>
                         </div>
                     </div><!-- end card -->
-                    <div class="ad-card">
-                        <h4 class="text-gray text-uppercase fs-13 pb-3 text-center">Advertisements</h4>
-                        <div class="ad-banner mb-4 mx-auto">
-                            <span class="ad-text">290x500</span>
-                        </div>
-                        <div class="ad-banner mb-4 ad-banner-2 mx-auto">
-                            <span class="ad-text">290x300</span>
-                        </div>
-                    </div><!-- end ad-card -->
+                  
                 </div><!-- end sidebar -->
             </div><!-- end col-lg-3 -->
         </div><!-- end row -->
@@ -1576,4 +645,124 @@
 <!-- ================================
          END USER DETAILS AREA
 ================================= -->
+@push('profile')
+<script>
+
+    var authuserid={{Auth::user()->id}}
+   var userid={{Js::from($userbyid->id)}}
+//user-blog
+   userblog(userid)
+   function userblog(id)
+   {
+        fetch("http://localhost:8000/api/userblogdata").then(response=>response.json()).then((res)=>{
+           // console.log(res);
+            userblogs=""
+            res.forEach(element => {
+                if(id==element.user_id){
+                    var formateddate=dateformate(element.created_at);
+                    userblogs+= ` <div class="col-lg-4 responsive-column-half" >
+                    <div class="card card-item hover-y">
+                        
+                        <a href="/blog/${element.id}" class="card-img">`
+                            if(element.image.includes(",")==true){
+                                const myArray = element.image.split(",");
+                                let image = myArray[0];
+                                userblogs += `<img class="lazy" src="{{URL::asset('asset/${image}')}}" data-src="{{URL::asset('asset/${image}')}}" alt="Card image">`
+                            }
+                            else{
+                                userblogs += `<img class="lazy" src="{{URL::asset('asset/${element.image}')}}" data-src="{{URL::asset('asset/${element.image}')}}" alt="Card image">`
+                            }           
+             userblogs += `</a>
+                        <div class="card-body pt-0">
+                            <a href="/category/${element.category}" class="card-link">${element.categoryname}</a>
+                            <h5 class="card-title fw-medium"><a href="/blog/${element.id}">${element.blog_title}</a></h5>
+                            <small class="meta">
+                            <span class="pr-1">${formateddate}</span>`
+                if(authuserid==element.user_id){
+              userblogs += `<span class="pr-1 hover"><a onclick="deleteblog(${element.id})"><b>Delete Blog</b></a></span>`
+                }
+              userblogs +=  `</small>
+                        </div><!-- end card-body -->
+                    </div><!-- end card -->
+                </div><!-- end col-lg-6 -->`;
+                }
+            });
+            document.getElementById('user-blogdata').innerHTML=userblogs;
+        })
+   }
+//user-question
+   userquestion(userid)
+   function userquestion(userid)
+   {
+    fetch("http://localhost:8000/api/userquestion").then(response=>response.json()).then((res)=>{
+        //console.log(res);
+        userquestions=""
+        count=1
+        res.forEach(element => {
+            if(userid==element.user_id)
+            {
+                userquestions+=`<div class="item post p-0">
+                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
+                                                <div class="votes answered-accepted">
+                                                    <div class="vote-block" title="Votes">
+                                                        <span class="vote-counts">${element.votes}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h5 class="fs-15"><a href="/questiondetail/${element.id}">${element.question}</a></h5>
+                                                </div>
+                                            </div><!-- end media -->
+                                        </div><!-- end item -->`
+                                        count++
+            }
+            
+        });
+        document.getElementById('user-questiondata').innerHTML=userquestions;
+    })
+   }
+
+//user answers
+    useranswer(userid)
+    function useranswer(userid)
+    {
+        fetch("http://localhost:8000/api/useranswers").then(response=>response.json()).then((res)=>{
+            // console.log(res);
+            useranswers=""
+            res.forEach(element => {
+                if(userid==element.user_id){
+                        useranswers+=`<div class="item post p-0">
+                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
+                                                <div class="votes answered-accepted">
+                                                    <div class="vote-block" title="Votes">
+                                                        <span class="vote-counts">${element.votes}</span>
+                                                    </div>
+                                                </div>
+                                                <a href="/questiondetail/${element.question_id}">
+                                                    <div class="media-body">
+                                                        <h5 class="fs-15">${element.answer}</h5>
+                                                    </div>
+                                                </a>
+                                            </div><!-- end media -->
+                                        </div><!-- end item -->`;
+                }
+                
+            });
+            document.getElementById('user-answerdata').innerHTML=useranswers;
+        })
+    }
+//deleteblog
+    function deleteblog(id)
+    {
+        // console.log(id);
+        fetch("http://localhost:8000/api/deleteuserblog/"+id).then(response=>response.json()).then((res)=>{
+            //console.log(res);
+            userblog(userid)
+        })
+
+    }
+
+ //cart-question   
+</script>
+@endpush
+
 @include('layouts.footer')

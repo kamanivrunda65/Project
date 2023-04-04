@@ -589,9 +589,10 @@
         // console.log(qid);
         // console.log(uid);
         fetch("http://localhost:8000/api/questionvote/"+qid+"/"+uid).then(response=>response.json()).then((res)=>{
-            console.log(res);
+            //console.log(res);
             //alert(res);
-            showanswer();
+            // showanswer();
+            location.reload();
         })
     }
 

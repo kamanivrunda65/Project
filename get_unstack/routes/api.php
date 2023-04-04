@@ -36,10 +36,16 @@ Route::post('/bsubcomment', [App\Http\Controllers\BlogSubCommentController::clas
 Route::post('/searchblog', [App\Http\Controllers\BlogController::class, 'searchblog']);
 Route::post('/postcategory', [App\Http\Controllers\CategoryController::class, 'store']);
 
+Route::get('/userblogdata', [App\Http\Controllers\ProfileController::class, 'userblog']);
+Route::get('/userquestion', [App\Http\Controllers\ProfileController::class, 'userquestion']);
+Route::get('/useranswers', [App\Http\Controllers\ProfileController::class, 'useranswers']);
+
+
 
 
 Route::get('/deletequestion/{id}', [App\Http\Controllers\QuestionController::class, 'destroy']);
 Route::get('/deleteblog/{id}', [App\Http\Controllers\BlogController::class, 'destroy']);
+Route::get('/deleteuserblog/{id}', [App\Http\Controllers\BlogController::class, 'destroy']);
 Route::get('/deleteanswer/{id}', [App\Http\Controllers\AnswerController::class, 'destroy']);
 Route::get('/deletesubcomment/{id}', [App\Http\Controllers\BlogSubCommentController::class, 'destroy']);
 Route::get('/deletecomment/{id}', [App\Http\Controllers\BlogCommentController::class, 'destroy']);
@@ -50,4 +56,5 @@ Route::get('/wronganswer/{aid}/{qid}', [App\Http\Controllers\AnswerController::c
 Route::get('/questionvote/{qid}/{uid}', [App\Http\Controllers\QuestionvoteController::class, 'store']);
 Route::get('/categorystatus/{id}/{status}', [App\Http\Controllers\CategoryController::class, 'statuschange']);
 
-
+Route::post('/sendpasswordmail',[App\Http\Controllers\ProfileController::class,'sendpasswordmail']);
+Route::post('/resetpassword',[App\Http\Controllers\ProfileController::class,'resetpassworddata']);

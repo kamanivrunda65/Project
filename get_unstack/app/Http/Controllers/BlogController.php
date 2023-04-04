@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
+use DB;
 use App\Models\Blog;
+use App\Models\Tags;
 use App\Models\User;
 use App\Models\Category;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
 use Illuminate\Http\UploadedFile;
+use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Pagination\CursorPaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class BlogController extends Controller
 {
     public function post()
@@ -27,6 +34,7 @@ class BlogController extends Controller
         $cid=$blogbyid->category;
         $categorybyid=$category->find($cid);
         $userbyid=$user->find($userid);
+        
         return view('layouts.blog')->with(['blogdata'=>$blogbyid])->with(['userdata'=>$userbyid])->with(['categorydata'=>$categorybyid]);
         //return view('layouts.blog');
 
@@ -38,8 +46,9 @@ class BlogController extends Controller
         //dd($abc);
         $result= DB::table('blogs')->join('users', 'users.id', '=', 'blogs.user_id')->join('categories','categories.id','=','blogs.category')
         ->select('blogs.*', 'users.profile_pic','users.name','categories.categoryname')->orderby('id','DESC')
-        ->where('blog_title', "Like","%$abc%")->get();
+        ->where('blog_title', "Like","%$abc%")->orwhere('user_name',"LIKE","%$abc%")->get();
         // return response()->json(['blogs'=>$data],200);
+
         return view('admin.blogtable',compact('result'));
         //dd($abc);
         // $result= json_decode($data, true);
@@ -49,7 +58,9 @@ class BlogController extends Controller
         $abc=$request->searchblog;
         $result= DB::table('blogs')->join('users', 'users.id', '=', 'blogs.user_id')->join('categories','categories.id','=','blogs.category')
         ->select('blogs.*', 'users.profile_pic','users.name','categories.categoryname')->orderby('id','DESC')
-        ->where('blog_title', "Like","%$abc%")->get();
+        ->where('blog_title', "Like","%$abc%")->orwhere('user_name',"LIKE","%$abc%")->get();
+        //dd($result);
+        // $result=ColectionPaginate::paginate($results, 6);
         // echo response()->json(['search'=>$results]);
         //$result=$results->json();
         //echo $results;
@@ -91,10 +102,9 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Blog $blog,Request $request,Category $category)
+    public function store(Blog $blog,Request $request,Category $category,User $user,Tags $tags)
     {
-        //dd($request->all());
-        
+        // dd($request);
         $request->validate([
             'user_id'=>'required',
              'user_name'=>'required',
@@ -126,13 +136,42 @@ class BlogController extends Controller
          $blog->image=$imagearray;
          $blog->category=$request->category;
 
+         $uid=$request->user_id;
+         $userbyid=$user->find($uid);
+        $totalblog=$userbyid->total_blogs;
+        $totalblog=$totalblog+1;
+        $userbyid->total_blogs=$totalblog;
+
 
         $cid=$request->category;
         $cdata=$category->find($cid);
         $total=$cdata->total;
         $total=$total+1;
         $cdata->total=$total;
+
+        $tag=strtolower($request->tags);
+        $tagdata=explode(',',$tag);
+        foreach($tagdata as $tag){
+            $tagid=DB::table('tags')->where('tagname',"=","$tag")->value('id');
+            if($tagid==null)
+            {
+                $tags->tagname=$tag;
+                $tags->total_blog=1;
+                $tag->save();
+            }
+            if($tagid!=null)
+            {
+                $tagdata=$tags->find($tagid);
+                $totalblog=$tagdata->total_blog;
+                $totalblog=$totalblog+1;
+                $tagdata->total_blog=$totalblog;
+                $tagdata->save();
+            }
+        }
+
+
         $cdata->save();
+        $userbyid->save();
          //dd($cdata->total);
          $blog->save();
          return redirect('/blogs');
@@ -210,14 +249,37 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy($blog_id,Blog $blog,Category $category)
+    public function destroy($blog_id,Blog $blog,Category $category,User $user)
     {
         $blogbyid=$blog->find($blog_id);
+
         $cid=$blogbyid->category;
         $cdata=$category->find($cid);
         $total=$cdata->total;
         $total=$total-1;
         $cdata->total=$total;
+       
+
+        $uid=$blogbyid->user_id;
+        $userbyid=$user->find($uid);
+        $totalblog=$userbyid->total_blogs;
+        $totalblog=$totalblog-1;
+        $userbyid->total_blogs=$totalblog;
+        
+        $tagarray=$blogbyid->tags;
+        $tagdata=explode(",",$tagarray);
+        foreach($tagarray as $tag){
+            $tagid=DB::table('tags')->where('tagname',"=","$tag")->value('id');
+            $tagdata=$tags->find($tagid);
+            $totalblog=$tagdata->total_blog;
+            $totalblog=$totalblog-1;
+            $tagdata->total_blog=$totalblog;
+            $tagdata->save();
+
+        }
+        
+        $userbyid->save();
+        $cdata->save();
         echo $blogbyid->delete();
     }
 }

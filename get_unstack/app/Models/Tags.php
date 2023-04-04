@@ -11,7 +11,8 @@ class Tags extends Model
     protected $table="tags";
     protected $primarykey="id";
     protected $fillable = [
-        'discription',
+        'total_question',
+        'total_blog',
         
     ];
     

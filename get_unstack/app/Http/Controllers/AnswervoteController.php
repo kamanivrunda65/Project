@@ -37,13 +37,13 @@ class AnswervoteController extends Controller
      */
     public function store($aid,$uid,Answer $answer,Answervote $answervote)
     {
-        $data=$answervote->select('answervotes.*')->where("answer_id","=","$qid")->where("user_id","=","$uid")->get();
-        $avdata=$data->all();
-        
-        if($avdata!=null)
+        $data=$answervote->where("answer_id","=","$aid")->where("user_id","=","$uid")->value('id');
+        // $avdata=$data->all();
+        // dd($data);
+        if($data!=null)
         {
-            $avid=$avdata->id;
-            $avdata=$answervote->where("id","=","$avid")->get();
+            // $avid=$avdata->id;
+            $avdata=$answervote->find($data);
             echo $avdata->save();
         }
         // dd($aid,$uid);

@@ -45,11 +45,10 @@
         </div><!-- end row -->
         <div class="generic-img-box generic-img-box-layout-2 pt-30px">
 
-        <img src="assets/img/13.png" alt="Image" class="img-fluid">
-        <!-- <img class="lazy" src="assets/img/3.png" data-src="assets/img/3.png" alt="image"> -->
+        <img src="assets/img/13.png" alt="image" class="img-fluid">
     </div>
     </div><!-- end container -->
-    <div class="generic-img-box generic-img-box-layout-2">
+    
 
 </section>
 <!--======================================

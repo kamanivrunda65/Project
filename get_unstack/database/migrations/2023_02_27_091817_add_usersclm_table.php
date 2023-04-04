@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->text('profile_pic',100)->nullable();
+            $table->text('profile_pic',100)->default("assets/profile_pic/user.png");
             $table->text('country',50)->nullable();
             $table->text('objective',600)->nullable();
             $table->text('web_link',50)->nullable();
@@ -24,9 +24,9 @@ return new class extends Migration
             $table->text('twitter_link',50)->nullable();
             $table->text('insta_link',50)->nullable();
             $table->bigInteger('total_question')->default(0);
-            $table->bigInteger('Total_answer')->default(0);
+            $table->bigInteger('total_answer')->default(0);
             $table->bigInteger('accepted_answer')->default(0);
-            $table->bigInteger('points')->default(0);
+            $table->bigInteger('total_blogs')->default(0);
             $table->integer('role_id')->default(0);
         });
     }

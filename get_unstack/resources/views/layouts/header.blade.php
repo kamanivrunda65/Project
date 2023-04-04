@@ -171,16 +171,16 @@ left:-70px
                                 <li class="dropdown user-dropdown pl-30px">
                                     <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
                                         <div class="media-img media-img-xs flex-shrink-0 rounded-full ">
-                                            <img src="{{URL::asset('assets/images/img4.jpg')}}" alt="avatar" class="rounded-full ">
+                                            <img src="{{URL::asset('asset/'.Auth::user()->profile_pic)}}" alt="avatar" class="rounded-full ">
                                         </div>
                                     </div>
                                 <ul class="profile-side dropdown-menu-item text-dark ">
                                     <h6 class="dropdown-header">Hi, {{ Auth::user()->name }}</h6>
                                     <div class="dropdown-divider border-top-gray mb-0"></div>
 
-                                        <a class="dropdown-item" href="{{route('profile')}}"><li><i class="la la-user mr-2"></i> Profile</li></a>
+                                        <a class="dropdown-item" href="/profile/{{Auth::user()->name}}"><li><i class="la la-user mr-2"></i> Profile</li></a>
                                         <a class="dropdown-item" href="{{route('notification')}}"><li><i class="la la-bell mr-2"></i> Notifications</li></a>
-                                        <a class="dropdown-item" href="{{route('referral')}}"><li><i class="la la-user-plus mr-2"></i> Referrals</li></a>
+                                        <a class="dropdown-item" href="{{route('changepassword')}}"><li><i class="la la-user-plus mr-2"></i> Change Password</li></a>
                                         <a class="dropdown-item" href="{{route('setting')}}"><li><i class="la la-gear mr-2"></i> Settings</li></a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                                         onclick="event.preventDefault();
@@ -290,9 +290,9 @@ left:-70px
             <div class="tab-pane fade" id="user-profile-menu" role="tabpanel" aria-labelledby="user-profile-menu-tab">
                 <div class="dropdown--menu shadow-none w-auto rounded-0">
                     <div class="dropdown-item-list">
-                        <a class="dropdown-item" href="{{route('profile')}}"><i class="la la-user mr-2"></i>Profile</a>
+                        <a class="dropdown-item" href="#"><i class="la la-user mr-2"></i>Profile</a>
                         <a class="dropdown-item" href="{{route('notification')}}"><i class="la la-bell mr-2"></i>Notifications</a>
-                        <a class="dropdown-item" href="{{route('referral')}}"><i class="la la-user-plus mr-2"></i>Referrals</a>
+                        <a class="dropdown-item" href="{{route('changepassword')}}"><i class="la la-user-plus mr-2"></i>Change Password</a>
                         <a class="dropdown-item" href="{{route('setting')}}"><i class="la la-gear mr-2"></i>Settings</a>
                         <a class="dropdown-item" href="{{route('logout')}}"  onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">

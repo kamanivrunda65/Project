@@ -173,6 +173,7 @@
                 </div><!-- end col-lg-6 -->
                 @endforeach
             </div><!-- end row -->
+            
             @else
             <div class="row" id="blog-data">
                
@@ -211,9 +212,9 @@
        
         res.data.forEach(element => {
             
-           blogdata+= ` <div class="col-lg-6 responsive-column-half">
+           blogdata+= ` <div class="col-lg-6 responsive-column-half" >
                     <div class="card card-item hover-y">
-                        <a href="blog/${element.id}" class="card-img">`
+                        <a href="/blog/${element.id}" class="card-img">`
                             if(element.image.includes(",")==true){
                                 const myArray = element.image.split(",");
                                 let image = myArray[0];
@@ -224,14 +225,14 @@
                             }           
              blogdata += `</a>
                         <div class="card-body pt-0">
-                            <a href="#" class="card-link">${element.categoryname}</a>
-                            <h5 class="card-title fw-medium"><a href="blog/${element.id}">${element.blog_title}</a></h5>
+                            <a href="/category/${element.category}" class="card-link">${element.categoryname}</a>
+                            <h5 class="card-title fw-medium"><a href="/blog/${element.id}">${element.blog_title}</a></h5>
                             <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 mt-4 bg-transparent">
-                                <a href="#" class="media-img media-img--sm d-block mr-2 rounded-full">
+                                <a href="/profile/${element.user_name}" class="media-img media-img--sm d-block mr-2 rounded-full">
                                     <img src="{{URL::asset('asset/${element.profile_pic}')}}" alt="avatar" class="rounded-full">
                                 </a>
                                 <div class="media-body">
-                                    <h5 class="fs-14 fw-medium">By <a href="#">${element.user_name}</a></h5>
+                                    <h5 class="fs-14 fw-medium">By <a href="/profile/${element.user_name}">${element.user_name}</a></h5>
                                     <small class="meta d-block lh-20">
                                         <span></span>
                                     </small>
@@ -277,6 +278,7 @@
         document.getElementById('category-data').innerHTML= categorydata;
     })
  }
+ 
 
  
 </script> 

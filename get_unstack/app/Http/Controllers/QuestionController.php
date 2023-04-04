@@ -30,12 +30,11 @@ class QuestionController extends Controller
          //dd($data1);
          $userid=$data->user_id;
          $userdata=$user->find($userid);
-         //dd($userdata);
-        //  $questionid=$data1->id;
-        //  //dd($id);
-        // $data2=DB::table('questions')->join('users', 'users.id', '=', 'questions.user_id')->select('users.profile_pic','users.name')->where('questions.id',"=",$questionid)->where('users.id', "=",$userid)->get();
-        // $data=array_merge($data1->toArray(),$data2->toArray());
-        //dd($data);
+         $viewers=$question->views;
+         $viewers=$viewers+1;
+         $data->views=$viewers;
+         $data->save();
+        
         return view('layouts.questiondetail')->with(['userdata'=>$userdata])->with(['data'=>$data]);
     }
     public function search(Request $request)
@@ -78,7 +77,7 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function store(Question $question,Request $request)
+     public function store(Question $question,Request $request,User $user)
      {
         //dd($request);
          $request->validate([
@@ -98,7 +97,36 @@ class QuestionController extends Controller
          $question->tags=$request->tags;
          $question->discription=$request->discription;
          $question->permit=$permit;
- 
+
+
+         $uid=$request->user_id;
+        $userbyid=$user->find($uid);
+        $totalquestion=$userbyid->total_question;
+        $totalquestion=$totalquestion+1;
+        $userbyid->total_question=$totalquestion;
+        
+        $tag=strtolower($request->tags);
+        $tagdata=explode(',',$tag);
+        foreach($tagdata as $tag){
+            $tagid=DB::table('tags')->where('tagname',"=","$tag")->value('id');
+            if($tagid==null)
+            {
+                $tags->tagname=$tag;
+                $tags->total_question=1;
+                $tag->save();
+            }
+            if($tagid!=null)
+            {
+                $tagdata=$tags->find($tagid);
+                $totalquestion=$tagdata->total_question;
+                $totalquestion=$totalquestion+1;
+                $tagdata->total_question=$totalquestion;
+                $tagdata->save();
+            }
+        }
+        
+        
+        $userbyid->save();
          $question->save();
         //  echo "<pre>";
         //  print_r($request->all());
@@ -106,32 +134,7 @@ class QuestionController extends Controller
      }
 
 
-    // public function store(Question $question,Request $request)
-    // {
-    //     // $id=Auth::user()->name;
-    //     echo "<pre>";
-    //     print_r($request->all());
-    //     // $request->validate([
-    //     //     'question'=>'required',
-    //     //     'tags'=>'required',
-    //     //     'discription'=>'required'
-    //     // ]);
-    //     // if($request->permit='on'){
-    //     //     $permit="1";
-    //     // }else{
-    //     //     $permit="2";
-    //     // }
-    //     // $question->user_id=$id;
-    //     // $question->question=$request->question;
-    //     // $question->tags=$request->tags;
-    //     // $question->discription=$request->discription;
-    //     // $question->permit=$permit;
-
-    //     //  echo $question->save();
-    //     // echo "<pre>";
-    //     // print_r($request->all());
-    //     // return redirect('/questions');
-    // }
+    
 
     /**
      * Display the specified resource.
@@ -141,11 +144,20 @@ class QuestionController extends Controller
      */
     public function show(Question $question,User $user)
     {
-        $questiondata=DB::table('questions')
+        $perPage = request()->query('perPage', 10);
+        $page = request()->query('page', 1);
+        $offset = ($page - 1) * $perPage;
+        $data=DB::table('questions')
                     ->join('users', 'users.id', '=', 'questions.user_id')
-                    ->select('questions.*', 'users.profile_pic','users.name')->get();
-       
-        echo $questiondata;
+                    ->select('questions.*', 'users.profile_pic','users.name')->orderby('id','DESC')->offset($offset)->limit($perPage)->get();
+       $total = DB::table('questions')->count();
+        return response()->json([
+            'data' => $data,
+            'total' => $total,
+            'perPage' => $perPage,
+            'page' => $page,
+        ]);
+        //echo $questiondata;
         //echo $userdata;
     }
 
@@ -178,9 +190,30 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy($question_id,Question $question)
+    public function destroy($question_id,Question $question,User $user)
     {
         $questionbyid=$question->find($question_id);
+        $uid=$questionbyid->user_id;
+        
+        $userbyid=$user->find($uid);
+        $totalquestion=$userbyid->total_question;
+        $totalquestion=$totalquestion-1;
+        $userbyid->total_question=$totalquestion;
+
+        $tagarray=$questionbyid->tags;
+        $tagdata=explode(",",$tagarray);
+        foreach($tagarray as $tag){
+            $tagid=DB::table('tags')->where('tagname',"=","$tag")->value('id');
+            $tagdata=$tags->find($tagid);
+            $totalblog=$tagdata->total_question;
+            $totalquestion=$totalquestion-1;
+            $tagdata->total_question=$totalquestion;
+            $tagdata->save();
+
+        }
+
+        $userbyid->save();
+
         // echo $questionbyid;
         echo $questionbyid->delete();
     }

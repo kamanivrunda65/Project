@@ -208,8 +208,8 @@
                 </div><!-- end questions-snippet -->
                 <div class="pager pt-30px px-3">
                     <nav aria-label="Page navigation example">
-                        <ul class="pagination generic-pagination pr-1">
-                            <li class="page-item">
+                        <ul class="pagination generic-pagination pr-1" id="page-number">
+                            {{-- <li class="page-item">
                                 <a class="page-link" href="#" aria-label="Previous">
                                     <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
                                     <span class="sr-only">Previous</span>
@@ -224,10 +224,10 @@
                                     <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
                                     <span class="sr-only">Next</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </nav>
-                    <p class="fs-13 pt-2">Showing 1-10 results of 50,577 questions</p>
+                    <p class="fs-13 pt-2">Showing 1-10 results </p>
                 </div>
             </div><!-- end question-main-bar -->
         </div><!-- end col-lg-7 -->
@@ -241,13 +241,13 @@
 
 @push('show-question')
 <script>
-    function allquestion(){
-fetch("http://localhost:8000/api/questiondata").then(response=>response.json()).then((res)=>{
+    function allquestion(page, perPage){
+fetch(`http://localhost:8000/api/questiondata?page=${page}&perPage=${perPage}`).then(response=>response.json()).then((res)=>{
      console.log(res);
     questions="";
     count=1;
    
-    res.forEach(element => {
+    res.data.forEach(element => {
         const formateddate=dateformate(element.created_at)
         count++
         questions+=`<div class="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
@@ -297,12 +297,26 @@ fetch("http://localhost:8000/api/questiondata").then(response=>response.json()).
                     </div><!-- end media -->`;
                     
     });
+    
+                            const pagedata = document.getElementById('page-number');
+                            pagedata.innerHTML = '';
+                            const totalPages = Math.ceil(res.total / res.perPage);
+                            for (let i = 1; i <= totalPages; i++) {
+                                const button = document.createElement('button');
+                            button.textContent = i;
+                            button.classList='btn btn-primary space';
+                            button.addEventListener('click', () => allquestion(i, res.perPage));
+                            if (i === res.page) {
+                                button.classList.add('active');
+                            }
+                            pagedata.appendChild(button);
+                        }
     document.getElementById('questions').innerHTML= questions;
-    document.getElementById('totalquestion').innerHTML= count+" questions";
+    document.getElementById('totalquestion').innerHTML= res.total+" questions";
     
 })
     }
-    allquestion()
+    allquestion(1,10)
    
 
    

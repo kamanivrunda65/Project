@@ -86,7 +86,7 @@ class AnswerController extends Controller
         // $userdata=$user->find($uid);
         echo $answerdata;
     }
-    function rightanswer($aid,$qid,Answer $answer)
+    function rightanswer($aid,$qid,Answer $answer,User $user)
     {
         $data=Answer::select('answers.id')->where("question_id","=","$qid")->where("correct_answer","=","1")->value('id');
 
@@ -98,6 +98,16 @@ class AnswerController extends Controller
              $correct=$answerdata->correct_answer;
              $correct=0;
              $answerdata->correct_answer=$correct;
+
+
+
+             $uid=$answerdata->user_id;
+             $userbyid=$user->find($uid);
+             $accept_answer=$userbyid->accepted_answer;
+             $accept_answer=$accept_answer-1;
+             $userbyid->accepted_answer=$accept_answer;
+             $userbyid->save();
+
             // dd($answerdata);
              echo $answerdata->save();
         }
@@ -108,6 +118,13 @@ class AnswerController extends Controller
                 $correct=1;
                 //dd($correct);
                 $adata->correct_answer=$correct;
+                $uid=$adata->user_id;
+                $userbyid=$user->find($uid);
+                $accept_answer=$userbyid->accepted_answer;
+                $accept_answer=$accept_answer+1;
+                $userbyid->accepted_answer=$accept_answer;
+                $userbyid->save();
+
                 echo $adata->save();
             }
    }
@@ -164,7 +181,7 @@ class AnswerController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id,Answer $answer,Question $question)
+    public function destroy($id,Answer $answer,Question $question,User $user)
     {
         $answerbyid=$answer->find($id);
         //echo $answerbyid;
@@ -172,8 +189,26 @@ class AnswerController extends Controller
         $qdata=$question->find($qid);
         $answers=$qdata->answers;
         $answers=$answers-1;
-        $qdata->$answers=$answers;
+        $qdata->answers=$answers;
         $qdata->save();
+
+        $uid=$answer->user_id;
+        $userbyid=$user->find($uid);
+        $totalanswer=$user->total_answer;
+        $totalanswer=$totalanswer-1;
+        $userbyid->total_answer=$totalanswer;
+        $userbyid->save();
+
+        $writeanswer=$answerbyid->correct_answer;
+        if($writeanswer==1)
+        {
+        $uid=$answerbyid->user_id;
+        $userbyid=$user->find($uid);
+        $accept_answer=$userbyid->accepted_answer;
+        $accept_answer=$accept_answer-1;
+        $userbyid->accepted_answer=$accept_answer;
+        $userbyid->save();
+        }
         $answerbyid->delete();
     }
 }

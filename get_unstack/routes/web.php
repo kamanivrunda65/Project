@@ -28,9 +28,11 @@ Route::get('/contact', [App\Http\Controllers\IndexController::class, 'contact'])
 Route::get('/question', [App\Http\Controllers\QuestionController::class, 'index'])->name('askquestion');
 Route::get('/allquestion', [App\Http\Controllers\QuestionController::class, 'allquestion'])->name('allquestion');
 Route::get('/questiondetail/{id}', [App\Http\Controllers\QuestionController::class, 'singlequestion'])->name('singlequestion');
-Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'profile'])->name('profile');
+Route::get('/profile/{name}', [App\Http\Controllers\ProfileController::class, 'profile']);
 Route::get('/setting', [App\Http\Controllers\ProfileController::class, 'setting'])->name('setting');
-Route::get('/referral', [App\Http\Controllers\ProfileController::class, 'referral'])->name('referral');
+Route::get('/forgotpassword', [App\Http\Controllers\ProfileController::class, 'forgotpassword'])->name('forgotpassword');
+Route::get('/resetpassword', [App\Http\Controllers\ProfileController::class, 'resetpassword'])->name('resetpassword');
+Route::get('/changepassword', [App\Http\Controllers\ProfileController::class, 'change'])->name('changepassword');
 Route::get('/notification', [App\Http\Controllers\ProfileController::class, 'notification'])->name('notification');
 Route::get('/post', [App\Http\Controllers\BlogController::class, 'post'])->name('post');
 Route::get('/blogs', [App\Http\Controllers\BlogController::class, 'blogs'])->name('blogs');
@@ -54,5 +56,7 @@ Route::post('/post', [App\Http\Controllers\BlogController::class, 'store']);
 Route::post('/blogtable', [App\Http\Controllers\BlogController::class, 'search']);
 Route::post('/questiontable', [App\Http\Controllers\QuestionController::class, 'search']);
 Route::post('/questiondetail/{id}', [App\Http\Controllers\AnswerController::class, 'store']);
+Route::post('/changepassword', [App\Http\Controllers\ProfileController::class, 'changepassword']);
+Route::post('/changeemail', [App\Http\Controllers\ProfileController::class, 'changeemail']);
 
 ?>

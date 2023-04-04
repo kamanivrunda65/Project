@@ -17,9 +17,8 @@ return new class extends Migration
            
             $table->bigIncrements('id');
             $table->string('tagname',100);
-            $table->text('discription',1000);
-            $table->bigInteger('total_question');
-            $table->bigInteger('total_blog');
+            $table->bigInteger('total_question')->default(0);
+            $table->bigInteger('total_blog')->default(0);
             $table->timestamps();
         });
     }

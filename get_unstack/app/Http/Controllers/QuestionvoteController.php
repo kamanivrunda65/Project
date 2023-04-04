@@ -37,14 +37,14 @@ class QuestionvoteController extends Controller
      */
     public function store($qid,$uid,Question $question,Questionvote $questionvote)
     {
-        $data=$questionvote->select('questionvotes.*')->where("question_id","=","$qid")->where("user_id","=","$uid")->get();
+        $data=$questionvote->select('questionvotes.*')->where("question_id","=","$qid")->where("user_id","=","$uid")->value('id');
         //dd($data);
-        $qvdata=$data->all();
+        // $qvdata=$data->all();
         
-        if($qvdata!=null)
+        if($data!=null)
         {
-            $qvid=$qvdata->id;
-            $qvdata=$questionvote->where("id","=","$qvid")->get();
+            // $qvid=$qvdata->id;
+            $qvdata=$questionvote->find($data);
             echo $qvdata->save();
         }
         else{

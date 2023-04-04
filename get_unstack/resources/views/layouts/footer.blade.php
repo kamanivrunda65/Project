@@ -99,6 +99,8 @@ function dateformate(date){
             return data;
     }
 }
+
+
 </script>
 
 
@@ -109,6 +111,9 @@ function dateformate(date){
 @stack('question-comment')
 @stack('blod-details')
 @stack('front-blog')
+@stack('profile')
+@stack('forgot-password')
+@stack('reset-password')
 </body>
 
 </html>

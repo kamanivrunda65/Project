@@ -86,24 +86,16 @@
       
                   </table>
                 </div>
-                {{-- <footer class="panel-footer">
+                <footer class="panel-footer">
                   <div class="row">
                     
-                    <div class="col-sm-5 text-center">
-                      <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-                    </div>
                     <div class="col-sm-7 text-right text-center-xs">                
-                      <ul class="pagination pagination-sm m-t-none m-b-none">
-                        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                      <ul class="pagination pagination-sm m-t-none m-b-none" id="pages">
+                        
                       </ul>
                     </div>
                   </div>
-                </footer> --}}
+                </footer>
               </div>
             </div>
           </div>
@@ -116,14 +108,14 @@
     
   
 <script>
-  function showquestion()
+  function showquestion(page, perPage)
   {
-    fetch("http://localhost:8000/api/questiondata").then(response=>response.json()).then((res)=>{
+    fetch(`http://localhost:8000/api/questiondata?page=${page}&perPage=${perPage}`).then(response=>response.json()).then((res)=>{
         // console.log(res);
         questiondata="";
         count=1;
         page=""
-        res.forEach(element => {
+        res.data.forEach(element => {
             questiondata +=`<tr>
                         <td>${count}</td>
                         <td>${element.user_id}</td>
@@ -134,23 +126,31 @@
                         <td><button class="btn btn-sm btn-danger" onclick="deletequestion(${element.id})">Delete</button> <button class="btn btn-sm btn-primary">Edit</button></td>
                         </tr>`;
                         count++;
-                        // console.log(count);
-                        // let r=count%6;
-                        // if(r==1){
-                        //   // console.log(r);
-                        //   page+=`<li><a href="#">1</a></li>`
-                        // }
+                      
         });
+        const pagedata = document.getElementById('pages');
+                            pagedata.innerHTML = '';
+                            const totalPages = Math.ceil(res.total / res.perPage);
+                            for (let i = 1; i <= totalPages; i++) {
+                                const button = document.createElement('button');
+                            button.textContent = i;
+                            button.classList='btn btn-primary space';
+                            button.addEventListener('click', () => showquestion(i, res.perPage));
+                            if (i === res.page) {
+                                button.classList.add('active');
+                            }
+                            pagedata.appendChild(button);
+                        }
         document.getElementById('question-data').innerHTML= questiondata;
-       // document.getElementById('page').innerHTML= page;
+      
     });
   }
-  showquestion()
+  showquestion(1,10)
   function deletequestion(id)
   {
     //console.log(id);
     fetch("http://localhost:8000/api/deletequestion/"+id).then(response=>response.json()).then((res)=>{
-      showquestion()
+      showquestion(1,10)
     });
   }
   
