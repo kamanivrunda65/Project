@@ -7,7 +7,14 @@
     height: 220px;
 }
 </style>
-
+@if (isset($reviewBox) && $reviewBox)
+<script>
+   var alertchange = alert('Your Password change successfully');
+        if (alertchange) {
+            window.location.href = 'blogs';
+        }
+</script>
+@endif
 <!--======================================
     START HERO AREA
 ======================================-->
@@ -44,13 +51,20 @@
                     <div class="card-body">
                         <h3 class="fs-17 pb-3">Search blog</h3>
                         <div class="divider"><span></span></div>
-                        <form method="post" class="pt-4" id="searchblog" route="{{url('/')}}/blogs">
+                        <form method="post" class="pt-4" id="searchblog">
                             @csrf
                             <div class="form-group mb-0">
                                 <input class="form-control form--control form--control-bg-gray" type="text" name="searchblog" placeholder="Type your search words...">
                                 <button class="form-btn " type="submit" ><i class="la la-search"></i></button>
                             </div>
                         </form>
+                        {{-- <form method="post" class="pt-4" id="searchblog" route="{{url('/')}}/blogs">
+                            @csrf
+                            <div class="form-group mb-0">
+                                <input class="form-control form--control form--control-bg-gray" type="text" name="searchblog" placeholder="Type your search words...">
+                                <button class="form-btn " type="submit" ><i class="la la-search"></i></button>
+                            </div>
+                        </form> --}}
                     </div>
                 </div><!-- end card -->
                 <div class="card card-item">
@@ -66,37 +80,8 @@
                     <div class="card-body">
                         <h3 class="fs-17 pb-3">Trending Posts</h3>
                         <div class="divider"><span></span></div>
-                        <div class="sidebar-questions pt-3">
-                            <div class="media media-card media--card media--card-2">
-                                <div class="media-body">
-                                    <h5><a href="question-details">Using web3 to call precompile contract</a></h5>
-                                    <small class="meta">
-                                        <span class="pr-1">2 mins ago</span>
-                                        <span class="pr-1">. by</span>
-                                        <a href="#" class="author">Sudhir Kumbhare</a>
-                                    </small>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card media--card-2">
-                                <div class="media-body">
-                                    <h5><a href="question-details">Is it true while finding Time Complexity of the algorithm [closed]</a></h5>
-                                    <small class="meta">
-                                        <span class="pr-1">48 mins ago</span>
-                                        <span class="pr-1">. by</span>
-                                        <a href="#" class="author">wimax</a>
-                                    </small>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card media--card-2">
-                                <div class="media-body">
-                                    <h5><a href="question-details">image picker and store them into firebase with flutter</a></h5>
-                                    <small class="meta">
-                                        <span class="pr-1">1 hour ago</span>
-                                        <span class="pr-1">. by</span>
-                                        <a href="#" class="author">Antonin gavrel</a>
-                                    </small>
-                                </div>
-                            </div><!-- end media -->
+                        <div class="sidebar-questions pt-3" id="trending-post">
+                            
                         </div><!-- end sidebar-questions -->
                     </div>
                 </div><!-- end card -->
@@ -104,16 +89,8 @@
                     <div class="card-body">
                         <h3 class="fs-17 pb-3">Trending Tags</h3>
                         <div class="divider"><span></span></div>
-                        <div class="tags pt-4">
-                            <a href="#" class="tag-link tag-link-md">analytics</a>
-                            <a href="#" class="tag-link tag-link-md">computer</a>
-                            <a href="#" class="tag-link tag-link-md">python</a>
-                            <a href="#" class="tag-link tag-link-md">java</a>
-                            <a href="#" class="tag-link tag-link-md">swift</a>
-                            <a href="#" class="tag-link tag-link-md">javascript</a>
-                            <a href="#" class="tag-link tag-link-md">c#</a>
-                            <a href="#" class="tag-link tag-link-md">html</a>
-                            <a href="#" class="tag-link tag-link-md">machine-language</a>
+                        <div class="tags pt-4" id="tags-data">
+                           
                         </div>
                     </div>
                 </div><!-- end card -->
@@ -200,18 +177,18 @@
 <script>
 
 
-    showblog(1,10)
-    function showblog(page, perPage)
+   
+    function showblog(page, perPage,category,search)
   {
-    fetch(`http://localhost:8000/api/blogdata?page=${page}&perPage=${perPage}`).then(response=>response.json()).then((res)=>{
+    fetch(`http://localhost:8000/api/blogdata?page=${page}&perPage=${perPage}&category=${category}&search=${search}`).then(response=>response.json()).then((res)=>{
        // console.log(res);
         blogdata="";
-        
+        // console.log(category);
         count=1;
     
        
         res.data.forEach(element => {
-            
+            var formateddate=dateformate(element.created_at);
            blogdata+= ` <div class="col-lg-6 responsive-column-half" >
                     <div class="card card-item hover-y">
                         <a href="/blog/${element.id}" class="card-img">`
@@ -234,7 +211,7 @@
                                 <div class="media-body">
                                     <h5 class="fs-14 fw-medium">By <a href="/profile/${element.user_name}">${element.user_name}</a></h5>
                                     <small class="meta d-block lh-20">
-                                        <span></span>
+                                        <span>${formateddate}</span>
                                     </small>
                                 </div>
                             </div>
@@ -251,7 +228,7 @@
                                 const button = document.createElement('button');
                             button.textContent = i;
                             button.classList='btn btn-primary space';
-                            button.addEventListener('click', () => showblog(i, res.perPage));
+                            button.addEventListener('click', () => showblog(i, res.perPage,category));
                             if (i === res.page) {
                                 button.classList.add('active');
                             }
@@ -262,25 +239,23 @@
         document.getElementById('blog-data').innerHTML= blogdata;
     });
   }
- //show-category
- showcategory()
- function showcategory()
- {
-    fetch("http://localhost:8000/api/category").then(response=>response.json()).then((res)=>{
-       // console.log(res);
-        categorydata=""
-        res.forEach(element => {
-            categorydata+=` <a href="/category/${element.id}" class="cat-item d-flex align-items-center justify-content-between mb-3 hover-y">
-                                <span class="cat-title">${element.categoryname}</span>
-                                <span class="cat-number">${element.total}</span>
-                            </a>`
+ 
+  showblog(1,10,'all','')
+ 
+  $('form#searchblog').submit(function(event){
+       
+           
+        event.preventDefault();
+        let FormData = $("#searchblog").serializeArray() ;  
+        console.log(FormData);
+        var result = {};
+        $.each(FormData, function() {
+            result[this.name] = this.value;   
         });
-        document.getElementById('category-data').innerHTML= categorydata;
-    })
- }
- 
-
- 
+        // console.log(result['searchblog']);
+        var search=result['searchblog'];
+        showblog(1,10,'all',search)
+        })
 </script> 
 @endpush
 

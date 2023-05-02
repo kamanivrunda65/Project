@@ -83,8 +83,17 @@
                         <div class="votes votes-styled w-auto">
                             <div id="vote" class="upvotejs">
                                 <span class="count">{{$data->votes}}</span>
-                                <button class="btn btn-success" title="This answer is useful" onclick="questionvotes({{$data->id}},{{Auth::user()->id}})">Vote</button>
-                                <a class="star" data-toggle="tooltip" data-placement="right" title="Bookmark this question."></a>
+                                <button class="btn btn-success" title="This answer is useful" onclick="questionvotes({{$data->id}},{{$authdata}})">Vote</button>
+                                {{-- <a class="star" data-toggle="tooltip" data-placement="right" title="Bookmark this question."></a> --}}
+                                @if(Auth::check())
+                                    @if($cart==0)
+                                    {{-- <a class="star" data-toggle="tooltip" data-placement="right" title="Bookmark this question."></a>                                     --}}
+                                    <br><br><button class="btn btn-success btn-sm text-white " title="Bookmark this question." onclick="cartquestion({{$data->id}},{{Auth::user()->id}})"><i class="la la-plus"></i></button>
+                                    @else
+                                    {{-- <a class="star star-on" data-toggle="tooltip" data-placement="right" title="Bookmark this question."></a>                                     --}}
+                                    <br><br><button class="btn btn-danger btn-sm text-white " title="Remove from Bookmarks." onclick="removecartquestion({{$data->id}},{{Auth::user()->id}})"><i class="la la-minus"></i></button>
+                                    @endif
+                                @endif
                             </div>
                         </div><!-- end votes -->
                         <div class="question-post-body-wrap flex-grow-1">
@@ -126,9 +135,8 @@
                                                 <div class="divider mb-2"><span></span></div>
                                             </div><!-- end col-lg-12 -->
                                             
-                                            <input class="form-control form--control form-control-sm fs-13" type="hidden" name="user_name" value="{{Auth::user()->name}}" readonly>
-                                            <input class="form-control form--control form-control-sm fs-13" type="hidden" name="user_id" value="{{Auth::user()->id}}" readonly>
-                                            <input class="form-control form--control form-control-sm fs-13" type="hidden" name="question_id" value="{{$data->id}}" readonly>
+                                           <input class="form-control form--control form-control-sm fs-13" type="hidden" name="question_id" value="{{$data->id}}" readonly>
+                                           <input class="form-control form--control form-control-sm fs-13" type="hidden" name="user_id" value="{{$authdata}}" readonly>
                                                    
                                            
                                             <div class="col-lg-12">
@@ -141,7 +149,7 @@
                                             </div><!-- end col-lg-12 -->
                                             <div class="col-lg-12">
                                                 <div class="input-box d-flex flex-wrap align-items-center justify-content-between">
-                                                    <button class="btn theme-btn theme-btn-sm theme-btn-outline theme-btn-outline-gray" type="submit">Post Comment</button>
+                                                    <button class="btn theme-btn theme-btn-sm theme-btn-outline theme-btn-outline-gray" type="submit" onclick="postquestioncomment({{$authdata}})">Post Comment</button>
                                                 </div>
                                             </div><!-- end col-lg-12 -->
                                         </form>
@@ -168,7 +176,7 @@
                         </div><!-- end subheader-title -->
                     </div><!-- end subheader -->
                     <div class="post-form">
-                        <form method="post" class="pt-3" route="{{url('/')}}/questiondetail/{id}" enctype="multipart/form-data">
+                        <form method="post" class="pt-3" route="{{url('/')}}/questiondetail/{{$data->id}}" enctype="multipart/form-data">
                             @csrf
                             <div class="input-box">
                                 <label class="fs-14 text-black lh-20 fw-medium">Body</label>
@@ -176,8 +184,7 @@
                                     <textarea class="form-control form--control form-control-sm fs-13 user-text-editor" name="answer" rows="6" placeholder="Your answer here..."></textarea>
                                 </div>
                             </div>
-                            <input type="hidden" name="user_id" value="{{Auth::user()->id}}" >
-                            <input type="hidden" name="user_name" value="{{Auth::user()->name}}" >
+                            
                             <input type="hidden" name="question_id" value="{{$data->id}}" >
                             <div class="input-box">
                                 <label class="fs-14 text-black fw-medium">Image</label>
@@ -201,89 +208,18 @@
                         <div class="card-body">
                             <h3 class="fs-17 pb-3">Number Achievement</h3>
                             <div class="divider"><span></span></div>
-                            <div class="row no-gutters text-center">
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color">980k</span>
-                                        <p class="fs-14">Questions</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-2">610k</span>
-                                        <p class="fs-14">Answers</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-3">650k</span>
-                                        <p class="fs-14">Answer accepted</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-4">320k</span>
-                                        <p class="fs-14">Users</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-12 pt-3">
-                                    <p class="fs-14">To get answer of question <a href="signup.html" class="text-color hover-underline">Join<i class="la la-arrow-right ml-1"></i></a></p>
-                                </div>
+                            <div class="row no-gutters text-center" id="achievement">
+                              
                             </div><!-- end row -->
                         </div>
                     </div><!-- end card -->
+                   
                     <div class="card card-item">
                         <div class="card-body">
-                            <div class="d-flex align-items-center pb-3">
-                                <svg class="mr-2" width="18" height="18" viewBox="0 0 18 18" fill="#6c727c"><path d="M1 6l8 5 8-5V4L9 9 1 4c0-1.1.9-2 2-2h12c1.09 0 2 .91 2 2v10c0 1.09-.91 2-2 2H3c-1.09 0-2-.91-2-2V6z"></path></svg>
-                                <h3 class="fs-17">Love this site?</h3>
-                            </div>
+                            <h3 class="fs-17 pb-3">Trending Questions</h3>
                             <div class="divider"><span></span></div>
-                            <p class="fs-14 lh-20 py-3">Get the <span class="text-dark fw-medium">weekly newsletter!</span> In it, you'll get:</p>
-                            <ul class="generic-list-item generic-list-item-bullet fs-14 pb-3">
-                                <li class="lh-20">The week's top questions and answers</li>
-                                <li class="lh-20">Important community announcements</li>
-                                <li class="lh-20">Questions that need answers</li>
-                            </ul>
-                            <button class="btn theme-btn theme-btn-gray w-100">Sign up for the digest</button>
-                            <p class="fs-14 pt-1 text-center">See an example newsletter</p>
-                        </div>
-                    </div><!-- end card -->
-                    <div class="card card-item">
-                        <div class="card-body">
-                            <h3 class="fs-17 pb-3">Related Questions</h3>
-                            <div class="divider"><span></span></div>
-                            <div class="sidebar-questions pt-3">
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">How to select the dom element with event.target</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">2 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Sudhir Kumbhare</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">How can you cut an onion without crying?</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">48 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">wimax</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">How to change the behavior of dropdown buttons in HTML</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">1 hour ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Antonin gavrel</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
+                            <div class="sidebar-questions pt-3" id="trending-question">
+                             
                             </div><!-- end sidebar-questions -->
                         </div>
                     </div><!-- end card -->
@@ -291,90 +227,8 @@
                         <div class="card-body">
                             <h3 class="fs-17 pb-3">Trending Tags</h3>
                             <div class="divider"><span></span></div>
-                            <div class="tags pt-4">
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">analytics</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">computer</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">python</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">javascript</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">c#</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="collapse" id="showMoreTags">
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">java</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">swift</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">html</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">angular</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">flutter</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">machine-language</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                </div><!-- end collapse -->
-                                <a class="collapse-btn fs-13" data-toggle="collapse" href="#showMoreTags" role="button" aria-expanded="false" aria-controls="showMoreTags">
-                                    <span class="collapse-btn-hide">Show more<i class="la la-angle-down ml-1 fs-11"></i></span>
-                                    <span class="collapse-btn-show">Show less<i class="la la-angle-up ml-1 fs-11"></i></span>
-                                </a>
+                            <div class="tags pt-4" id="tags-data">
+
                             </div>
                         </div>
                     </div><!-- end card -->
@@ -391,25 +245,38 @@
 <div id="popup-box-answer-comment"></div>
 
 @push('question-comment')
-    <script>
+<script>
        
  //page-data      
     var qdata={{Js::from($data)}};
+    var userid={{Js::from($authdata)}};
     var id=qdata.id;
     var user=qdata.user_id;
-    var userid={{Auth::user()->id}}
+    
+    
+    
     //console.log(qdata);
     // console.log(id);
     //console.log(userid);
 
 //post-question-coment
-    $('form#questioncomment').submit(function(event) {
-    event.preventDefault();
-
-    var formData = $(this).serialize();
-
-    $.ajax({
-        url: 'http://localhost:8000/api/postanswer',
+ function postquestioncomment(uid){
+        // var id=5;
+        // console.log(uid);
+        if(uid==0)
+        {
+           loginpopup();
+        }
+        else{
+        event.preventDefault();
+        let FormData = $("#questioncomment").serializeArray() ;  
+        console.log(FormData);
+        var result = {};
+        $.each(FormData, function() {
+            result[this.name] = this.value;   
+        });
+        $.ajax({
+        url: 'http://localhost:8000/api/qcomment',
         type: 'POST',
         data: formData,
         success: function(response) {
@@ -419,7 +286,8 @@
             console.log(error);
         }
     });
-});
+ }
+ }
 
 //show-question-comment
 
@@ -441,9 +309,9 @@
                             <div class="comment-body">
                                 <span class="comment-copy">${element.comment}</span>
                                 <span class="comment-separated">-</span>
-                                <a href="#" class="comment-user" title="15,467 reputation">${element.user_name}</a>
+                                <a href="/profile/${element.user_name}" class="comment-user" title="15,467 reputation">${element.user_name}</a>
                                 <span class="comment-separated">-</span>
-                                <a href="#" class="comment-date">${formateddate}</a>
+                                <a  class="comment-date">${formateddate}</a>
                             </div>
                         </li>`;
                     }
@@ -470,8 +338,8 @@
                                         <span class="count">${element.votes}</span>
                                         <button class="btn btn-info" title="This answer is useful" onclick="answervote(${element.id},${userid})">Vote</button>
                                         <br><br>`
-
-                        if(user=={{Auth::user()->id}}){
+                    
+                        if(user==userid){
                             if(element.correct_answer==0)
                             {
                             answerpart+= `<button class="btn btn-sm btn-success" onclick="rightanswer(${element.id},${id})" title="The question owner accepted this answer"><i class="la la-check"></i></button>`
@@ -505,7 +373,7 @@
                                             </a>
                                             <div class="media-body d-flex align-items-center justify-content-between">
                                                 <div>
-                                                    <h5 class="pb-1"><a href="profile">${element.user_name}</a></h5>
+                                                    <h5 class="pb-1"><a href="/profile/${element.user_name}">${element.user_name}</a></h5>
                                             
                                                 </div>
                                                 <small class="meta d-block text-right">
@@ -554,7 +422,7 @@
                                         <div class="comment-body">
                                             <span class="comment-copy">${element.comment}</span>
                                             <span class="comment-separated">-</span>
-                                            <a href="user-profile.html" class="comment-user owner" title="224,110 reputation">${element.user_name}</a>
+                                            <a href="/profile/${element.user_name}" class="comment-user owner" title="224,110 reputation">${element.user_name}</a>
                                             <span class="comment-separated">-</span>
                                             <a href="#" class="comment-date">${formateddate}</a>
                                         </div>
@@ -576,11 +444,19 @@
 //answer-vote
     function answervote(id,uid){
         // console.log(id);
-        // console.log(uid);
+        console.log(uid);
+        if(uid==0)
+        {
+            console.log(uid);
+           loginpopup();
+        }
+        else
+        {
         fetch("http://localhost:8000/api/answervote/"+id+"/"+uid).then(response=>response.json()).then((res)=>{
-            console.log(res);
+            //console.log(res);
             showanswer();
         })
+        }
     }
 
 //question-cotes
@@ -588,18 +464,29 @@
     {
         // console.log(qid);
         // console.log(uid);
-        fetch("http://localhost:8000/api/questionvote/"+qid+"/"+uid).then(response=>response.json()).then((res)=>{
+        if(uid==0)
+        {
+            loginpopup();
+        }
+        else{
+            fetch("http://localhost:8000/api/questionvote/"+qid+"/"+uid).then(response=>response.json()).then((res)=>{
+            
             //console.log(res);
-            //alert(res);
-            // showanswer();
-            location.reload();
+            showanswer();
         })
+        }
+        
     }
 
 //post-answer-comment
-    function postcomment(){
+    function postcomment(uid){
         // var id=5;
-        // console.log(id);
+        // console.log(uid);
+        if(uid==0)
+        {
+           loginpopup();
+        }
+        else{
         event.preventDefault();
         let FormData = $("#answercomment").serializeArray() ;  
         console.log(FormData);
@@ -619,7 +506,9 @@
         error: function(error) {
             console.log(error);
         }
+    
     });
+    }
     }
 //popupcommentbox
  function popupanswercomment(id)
@@ -637,8 +526,7 @@
             <div class="modal-body">
                 <form method="post" id="answercomment">
                     @csrf
-                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                    <input type="hidden" name="user_name" value="{{Auth::user()->name}}">
+                    <input type="hidden" name="user_id" value="${userid}">
                     <input type="hidden" name="qid" value="{{$data->id}}">
                     <input type="hidden" name="answer_id" value="${id}">
                                             
@@ -647,7 +535,7 @@
                         <textarea class="form-control form--control" rows="5" placeholder="Write message here..." name="comment"></textarea>
                     </div>
                     <div class="btn-box">
-                        <button type="submit" class="btn theme-btn w-100" onclick="postcomment()">
+                        <button type="submit" class="btn theme-btn w-100" onclick="postcomment(${userid})">
                             Reply <i class="la la-arrow-right icon ml-1"></i>
                         </button>
                     </div>
@@ -672,16 +560,40 @@
     })
  }
 //wrong-answer
-function wronganswer(aid,qid)
- {
+    function wronganswer(aid,qid)
+    {
     // console.log(id);
     // console.log(qid);
     fetch("http://localhost:8000/api/wronganswer/"+aid+"/"+qid).then(response=>response.json()).then((res)=>{
         //console.log(res);
         showanswer();
     })
- }
-    </script>
+    }
+
+//add-cart-question
+    function cartquestion(qid,uid)
+    {
+        // console.log(qid);
+        // console.log(uid);
+        fetch("http://localhost:8000/api/cartquestion/"+qid+"/"+uid).then(response=>response.json()).then((res)=>{
+            console.log(res);
+            location.reload();
+        })
+    }
+//remove-cart-question
+    function removecartquestion(qid,uid)
+    {
+        fetch("http://localhost:8000/api/removecartquestion/"+qid+"/"+uid).then(response=>response.json()).then((res)=>{
+            console.log(res);
+            location.reload();
+        })
+    }
+
+   
+
+</script>
+
+
 
 
 @endpush

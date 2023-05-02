@@ -28,6 +28,8 @@ return new class extends Migration
             $table->bigInteger('accepted_answer')->default(0);
             $table->bigInteger('total_blogs')->default(0);
             $table->integer('role_id')->default(0);
+            $table->datetime('last_login')->nullable();
+            $table->integer('user_review')->default(0);
         });
     }
 

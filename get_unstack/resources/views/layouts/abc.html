@@ -1,0 +1,121 @@
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        background-color: black;
+    }
+    .login_popup{
+        width: 100%;
+        height: 100%;
+        padding: 0 10px;
+    }
+    .login_popup .box{
+        background-color: #fff;
+        padding: 0 10px;
+        width: 400px;
+        height: 400px;
+        border-radius: 20px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: all 1s ease-in-out;
+    }
+    .login_popup.anyname{
+        visibility: visible;
+        opacity: 1;
+    }
+    .login_popup.anyname .box{
+        margin-left: 0;
+        opacity: 1;
+    }
+    .login_popup .box .form{
+        padding: 40px 30px;
+    }
+    .login_popup .box .form h1{
+        color: #000;
+        font-size: 30px;
+        margin: 0 0 30px;
+    }
+    .popup_input{
+        height: 45px;
+        margin-bottom: 30px;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        font-size: 15px;
+        color: #cccc;
+    }
+    .popup_input:focus{
+        outline: none;
+    }
+    label{
+        font-size: 18px;
+        color: #555;
+    }
+    .btn{
+        width: 100%;
+        background-color: #e91e63;
+        margin-top: 40px;
+        height: 45px;
+        border-radius: 25px;
+        font-size: 25px;
+        border: none;
+        text-transform: uppercase;
+        cursor: pointer;
+        color: #fff;
+    }
+    .close{
+        position: absolute;
+        right: 10px;
+        top: 0;
+        font-size: 30px;
+        cursor: pointer;
+    }
+</style>
+<div class="login_popup" id="popup_form">
+	<div class="box">
+		<div class="form">
+			<div class="close" id="close_btn">&times;</div>
+			<h1>Login Form</h1>
+			<div class="form_group">
+				<input type="text" placeholder="Enter your email" class="popup_input">
+			</div>
+			<div class="form_group">
+				<input type="password" placeholder="Enter your password" class="popup_input">
+			</div>
+			<div class="form_group">
+				<label>
+				<input type="checkbox"> Remember me
+				</label>
+			</div>
+			<button class="btn">Login</button>
+		</div>
+	</div>
+</div>
+<!-- Now add javascript -->
+<script type="text/javascript">
+	var popup_login = document.getElementById('popup_form');
+	var close = document.getElementById('close_btn');
+
+	window.addEventListener("load", function(){
+
+		setTimeout(function(){
+
+			popup_login.classList.add('anyname');
+
+		 },5000) // 1 secon is 1000ms so 5 second is = to 5000ms.
+
+
+	}) // 5 second popup are working count our time and check it now 
+	// create close btn event
+	close.addEventListener("click", function(){
+			popup_login.classList.remove('anyname');
+		 }) //friends create 5 second popup form you are check for pouse video check the and after i am close btn is work properly 
+	// now add transition
+
+
+</script>

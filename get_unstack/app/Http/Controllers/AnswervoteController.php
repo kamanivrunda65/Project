@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Answervote;
 use App\Models\Answer;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,7 @@ class AnswervoteController extends Controller
      */
     public function store($aid,$uid,Answer $answer,Answervote $answervote)
     {
+         $uid=Auth::user()->id;
         $data=$answervote->where("answer_id","=","$aid")->where("user_id","=","$uid")->value('id');
         // $avdata=$data->all();
         // dd($data);

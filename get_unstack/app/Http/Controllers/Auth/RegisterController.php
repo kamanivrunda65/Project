@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use Laravel\Socialite\Facades\Socialite;
 class RegisterController extends Controller
 {
     /*
@@ -47,6 +47,19 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+
+     public  function redirecttoprovider($provider)
+     {
+        return Socialite::driver($provider)->redirect();
+     }
+     public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+        session(['social_email' => $user->getEmail()]);
+        session(['social_name' => $user->getName()]);
+
+        return redirect('/register');
+    }
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -54,6 +67,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+        dd($data);
     }
 
     /**

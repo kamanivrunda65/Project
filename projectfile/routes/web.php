@@ -20,3 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/booking', [App\Http\Controllers\BookingController::class, 'index'])->name('booking');
+Route::post('/booking', [App\Http\Controllers\BookingController::class, 'store']);
+Route::get('/bookingtable', [App\Http\Controllers\BookingController::class, 'bookingtable'])->name('bookingtable');

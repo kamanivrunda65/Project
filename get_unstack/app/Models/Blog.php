@@ -18,6 +18,7 @@ class Blog extends Model
         'category',
         'tags',
         'image',
+        'views',
         'comments',
 
     ];
@@ -32,5 +33,9 @@ class Blog extends Model
     public function blogSubComments()
     {
         return $this->hasMany(BlogSubComment::class);
+    }
+    public function blogcarts()
+    {
+        return $this->hasMany(Blogcart::class);
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Mail;
+use App\Mail\Notificationmail;
 use App\Models\BlogComment;
 use App\Models\User;
 use App\Models\Blog;
@@ -37,17 +38,19 @@ class BlogCommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,BlogComment $blogComment,Blog $blog)
+    public function store(Request $request,BlogComment $blogComment,Blog $blog,User $user)
     {
         // dd($request);
         $request->validate([
             'user_id'=>'required',
             'blog_id'=>'required',
-            'user_name'=>'required',
             'comment'=>'required'
         ]);
         $blogComment->user_id=$request->user_id;
-        $blogComment->user_name=$request->user_name;
+        $uid=$request->user_id;
+        $userdata=$user->find($uid);
+        $username=$userdata->name;
+        $blogComment->user_name=$username;
         $blogComment->blog_id=$request->blog_id;
         $blogComment->comment=$request->comment;
         
@@ -56,10 +59,31 @@ class BlogCommentController extends Controller
         $comments=$blogbyid->comments;
         $comments=$comments+1;
         $blogbyid->comments=$comments;
-        $blogbyid->save();
+
+
+
+        $bdata=$blog->find($request->blog_id);
+        $buid=$bdata->user_id;
+        $budata=$user->find($buid);
+        $email=$budata->email;
+        $nmaildata = [
+            'title' => 'Mail from GET_UNSTACK',
+            'body' => 'Check notification on your profile',
+            'msg'=> "$username comment on your blog.",
+            'link'=>"/blog/$id",
+            'user_id'=>"$buid",
+            
+        ];
+
+        Mail::to('kamanivrunda65@gmail.com')->send(new Notificationmail($nmaildata));
+        //Mail::to("$email")->send(new Notificationmail($nmaildata));
+
+
+
+        echo $blogbyid->save();
         echo $blogComment->save();
-        //redirect()->back();
-        //dd($request);
+        redirect()->back();
+        // // dd($request);
     }
 
     /**

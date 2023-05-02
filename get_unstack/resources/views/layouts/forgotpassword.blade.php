@@ -1,5 +1,12 @@
 @include('layouts.header')
-
+@if (isset($alertwrongpass) && $alertwrong)
+    <script>
+        var alertchange = alert('Incorrect Token');
+        if (alertchange) {
+            window.location.href = 'forgotpassword';
+        }
+    </script>
+@endif
 <!--======================================
         START RECOVERY AREA
 ======================================-->
@@ -22,10 +29,10 @@
                         </div>
                         <div class="form-group">
                             <label class="fs-14 text-black fw-medium lh-18">Email</label>
-                            <input type="email" name="email" class="form-control form--control" placeholder="Email address">
+                            <input type="email" name="email" class="form-control form--control" placeholder="Email address" required>
                         </div><!-- end form-group -->
                         <div class="form-group">
-                            <button id="send-message-btn" class="btn theme-btn w-100" type="submit">Send recovery email <i class="la la-arrow-right icon ml-1"></i></button>
+                            <button id="send-message-btn" class="btn theme-btn w-100" type="submit" data-toggle="modal" data-target="#tokenbox" >Send recovery email <i class="la la-arrow-right icon ml-1"></i></button>
                         </div><!-- end form-group -->
                     </div><!-- end form-action-wrapper -->
                 </div><!-- end col-lg-5 -->
@@ -41,6 +48,35 @@
         </svg>
     </div>
 </section>
+{{-- <div class="modal fade modal-container" id="tokenbox" tabindex="-1" role="dialog" aria-labelledby="replyModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header align-items-center">
+                <h5 class="modal-title" id="replyModalTitle">Email Verification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="la la-times"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{url('/')}}/resetpassword">
+                    @csrf
+                    
+                         <input type="hidden" name="email" value="{{Session::get('useremaildata')}}">                   
+                    <div class="form-group">
+                        <label class="fs-14 text-black fw-medium lh-20">Code</label>
+                        <input class="form-control form--control"  placeholder="Enter Code here...." name="tokencode">
+                    </div>
+                   
+                    <div class="btn-box">
+                        <button type="submit" class="btn theme-btn w-100">
+                            Send <i class="la la-arrow-right icon ml-1"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+ </div> --}}
 <!--======================================
         END RECOVERY AREA
 ======================================-->
@@ -56,12 +92,18 @@
                 data:formData,
                 success:function(response){
                     console.log(response);
+                    // popuptokenbox(response);
+
                 },
                 error:function(error){
                     console.log(error)
                 }
             });
         })
+      
+        
+       
+
     </script>
 @endpush
 @include('layouts.footer')

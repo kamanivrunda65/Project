@@ -55,39 +55,11 @@
             <div class="sidebar pt-10px">
                 <div class="card card-item">
                     <div class="card-body">
-                        <h3 class="fs-17 pb-3">Related Questions</h3>
+                        <h3 class="fs-17 pb-3">Trending Questions</h3>
                         <div class="divider"><span></span></div>
-                        <div class="sidebar-questions pt-3">
-                            <div class="media media-card media--card media--card-2">
-                                <div class="media-body">
-                                    <h5><a href="#">Using web3 to call precompile contract</a></h5>
-                                    <small class="meta">
-                                        <span class="pr-1">2 mins ago</span>
-                                        <span class="pr-1">. by</span>
-                                        <a href="#" class="author">Sudhir Kumbhare</a>
-                                    </small>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card media--card-2">
-                                <div class="media-body">
-                                    <h5><a href="#">Is it true while finding Time Complexity of the algorithm [closed]</a></h5>
-                                    <small class="meta">
-                                        <span class="pr-1">48 mins ago</span>
-                                        <span class="pr-1">. by</span>
-                                        <a href="#" class="author">wimax</a>
-                                    </small>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card media--card-2">
-                                <div class="media-body">
-                                    <h5><a href="#">image picker and store them into firebase with flutter</a></h5>
-                                    <small class="meta">
-                                        <span class="pr-1">1 hour ago</span>
-                                        <span class="pr-1">. by</span>
-                                        <a href="#" class="author">Antonin gavrel</a>
-                                    </small>
-                                </div>
-                            </div><!-- end media -->
+                        <div class="sidebar-questions pt-3" id="trending-question">
+                           
+                            
                         </div><!-- end sidebar-questions -->
                     </div>
                 </div><!-- end card -->
@@ -95,90 +67,8 @@
                     <div class="card-body">
                         <h3 class="fs-17 pb-3">Related Tags</h3>
                         <div class="divider"><span></span></div>
-                        <div class="tags pt-4">
-                            <div class="tag-item">
-                                <a href="#" class="tag-link tag-link-md">analytics</a>
-                                <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                            </div><!-- end tag-item -->
-                            <div class="tag-item">
-                                <a href="#" class="tag-link tag-link-md">computer</a>
-                                <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                            </div><!-- end tag-item -->
-                            <div class="tag-item">
-                                <a href="#" class="tag-link tag-link-md">python</a>
-                                <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                            </div><!-- end tag-item -->
-                            <div class="tag-item">
-                                <a href="#" class="tag-link tag-link-md">javascript</a>
-                                <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                            </div><!-- end tag-item -->
-                            <div class="tag-item">
-                                <a href="#" class="tag-link tag-link-md">c#</a>
-                                <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                            </div><!-- end tag-item -->
-                            <div class="collapse" id="showMoreTags">
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">java</a>
-                                    <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">swift</a>
-                                    <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">html</a>
-                                    <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">angular</a>
-                                    <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">flutter</a>
-                                    <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">machine-language</a>
-                                    <span class="item-multiplier fs-13">
-                                <span>×</span>
-                                <span>32924</span>
-                            </span>
-                                </div><!-- end tag-item -->
-                            </div><!-- end collapse -->
-                            <a class="collapse-btn fs-13" data-toggle="collapse" href="#showMoreTags" role="button" aria-expanded="false" aria-controls="showMoreTags">
-                                <span class="collapse-btn-hide">Show more<i class="la la-angle-down ml-1 fs-11"></i></span>
-                                <span class="collapse-btn-show">Show less<i class="la la-angle-up ml-1 fs-11"></i></span>
-                            </a>
+                        <div class="tags pt-4" id="tags-data">
+                           
                         </div>
                     </div>
                 </div><!-- end card -->
@@ -194,13 +84,19 @@
                     </div>
                     <div class="d-flex flex-wrap align-items-center justify-content-between">
                         <p class="pt-1 fs-15 fw-medium lh-20" id="totalquestion"> </p>
-                        <div class="filter-option-box w-20">
-                            <select class="custom-select">
-                                <option value="newest" selected="selected">Newest </option>
-                                <option value="votes">Votes </option>
-                                <option value="unanswered">Unanswered </option>
-                            </select>
+                        <div class="filter-btn-group d-flex flex-wrap align-items-center">
+                            <button class="btn border border-gray bg-white  text-gray    fs-14 d-inline-block mr-2" onclick="allquestion(1,10,'new')">Newest</button>
+                            <button class="btn border border-gray bg-white  text-gray    fs-14 d-inline-block mr-2" onclick="allquestion(1,10,'view')">Views</button>
+                            <button class="btn border border-gray bg-white  text-gray    fs-14 d-inline-block mr-2" onclick="allquestion(1,10,'vote')">Votes</button>
+                            <button class="btn border border-gray bg-white  text-gray    fs-14 d-inline-block mr-2"onclick="allquestion(1,10,'unanswer')">Unanswered</button>
+                               
                         </div><!-- end filter-option-box -->
+                        {{-- <div class="btn-group btn--group mb-3" role="group" aria-label="Filter button group">
+                            <a onclick="allquestion(1,10,'new')" class="btn ">Newest</a>
+                            <a onclick="allquestion(1,10,'view')" class="btn">Views</a>
+                            <a onclick="allquestion(1,10,'vote')" class="btn">Votes</a>
+                            <a onclick="allquestion(1,10,'unanswer')" class="btn">Unanswered</a>
+                        </div> --}}
                     </div>
                 </div><!-- end filters -->
                 <div class="questions-snippet border-top border-top-gray" id="questions">
@@ -209,22 +105,7 @@
                 <div class="pager pt-30px px-3">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination generic-pagination pr-1" id="page-number">
-                            {{-- <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li> --}}
+                           
                         </ul>
                     </nav>
                     <p class="fs-13 pt-2">Showing 1-10 results </p>
@@ -241,9 +122,11 @@
 
 @push('show-question')
 <script>
-    function allquestion(page, perPage){
-fetch(`http://localhost:8000/api/questiondata?page=${page}&perPage=${perPage}`).then(response=>response.json()).then((res)=>{
-     console.log(res);
+//show-questions
+ function allquestion(page, perPage,condition){
+    fetch(`http://localhost:8000/api/questiondata?page=${page}&perPage=${perPage}&condition=${condition}`).then(response=>response.json()).then((res)=>{
+    // console.log(res);
+    //console.log(condition);
     questions="";
     count=1;
    
@@ -305,7 +188,7 @@ fetch(`http://localhost:8000/api/questiondata?page=${page}&perPage=${perPage}`).
                                 const button = document.createElement('button');
                             button.textContent = i;
                             button.classList='btn btn-primary space';
-                            button.addEventListener('click', () => allquestion(i, res.perPage));
+                            button.addEventListener('click', () => allquestion(i, res.perPage,condition));
                             if (i === res.page) {
                                 button.classList.add('active');
                             }
@@ -316,10 +199,9 @@ fetch(`http://localhost:8000/api/questiondata?page=${page}&perPage=${perPage}`).
     
 })
     }
-    allquestion(1,10)
+    allquestion(1,10,"new")
    
 
-   
 </script>
 @endpush
 @include('layouts.footer')

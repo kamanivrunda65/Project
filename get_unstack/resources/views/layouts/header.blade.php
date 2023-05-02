@@ -15,7 +15,9 @@
     {{-- <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&amp;display=swap" rel="stylesheet"> --}}
     <!-- Favicon -->
     <link rel="icon" sizes="16x16" href="{{ URL::asset('assets/images/favicon.png') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
+    <script href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+    <script href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.js.map"></script>
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ URL::asset('assets/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{ URL::asset('assets/css/line-awesome.css')}}">
@@ -28,6 +30,7 @@
     <!-- end inject -->
     <script src="{{URL::asset('assets/lib/jquery.js')}}"></script>
 	<script defer src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 
 <style>
     .form--control-bg-gray {
@@ -45,6 +48,9 @@
 
     margin-top:10px;
 }
+.la-icon-2{
+    margin-top:20px;
+}
 .menu-bar>ul>li .dropdown-menu-item
 {
 left:-70px
@@ -57,6 +63,13 @@ left:-70px
     margin-right: 0;
     margin-left: 0;
 }
+.modal-content{
+    border :5px solid #1c58a0;
+}
+ .image{
+    height: 20px;
+    width:20px;
+ }   
 </style>
 
 
@@ -101,6 +114,7 @@ left:-70px
                                         @endif
                                     @else
                                         <a href="{{route('post')}}"><li class="text-white"><i class="la la-pencil mr-1"></i>ADD POST |</li></a>
+                                        <a href="#" data-target="#reviewModal"  data-toggle="modal" title=" Add Your Review"><li class="text-white"><i class="la la-envelope-open-text mr-1"></i>REVIEW |</li></a>
 
                                     @endguest
                                     <a href="{{ route('contact') }}"><li class="text-white "><i class="la la-phone mr-1"></i>CONTACT</li></a>
@@ -180,8 +194,9 @@ left:-70px
 
                                         <a class="dropdown-item" href="/profile/{{Auth::user()->name}}"><li><i class="la la-user mr-2"></i> Profile</li></a>
                                         <a class="dropdown-item" href="{{route('notification')}}"><li><i class="la la-bell mr-2"></i> Notifications</li></a>
-                                        <a class="dropdown-item" href="{{route('changepassword')}}"><li><i class="la la-user-plus mr-2"></i> Change Password</li></a>
+                                        <a class="dropdown-item" href="{{route('changepassword')}}"><li><i class="la la-key mr-2"></i> Change Password</li></a>
                                         <a class="dropdown-item" href="{{route('setting')}}"><li><i class="la la-gear mr-2"></i> Settings</li></a>
+                                        <a class="dropdown-item" href="{{route('forgotpassword')}}"><li><i class="la la-unlock-alt mr-2"></i> Forgot Password</li></a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                                         onclick="event.preventDefault();
                                                       document.getElementById('logout-form').submit();">
@@ -245,55 +260,21 @@ left:-70px
         </div><!-- end user-off-canvas-menu-close -->
         <ul class="nav nav-tabs generic-tabs generic--tabs pt-90px pl-4 shadow-sm" id="myTab2" role="tablist">
             <li class="nav-item"><div class="anim-bar"></div></li>
+            
             <li class="nav-item">
-                <a class="nav-link active" id="user-notification-menu-tab" data-toggle="tab" href="#user-notification-menu" role="tab" aria-controls="user-notification-menu" aria-selected="true">Notifications</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="user-profile-menu-tab" data-toggle="tab" href="#user-profile-menu" role="tab" aria-controls="user-profile-menu" aria-selected="false">Profile</a>
+                <a class="nav-link active" id="user-profile-menu-tab" data-toggle="tab" href="#user-profile-menu" role="tab" aria-controls="user-profile-menu" aria-selected="false">Profile</a>
             </li>
         </ul>
         <div class="tab-content pt-3" id="myTabContent2">
-            <div class="tab-pane fade show active" id="user-notification-menu" role="tabpanel" aria-labelledby="user-notification-menu-tab">
-                <div class="dropdown--menu shadow-none w-auto rounded-0">
-                    <div class="dropdown-item-list">
-
-                        <a class="dropdown-item" href="#">
-                            <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
-                                <div class="media-img media-img-sm flex-shrink-0">
-                                    <img src="{{URL::asset('assets/images/img4.jpg')}}" alt="avatar">
-                                </div>
-                                <div class="media-body p-0 border-left-0">
-                                    <h5 class="fs-14 fw-regular">Arnold Smith answered on your post</h5>
-                                    <small class="meta d-block lh-24">
-                                        <span>5 mins ago</span>
-                                    </small>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
-                                <div class="media-img media-img-sm flex-shrink-0">
-                                    <img src="{{URL::asset('assets/images/img4.jpg')}}" alt="avatar">
-                                </div>
-                                <div class="media-body p-0 border-left-0">
-                                    <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                                    <small class="meta d-block lh-24">
-                                        <span>1 hour ago</span>
-                                    </small>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <a class="dropdown-item border-bottom-0 text-center btn-text fw-regular" href="#">View All Notifications <i class="la la-arrow-right icon ml-1"></i></a>
-                </div>
-            </div><!-- end tab-pane -->
-            <div class="tab-pane fade" id="user-profile-menu" role="tabpanel" aria-labelledby="user-profile-menu-tab">
+        
+            <div class="tab-pane fade-show active" id="user-profile-menu" role="tabpanel" aria-labelledby="user-profile-menu-tab">
                 <div class="dropdown--menu shadow-none w-auto rounded-0">
                     <div class="dropdown-item-list">
                         <a class="dropdown-item" href="#"><i class="la la-user mr-2"></i>Profile</a>
                         <a class="dropdown-item" href="{{route('notification')}}"><i class="la la-bell mr-2"></i>Notifications</a>
-                        <a class="dropdown-item" href="{{route('changepassword')}}"><i class="la la-user-plus mr-2"></i>Change Password</a>
+                        <a class="dropdown-item" href="{{route('changepassword')}}"><i class="la la-key mr-2"></i>Change Password</a>
                         <a class="dropdown-item" href="{{route('setting')}}"><i class="la la-gear mr-2"></i>Settings</a>
+                        <a class="dropdown-item" href="{{route('forgotpassword')}}"><i class="la la-unlock-alt mr-2"></i>Forgot Password</a>
                         <a class="dropdown-item" href="{{route('logout')}}"  onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
                             <i class="la la-power-off mr-2"></i>Log out</a>

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('tags',100);
             $table->text('image',100);
             $table->integer('comments')->default(0);
+            $table->integer('views')->default(0);
             $table->timestamps();
         });
     }

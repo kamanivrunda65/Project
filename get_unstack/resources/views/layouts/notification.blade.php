@@ -19,11 +19,7 @@
                     <h2 class="section-title fs-30">Notifications</h2>
                 </div><!-- end hero-content -->
             </div><!-- end col-lg-8 -->
-            <div class="col-lg-4">
-                <div class="hero-btn-box text-right py-3">
-                    <a href="setting.php" class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i class="la la-gear mr-1"></i> Edit Profile</a>
-                </div>
-            </div><!-- end col-lg-4 -->
+            
         </div>
     </div><!-- end container -->
 </section>
@@ -38,211 +34,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9">
-                <div class="notification-content-wrap">
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img3.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">John Doe following your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                     <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Arnold Smith answered on your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                         <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                     </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img3.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">John Doe following your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                     <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Arnold Smith answered on your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                         <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                     </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img3.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">John Doe following your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                     <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Arnold Smith answered on your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                         <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                     </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
-                    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
-                        <div class="media-img media-img-sm flex-shrink-0">
-                            <img src="assets/images/img4.jpg" alt="avatar">
-                        </div>
-                        <div class="media-body p-0 border-left-0">
-                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                            <small class="meta d-block lh-24">
-                                <span>45 secs ago</span>
-                            </small>
-                        </div>
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
-                    </div><!-- end media -->
+                <div class="notification-content-wrap" id="notification-data">
+                   
+                    
                 </div><!-- end notification-content-wrap -->
-                <div class="pager pt-30px mb-50px">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination generic-pagination pr-1">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <p class="fs-13 pt-3">Showing 1-15 results of 210 questions</p>
-                </div>
+                <div class="notification-content-wrap" id="notification-seen-data">
+                   
+                    
+                </div><!-- end notification-content-wrap -->
             </div><!-- end col-lg-9 -->
             <div class="col-lg-3">
                 <div class="sidebar">
@@ -250,34 +49,8 @@
                         <div class="card-body">
                             <h3 class="fs-17 pb-3">Number Achievement</h3>
                             <div class="divider"><span></span></div>
-                            <div class="row no-gutters text-center">
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color">980k</span>
-                                        <p class="fs-14">Questions</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-2">610k</span>
-                                        <p class="fs-14">Answers</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-3">650k</span>
-                                        <p class="fs-14">Answer accepted</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-4">320k</span>
-                                        <p class="fs-14">Users</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-12 pt-3">
-                                    <p class="fs-14">To get answer of question <a href="signup.html" class="text-color hover-underline">Join<i class="la la-arrow-right ml-1"></i></a></p>
-                                </div>
+                            <div class="row no-gutters text-center" id="achievement">
+                               
                             </div><!-- end row -->
                         </div>
                     </div><!-- end card -->
@@ -285,37 +58,8 @@
                         <div class="card-body">
                             <h3 class="fs-17 pb-3">Trending Questions</h3>
                             <div class="divider"><span></span></div>
-                            <div class="sidebar-questions pt-3">
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">Using web3 to call precompile contract</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">2 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Sudhir Kumbhare</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">Is it true while finding Time Complexity of the algorithm [closed]</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">48 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">wimax</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">image picker and store them into firebase with flutter</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">1 hour ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Antonin gavrel</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
+                            <div class="sidebar-questions pt-3" id="trending-question">
+                                
                             </div><!-- end sidebar-questions -->
                         </div>
                     </div><!-- end card -->
@@ -327,4 +71,80 @@
 <!-- ================================
          END USER DETAILS AREA
 ================================= -->
+@push('notification')
+<script>
+    var uid={{Auth::user()->id}}
+    console.log(uid);
+    allnotification()
+    function allnotification()
+    {
+        fetch("http://localhost:8000/api/notification").then(response=>response.json()).then((res)=>{
+           // console.log(res);
+            notification="Recent<br>"
+            count=0
+            number=0
+            notificationseen="Seen Notification<br><br>"
+            res.forEach(element => {
+                if(uid==element.user_id && element.status==0){
+                    count++;
+                var formateddate=dateformate(element.created_at);
+                notification+=`<a onclick="link('${element.link}','${element.id}')"> <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
+                        <div class="media-img media-img-sm flex-shrink-0">
+                            <img src="{{URL::asset('asset/${element.pic}')}}" alt="avatar">
+                        </div>
+                        <div class="media-body p-0 border-left-0">
+                            <h5 class="fs-14 fw-regular">${element.msg}</h5>
+                            <small class="meta d-block lh-24">
+                                <span>${formateddate}</span>
+                            </small>
+                        </div>
+                        <button class="btn border border-gray fs-17 ml-2" type="button" onclick="" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
+                    </div><!-- end media --></a>`;
+
+                }
+                if(uid==element.user_id && element.status==1){
+                  number++  
+                var formateddate=dateformate(element.created_at);
+                notificationseen+=`<a href="${element.link}"> <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">
+                        <div class="media-img media-img-sm flex-shrink-0">
+                            <img src="{{URL::asset('asset/${element.pic}')}}" alt="avatar">
+                        </div>
+                        <div class="media-body p-0 border-left-0">
+                            <h5 class="fs-14 fw-regular">${element.msg}</h5>
+                            <small class="meta d-block lh-24">
+                                <span>${formateddate}</span>
+                            </small>
+                        </div>
+                        <button class="btn border border-gray fs-17 ml-2" type="button" onclick="" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
+                    </div><!-- end media --></a>`;
+
+                }
+            });
+            if(count==0)
+            {
+                notification+=`<br><div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
+                                    <h3 class="fs-17">No Update</h3>
+                                </div><br>`
+            }
+            if(number!=0){
+                document.getElementById('notification-seen-data').innerHTML=notificationseen;
+            }
+            document.getElementById('notification-data').innerHTML=notification;
+            
+
+        })
+    }
+
+//link
+ function link(link,id)
+ {
+    console.log(link);
+    fetch("http://localhost:8000/api/linkopen/"+id).then(response=>response.json()).then((res)=>{
+        console.log(res);
+        window.location.href=link;
+    })
+ }
+</script>
+    
+@endpush
 @include('layouts.footer')

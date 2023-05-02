@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\QuestionComment;
+use App\Models\User;
+use App\Models\Question;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -37,15 +39,15 @@ class QuestionCommentController extends Controller
     public function store(Request $request,QuestionComment $questionComment)
     {
         // return response()->json($request);
-        //dd($request);
+        dd($request);
         $request->validate([
-            'user_id'=>'required',
-             'user_name'=>'required',
-             
+            
              'comment'=>'required'
          ]);
-         $questionComment->user_id=$request->user_id;
-         $questionComment->user_name=$request->user_name;
+         $userid=Auth::user()->id;
+         $username=Auth::user()->name;
+         $questionComment->user_id=$userid;
+         $questionComment->user_name=$username;
          $questionComment->question_id=$request->question_id;
          $questionComment->comment=$request->comment;
          $questionComment->save();

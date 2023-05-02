@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "96e99dd6-36dd-4af8-afea-59a3dc06fbaf",
+		"name": "practical",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25290055"
+	},
+	"item": [
+		{
+			"name": "POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "vrunda",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "kamanivrunda65@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "987654321",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/DELL/Pictures/Saved Pictures/6.jpg"
+						},
+						{
+							"key": "referral_code",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VERIFY User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/verifyemail/kamanivrunda65@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"verifyemail",
+						"kamanivrunda65@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "kamanivrunda65@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "98765432",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/update/kamanivrunda65@gmail.com?name=Kamani Vrunda&password=987654321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"update",
+						"kamanivrunda65@gmail.com"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Kamani Vrunda"
+						},
+						{
+							"key": "password",
+							"value": "987654321"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

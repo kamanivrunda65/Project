@@ -2,32 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use Mail;
 use App\Models\Blog;
 use App\Models\User;
+use App\Models\Review;
 use App\Models\Category;
 use App\Models\Question;
+use App\Models\Notification;
+use App\Mail\Passwordmail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Session;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
-use Mail;
-use App\Mail\Passwordmail;
+
 class ProfileController extends Controller
 {
-   
     public function profile($name,User $user ,Blog $blog)
     {
         // dd($name);
         $userid=$user->where("name","=","$name")->value('id');
         $userbyid=$user->find($userid);
-       // return view('layouts.profile')->with(['userbyid',$userbyid]);
-        return View::make('layouts.profile')->with('userbyid', $userbyid);
+        if(Auth::check())
+        {
+            $uid=Auth::user()->id;
+            return View::make('layouts.profile')->with('userbyid', $userbyid)->with('authuserid',$uid);
+        }
+        return View::make('layouts.profile')->with('userbyid', $userbyid)->with('authuserid',0);
     }
     public function change()
     {
@@ -45,9 +53,12 @@ class ProfileController extends Controller
     {
         return view('layouts.forgotpassword');
     }
-    public function resetpassword()
+    public function resetpassword($email)
     {
-        return view('layouts.resetpassword');
+        //dd($email);
+        // $session=session()->all();
+        // dd($session);
+        return view('layouts.resetpassword')->with(['emailid'=>$email]);
     }
     public function updateuser(Request $request,User $user)
     {
@@ -88,8 +99,8 @@ class ProfileController extends Controller
             'user_id'=>'required',
              'user_password'=>'required',
              'current_password'=>'required',
-             'password'=>'required|confirmed',
-             'password_confirmation'=>'required'
+             'password'=>'required|confirmed|min:8',
+             'password_confirmation'=>'required|min:8'
          ]);
          //dd($request);
          $uid=$request->user_id;
@@ -141,22 +152,87 @@ class ProfileController extends Controller
         $answerdata=DB::table('answers')->orderby('id','DESC')->get();
         echo $answerdata;
    }
-   public function sendpasswordmail(Request $request)
+   public function sendpasswordmail(Request $request,User $user)
    {
         // dd($request);
+        $request->validate([
+            'email'=>'required|email',
+        ]);
+        $user = User::where('email', $request->email)->first();
+        // $token = mt_rand(100000, 999999);
+        // Cache::put('password_reset_' . $user->id, $token, now()->addMinutes(10));
+        $emailid=$request->email;
+        // $data=$request->session()->put('user_data', $value);
+        // Session::put('useremaildata',$value);
+        // $value=Auth::user()->id;
+        // $emailid=session()->get('useremaildata');
         $passwordmailData = [
             'title' => 'Mail from GET_UNSTACK',
             'body' => 'This is for verify your Email',
+            'email'=>$emailid,
         ];
 
         Mail::to('kamanivrunda65@gmail.com')->send(new Passwordmail($passwordmailData));
-
+        // echo $data;
         // dd('Email send successfully.');
-        return redirect('/home');
+        return redirect('/forgotpassword');
    }
    public function resetpassworddata(Request $request,User $user)
    {
-        dd($request);
+        //dd($request);
+        $request->validate([
+            'user_email'=>'required',
+             'password'=>'required|confirmed|min:8',
+             'password_confirmation'=>'required|min:8'
+         ]);
+        //  dd($request);
+        $userid=$user->where('email',"=","$request->user_email")->value('id');
+        //dd($userid);
+        $userdata=$user->find($userid);
+        $pass=Hash::make($request->password);
+        //dd($pass);
+        $userdata->password=$pass;
+        $userdata->save();
+        return redirect('login');
+
+   }
+   public function review(Request $request,Review $review,User $user)
+   {
+        // dd(Auth::user());
+        $request->validate([
+            'user_id'=>'required',
+            'review'=>'required'
+        ]);
+        $review->user_id=$request->user_id;
+        $review->review=$request->review;
+        $userdata=$user->find($request->user_id);
+        // dd($userdata);
+        // $userdata->user_review=1;
+        // $userdata->save();
+        // $review->save();
+        return redirect('/home');
+   }
+   public function dropreview($uid,Request $request,Review $review,User $user)
+   {
+        $reviewid=$review->where('user_id',"=","$uid")->value('id');
+        $reviewdata=$review->find($reviewid);
+        $userdata=$user->find($uid);
+        $userdata->user_review=0;
+        // dd($userdata);
+        $userdata->save();
+        $reviewdata->delete();
+   }
+   public function notificationdata(User $user,Notification $notification)
+   {
+        $data=$notification->orderby('id')->get();
+        echo $data;
+   }
+   public function linkopen($id,Notification $notification)
+   {
+        $ndata=$notification->find($id);
+        $ndata->read_at=now();
+        $ndata->status=1;
+        echo $ndata->save();
    }
 }
 

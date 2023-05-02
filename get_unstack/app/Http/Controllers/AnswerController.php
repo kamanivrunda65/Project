@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Answer;
-use App\Models\User;
 use DB;
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Answer;
+use App\Models\Question;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
 
 class AnswerController extends Controller
 {
@@ -39,13 +42,13 @@ class AnswerController extends Controller
     public function store(Request $request,Answer $answer,Question $question)
     {
         $request->validate([
-            'user_id'=>'required',
-             'user_name'=>'required',
+           
              'answer'=>'required',
              'question_id'=>'required',
             'answerfile'=>['mimes:jpeg,jpg,pdf','min:1']
          ]);
-          
+          $userid=Auth::user()->id;
+          $username=Auth::user()->name;
          //dd($request->all());
          if($request->file('answerfile')!=null){
             $filename=time()."-answer.".$request->file('answerfile')->getClientOriginalExtension();
@@ -53,8 +56,8 @@ class AnswerController extends Controller
             $file="assets/answer_file/".$filename;
             $answer->answerfile=$file;
          }
-        $answer->user_id=$request->user_id;
-        $answer->user_name=$request->user_name;
+        $answer->user_id=$userid;
+        $answer->user_name=$username;
         $answer->question_id=$request->question_id;
         $answer->answer=$request->answer;
 

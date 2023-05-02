@@ -1,11 +1,18 @@
 @include('layouts.header')
-
+@if (isset($wrongpass) && $wrongpass)
+    <script>
+        var alertchange = alert('Your Password');
+        if (alertchange) {
+            window.location.href = 'Password and Confirm Password not matched!';
+        }
+    </script>
+@endif
 <!--======================================
         START RECOVERY AREA
 ======================================-->
 <section class="recovery-area pt-80px pb-80px position-relative">
     <div class="container">
-        <form method="post" class="card card-item login-form" id="resetpassword">
+        <form method="post" class="card card-item login-form" id="resetpassword" action="{{url('/')}}/resetpassword">
             @csrf
             <div class="card-body row p-0">
                 <div class="col-lg-6">
@@ -13,6 +20,7 @@
                         <img src="{{URL::asset('assets/images/undraw-questions.svg')}}" alt="Image" class="img-fluid">
                     </div>
                 </div><!-- end col-lg-6 -->
+                @if (isset($emailid))
                 <div class="col-lg-5 mx-auto">
                     <div class="form-action-wrapper py-5">
                         <div class="form-group">
@@ -23,17 +31,24 @@
                         <div class="form-group">
                             <label class="fs-14 text-black fw-medium lh-18">Password</label>
                             <input type="password" name="password" class="form-control form--control" placeholder="Password">
+                            @error('password')
+                                {{$message}}
+                            @enderror
                         </div><!-- end form-group -->
                         <div class="form-group">
                             <label class="fs-14 text-black fw-medium lh-18">Confirm password</label>
-                            <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                            <input type="password" name="confirm_password" class="form-control form--control" placeholder="Confirm Password">
+                            <input type="hidden" name="user_email" value="{{$emailid}}">
+                            <input type="password" name="password_confirmation" class="form-control form--control" placeholder="Confirm Password">
                         </div><!-- end form-group -->
+                        
+                        <br>
                         <div class="form-group">
                             <button id="send-message-btn" class="btn theme-btn w-100" type="submit">Submit<i class="la la-arrow-right icon ml-1"></i></button>
                         </div><!-- end form-group -->
                     </div><!-- end form-action-wrapper -->
                 </div><!-- end col-lg-5 -->
+                @endif
+                
             </div><!-- end row -->
         </form>
         <p class="text-center"><a href="{{route('login')}}" class="text-color hover-underline">Return to log in</a></p>
@@ -51,22 +66,22 @@
 ======================================-->
 @push('reset-password')
     <script>
-        $('form#resetpassword').submit(function(event){
-            event.preventDefault();
-            var formData=$(this).serialize();
-            console.log(formData);
-            $.ajax({
-                url:'http://localhost:8000/api/resetpassword',
-                type:'POST',
-                data:formData,
-                success:function(response){
-                    console.log(response);
-                },
-                error:function(error){
-                    console.log(error)
-                }
-            });
-        })
+        // $('form#resetpassword').submit(function(event){
+        //     event.preventDefault();
+        //     var formData=$(this).serialize();
+        //     console.log(formData);
+        //     $.ajax({
+        //         url:'http://localhost:8000/api/resetpassword',
+        //         type:'POST',
+        //         data:formData,
+        //         success:function(response){
+        //             console.log(response);
+        //         },
+        //         error:function(error){
+        //             console.log(error)
+        //         }
+        //     });
+        // })
     </script>
 @endpush
 @include('layouts.footer')

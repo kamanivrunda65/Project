@@ -7,6 +7,7 @@ use DB;
 use App\Models\Blog;
 use App\Models\Tags;
 use App\Models\User;
+use App\Models\Blogcart;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -15,6 +16,8 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\CursorPaginator;
+use Illuminate\Support\Facades\Redirect;
+
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class BlogController extends Controller
@@ -27,15 +30,46 @@ class BlogController extends Controller
     {
         return view('layouts.blogs');
     }
-    public function singleblog($id,Blog $blog,User $user,Category $category)
+    public function trending(Blog $blog)
+    {
+        $blogdata=$blog->orderby('comments','DESC')->take(3)->get();
+        echo $blogdata;
+    }
+    public function blogsection(Blog $blog)
+    {
+        $blogdata=DB::table('blogs')->join('users', 'users.id', '=', 'blogs.user_id')->join('categories','categories.id','=','blogs.category')
+        ->select('blogs.*', 'users.profile_pic','users.name','categories.categoryname')->orderby('views','DESC')->take(6)->get();
+        echo $blogdata;
+    }
+    public function singleblog($id,Blog $blog,User $user,Category $category,Blogcart $blogcart)
     {
         $blogbyid=$blog->find($id);
         $userid=$blogbyid->user_id;
         $cid=$blogbyid->category;
         $categorybyid=$category->find($cid);
         $userbyid=$user->find($userid);
+        $viewers=$blogbyid->views;
+        $viewers=$viewers+1;
+        $blogbyid->views=$viewers;
+        if(Auth::check())
+        {
+            $user_id=Auth::user()->id;
+            $cart=$blogcart->where("blog_id","=","$id")->where("user_id","=","$user_id")->value('id');
+            if($cart!=null)
+            {
+                $blogbyid->save();
+                return view('layouts.blog')->with(['blogdata'=>$blogbyid])->with(['userdata'=>$userbyid])->with(['categorydata'=>$categorybyid])->with(['cart'=>1])->with(['uid'=>$user_id]);
+
+            }
+            else
+            {
+                $blogbyid->save();
+                return view('layouts.blog')->with(['blogdata'=>$blogbyid])->with(['userdata'=>$userbyid])->with(['categorydata'=>$categorybyid])->with(['cart'=>0])->with(['uid'=>$user_id]);
+            }
+        }
         
-        return view('layouts.blog')->with(['blogdata'=>$blogbyid])->with(['userdata'=>$userbyid])->with(['categorydata'=>$categorybyid]);
+        
+        return view('layouts.blog')->with(['blogdata'=>$blogbyid])->with(['userdata'=>$userbyid])->with(['categorydata'=>$categorybyid])->with(['cart'=>0])->with(['uid'=>0]);
         //return view('layouts.blog');
 
     }
@@ -56,6 +90,7 @@ class BlogController extends Controller
     public function searchblog(Request $request,Blog $blog)
     {
         $abc=$request->searchblog;
+
         $result= DB::table('blogs')->join('users', 'users.id', '=', 'blogs.user_id')->join('categories','categories.id','=','blogs.category')
         ->select('blogs.*', 'users.profile_pic','users.name','categories.categoryname')->orderby('id','DESC')
         ->where('blog_title', "Like","%$abc%")->orwhere('user_name',"LIKE","%$abc%")->get();
@@ -68,8 +103,9 @@ class BlogController extends Controller
         return view('layouts.blogs',compact('result'));
 
     }
-    public function categoryblog($id)
+    public function categoryblog($name,Category $category)
     {
+        $id=$category->where('categoryname',"=","$name")->value('id');
         $result= DB::table('blogs')->join('users', 'users.id', '=', 'blogs.user_id')->join('categories','categories.id','=','blogs.category')
         ->select('blogs.*', 'users.profile_pic','users.name','categories.categoryname')->orderby('id','DESC')
         ->where('category', "=","$id")->get();  
@@ -104,7 +140,7 @@ class BlogController extends Controller
      */
     public function store(Blog $blog,Request $request,Category $category,User $user,Tags $tags)
     {
-        // dd($request);
+       // dd($request);
         $request->validate([
             'user_id'=>'required',
              'user_name'=>'required',
@@ -174,6 +210,7 @@ class BlogController extends Controller
         $userbyid->save();
          //dd($cdata->total);
          $blog->save();
+         toastr()->success("Blog post successfully.");
          return redirect('/blogs');
     }
 
@@ -183,17 +220,44 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function show(Blog $blog)
+    public function show(Blog $blog,Request $request,Category $category)
     {
+        
         // $blogdata=$blog->get();
         // return response()->json($blogdata,200);
-        $perPage = request()->query('perPage', 10);
-        $page = request()->query('page', 1);
+        $search=$request->search;
+        $tagname=$request->tag;
+        if($tagname!=null)
+        {
+            $tag=$tagname;
+            // dd($tag);
+        }
+        else
+        {
+            $tag="";
+        }
+        $categoryname = $request->category;
+        $pageno=$request->page;
+        $selectdata=$request->perPage;
+        $perPage = request()->query('perPage', $selectdata);
+        $page = request()->query('page', $pageno);
         $offset = ($page - 1) * $perPage;
-        $data = DB::table('blogs')->join('users', 'users.id', '=', 'blogs.user_id')->join('categories','categories.id','=','blogs.category')
-        ->select('blogs.*', 'users.profile_pic','users.name','categories.categoryname')
-        ->orderby('id','DESC')->offset($offset)->limit($perPage)->get();
-        $total = DB::table('blogs')->count();
+        if($categoryname=="all")
+        {
+            $data1=$blog->where('tags',"LIKE","%$tag%")->where('blog_title', "Like","%$search%")->orwhere('user_name',"LIKE","%$search%")->get();
+            $data = DB::table('blogs')->join('users', 'users.id', '=', 'blogs.user_id')->join('categories','categories.id','=','blogs.category')
+            ->select('blogs.*', 'users.profile_pic','users.name','categories.categoryname')->where('tags',"LIKE","%$tag%")->where('blog_title', "Like","%$search%")->orwhere('user_name',"LIKE","%$search%")
+            ->orderby('id','DESC')->offset($offset)->limit($perPage)->get();
+        }
+       
+        else
+        {
+            $data1=$blog->where('tags',"LIKE","%$tag%")->where('blogs.category',"=","$categoryname")->get();
+            $data = DB::table('blogs')->join('users', 'users.id', '=', 'blogs.user_id')->join('categories','categories.id','=','blogs.category')
+            ->select('blogs.*', 'users.profile_pic','users.name','categories.categoryname')->where('blogs.category',"=","$categoryname")->where('tags',"LIKE","%$tag%")
+            ->orderby('id','DESC')->offset($offset)->limit($perPage)->get();
+        }
+        $total = $data1->count();
         return response()->json([
             'data' => $data,
             'total' => $total,

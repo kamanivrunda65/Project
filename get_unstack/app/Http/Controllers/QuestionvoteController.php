@@ -6,6 +6,7 @@ use App\Models\Questionvote;
 use App\Models\Question;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionvoteController extends Controller
 {
@@ -37,6 +38,7 @@ class QuestionvoteController extends Controller
      */
     public function store($qid,$uid,Question $question,Questionvote $questionvote)
     {
+        // $uid=Auth::user()->id;
         $data=$questionvote->select('questionvotes.*')->where("question_id","=","$qid")->where("user_id","=","$uid")->value('id');
         //dd($data);
         // $qvdata=$data->all();
@@ -45,7 +47,8 @@ class QuestionvoteController extends Controller
         {
             // $qvid=$qvdata->id;
             $qvdata=$questionvote->find($data);
-            echo $qvdata->save();
+            $message="You already voted for this question.";
+            return $message;
         }
         else{
             $questionvote->question_id=$qid;

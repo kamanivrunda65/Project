@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tags;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Http;
 class TagsController extends Controller
 {
     /**
@@ -13,9 +13,9 @@ class TagsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($tagname,Tags $tags)
     {
-        //
+       return view('layouts.tag')->with(['tagname'=>$tagname]);
     }
 
     /**
@@ -47,7 +47,8 @@ class TagsController extends Controller
      */
     public function show(Tags $tags)
     {
-        //
+        $tagdata=Tags::orderByRaw('(total_question+total_blog) DESC')->get();
+        echo $tagdata;
     }
 
     /**

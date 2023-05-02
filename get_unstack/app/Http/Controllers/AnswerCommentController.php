@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnswerComment;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnswerCommentController extends Controller
 {
@@ -34,21 +36,23 @@ class AnswerCommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,AnswerComment $answerComment)
+    public function store(Request $request,AnswerComment $answerComment,User $user)
     {
         
         $request->validate([
             'user_id'=>'required',
-            'user_name'=>'required',
              'qid'=>'required',
              'answer_id'=>'required',
             'comment'=>'required'
          ]);
          $answerComment->user_id=$request->user_id;
-         $answerComment->user_name=$request->user_name;
+         $userbyid=$user->find($request->user_id);
+         $username=$userbyid->name;
+         $answerComment->user_name=$username;
          $answerComment->question_id=$request->qid;
          $answerComment->answer_id=$request->answer_id;
          $answerComment->comment=$request->comment;
+         //dd($answerComment);
          echo $answerComment->save();
         // return response()->json($request);
         //redirect()->back();

@@ -36,8 +36,9 @@ class Question extends Model
     {
         return $this->hasMany(Questionvote::class);
     }
-    public function categories()
+    
+    public function carts()
     {
-        return $this->belongsTo(Category::class,'category');
+        return $this->hasMany(Cart::class);
     }
 }

@@ -35,14 +35,15 @@
                     </div><!-- end media -->
                 </div><!-- end hero-content -->
             </div><!-- end col-lg-8 -->
+            @if(Auth::check())
             @if ($userbyid->id==Auth::user()->id)
             <div class="col-lg-4">
                 <div class="hero-btn-box text-right py-3">
-                    <a href="setting.php" class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i class="la la-gear mr-1"></i> Edit Profile</a>
+                    <a href="/setting" class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i class="la la-gear mr-1"></i> Edit Profile</a>
                 </div>
             </div><!-- end col-lg-4 -->
             @endif
-           
+           @endif
             <div class="col-lg-12">
                 <ul class="nav nav-tabs generic-tabs generic--tabs generic--tabs-2 mt-4" id="myTab" role="tablist">
                     <li class="nav-item">
@@ -58,12 +59,16 @@
                     <li class="nav-item">
                         <a class="nav-link"  data-toggle="tab" href="#user-answer" role="tab"  aria-selected="false">Answers</a>
                     </li>
+                    @if(Auth::check())
+                    @if($userbyid->id==Auth::user()->id)
                     <li class="nav-item">
                         <a class="nav-link"  data-toggle="tab" href="#user-cart-question" role="tab"  aria-selected="false">Saved Question</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"  data-toggle="tab" href="#user-cart-blog" role="tab"  aria-selected="false">Saved Blog</a>
                     </li>
+                    @endif
+                    @endif
                 </ul>
             </div><!-- end col-lg-4 -->
         </div><!-- end row -->
@@ -196,173 +201,15 @@
                            
                             <div class="user-panel mb-40px">
                                 <div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
-                                    <h3 class="fs-17">Active bounties <span>(20)</span></h3>
+                                    <h3 class="fs-17">Bookmark - Question</h3>
                                     <div class="filter-option-box flex-grow-1 d-flex align-items-center justify-content-end lh-1">
-                                        <label class="fs-14 fw-medium mr-2 mb-0">Sort</label>
-                                        <div class="w-100px">
-                                            <select class="select-container">
-                                                <option selected="selected" value="Active">Active</option>
-                                                <option value="Offered">Offered</option>
-                                                <option value="Earned">Earned</option>
-                                            </select>
-                                        </div>
+                                        
                                     </div>
                                 </div>
-                                <div class="summary-panel">
+                                <div class="summary-panel" id="user-saved-question">
                                     <div class="vertical-list">
-                                        <div class="item p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes">
-                                                    <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                        <span class="vote-counts">6475</span>
-                                                        <span class="vote-icon"></span>
-                                                    </div>
-                                                    <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                        <span class="vote-counts">22</span>
-                                                        <span class="answer-icon"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5><a href="question-details.html" class="d-flex align-items-center"><span class="badge bg-12 mr-2 text-white">+100</span> How to make Git “forget” about a file that was tracked but is now in .gitignore?</a></h5>
-                                                    <small class="meta">
-                                                        <span class="pr-1">yesterday</span>
-                                                        <a href="#" class="author">edublog</a>
-                                                    </small>
-                                                    <div class="tags">
-                                                        <a href="#" class="tag-link">git</a>
-                                                        <a href="#" class="tag-link">gitignore</a>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                        <span class="vote-counts">4711</span>
-                                                        <span class="vote-icon"></span>
-                                                    </div>
-                                                    <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                        <span class="vote-counts">-2</span>
-                                                        <span class="answer-icon"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5><a href="question-details.html" class="d-flex align-items-center"><span class="badge bg-12 mr-2 text-white">+500</span> Catching errors being thrown within module</a></h5>
-                                                    <small class="meta">
-                                                        <span class="pr-1">1 hour ago</span>
-                                                        <a href="#" class="author">edublog</a>
-                                                    </small>
-                                                    <div class="tags">
-                                                        <a href="#" class="tag-link">python</a>
-                                                        <a href="#" class="tag-link">error-handling</a>
-                                                        <a href="#" class="tag-link">gevent</a>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                        <span class="vote-counts">4448</span>
-                                                        <span class="vote-icon"></span>
-                                                    </div>
-                                                    <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                        <span class="vote-counts">11</span>
-                                                        <span class="answer-icon"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5><a href="question-details.html" class="d-flex align-items-center"><span class="badge bg-12 mr-2 text-white">+200</span> Alien Dictionary Python</a></h5>
-                                                    <small class="meta">
-                                                        <span class="pr-1">2 days ago</span>
-                                                        <a href="#" class="author">edublog</a>
-                                                    </small>
-                                                    <div class="tags">
-                                                        <a href="#" class="tag-link">python</a>
-                                                        <a href="#" class="tag-link">algorithm</a>
-                                                        <a href="#" class="tag-link">graph</a>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes">
-                                                    <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                        <span class="vote-counts">3274</span>
-                                                        <span class="vote-icon"></span>
-                                                    </div>
-                                                    <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                        <span class="vote-counts">33</span>
-                                                        <span class="answer-icon"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5><a href="question-details.html" class="d-flex align-items-center"><span class="badge bg-12 mr-2 text-white">+50</span> How to parse JS code into one-operation-per-line with fewest temp variables?</a></h5>
-                                                    <small class="meta">
-                                                        <span class="pr-1">May 12 '20</span>
-                                                        <a href="#" class="author">edublog</a>
-                                                    </small>
-                                                    <div class="tags">
-                                                        <a href="#" class="tag-link">javascript</a>
-                                                        <a href="#" class="tag-link">compilation</a>
-                                                        <a href="#" class="tag-link">register-allocation</a>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes">
-                                                    <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
-                                                        <span class="vote-counts">2822</span>
-                                                        <span class="vote-icon"></span>
-                                                    </div>
-                                                    <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
-                                                        <span class="vote-counts">11</span>
-                                                        <span class="answer-icon"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5><a href="question-details.html" class="d-flex align-items-center"><span class="badge bg-12 mr-2 text-white">+50</span> vue 3 Server Side Rendering with Vuex and Router</a></h5>
-                                                    <small class="meta">
-                                                        <span class="pr-1">May 12 '20</span>
-                                                        <a href="#" class="author">edublog</a>
-                                                    </small>
-                                                    <div class="tags">
-                                                        <a href="#" class="tag-link">vue.js</a>
-                                                        <a href="#" class="tag-link">vuex</a>
-                                                        <a href="#" class="tag-link">vuejs3</a>
-                                                        <a href="#" class="tag-link">router</a>
-                                                    </div>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="pager pt-30px">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination generic-pagination generic--pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <p class="fs-13 pt-2">Showing 1-5 of (20) results</p>
-                                        </div>
+                                        
+                                        
                                     </div>
                                 </div><!-- end summary-panel -->
                             </div><!-- end user-panel -->
@@ -398,95 +245,13 @@
                     <div class="tab-pane fade" id="user-answer"  aria-labelledby="user-answer-tab">
                         <div class="user-panel-main-bar ">
                             <div class="user-panel ">
-                               
-                                <div class="summary-panel ">
-                                    <div class="border-bottom border-bottom-gray bg-gray p-3 d-flex align-items-center justify-content-between">
+                                <div class="user-panel mb-30px">
+                                    <div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
                                         <h4 class="fs-15 fw-regular">Answers <span>{{$userbyid->total_answer}}</span></h4>
                                     </div>
-                                    <div class="vertical-list" id="user-answerdata">
-                                        {{-- <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">999k</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">How to make Git “forget” about a file that was tracked but is now in .gitignore?</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">4714</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Undoing a git rebase</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">4448</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Difference between “git add -A” and “git add .”</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">3275</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">How to find and restore a deleted file in a Git repository</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="item post p-0">
-                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
-                                                <div class="votes answered-accepted">
-                                                    <div class="vote-block" title="Votes">
-                                                        <span class="vote-counts">2822</span>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5 class="fs-15"><a href="question-details.html">Branch from a previous commit using Git</a></h5>
-                                                </div>
-                                            </div><!-- end media -->
-                                        </div><!-- end item -->
-                                        <div class="pager pt-30px">
-                                            <nav aria-label="Page navigation example">
-                                                <ul class="pagination generic-pagination generic--pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                            <p class="fs-13 pt-2">Showing 1-5 of (1,979) results</p>
-                                        </div> --}}
+                                    <div class="summary-panel">
+                                        <div class="vertical-list" id="user-answerdata">
+                                        </div>
                                     </div>
                                 </div><!-- end summary-panel -->
                             </div><!-- end user-panel -->
@@ -495,8 +260,8 @@
                     <div class="tab-pane fade" id="user-cart-blog" aria-labelledby="user-blog-tab" >
                         <div class="user-panel-main-bar  ">
                             <div class="user-panel mb-40px">
-                                <div class="row  " >
-                                    cart blog
+                                <div class="row  " id="user-saved-blog">
+                           
                                 </div>
                             </div>
                         </div>
@@ -511,37 +276,8 @@
                         <div class="card-body">
                             <h3 class="fs-17 pb-3">Trending Questions</h3>
                             <div class="divider"><span></span></div>
-                            <div class="sidebar-questions pt-3">
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">Using web3 to call precompile contract</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">2 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Sudhir Kumbhare</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">Is it true while finding Time Complexity of the algorithm [closed]</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">48 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">wimax</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">image picker and store them into firebase with flutter</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">1 hour ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Antonin gavrel</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
+                            <div class="sidebar-questions pt-3" id="trending-question">
+                                
                             </div><!-- end sidebar-questions -->
                         </div>
                     </div><!-- end card -->
@@ -549,90 +285,8 @@
                         <div class="card-body">
                             <h3 class="fs-17 pb-3">Trending Tags</h3>
                             <div class="divider"><span></span></div>
-                            <div class="tags pt-4">
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">analytics</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">computer</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">python</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">javascript</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">c#</a>
-                                    <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                </div><!-- end tag-item -->
-                                <div class="collapse" id="showMoreTags">
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">java</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">swift</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">html</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">angular</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">flutter</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">machine-language</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                </div><!-- end collapse -->
-                                <a class="collapse-btn fs-13" data-toggle="collapse" href="#showMoreTags" role="button" aria-expanded="false" aria-controls="showMoreTags">
-                                    <span class="collapse-btn-hide">Show more<i class="la la-angle-down ml-1 fs-11"></i></span>
-                                    <span class="collapse-btn-show">Show less<i class="la la-angle-up ml-1 fs-11"></i></span>
-                                </a>
+                            <div class="tags pt-4" id="tags-data">
+                                
                             </div>
                         </div>
                     </div><!-- end card -->
@@ -648,7 +302,7 @@
 @push('profile')
 <script>
 
-    var authuserid={{Auth::user()->id}}
+    var authuserid={{Js::from($authuserid)}}
    var userid={{Js::from($userbyid->id)}}
 //user-blog
    userblog(userid)
@@ -657,8 +311,10 @@
         fetch("http://localhost:8000/api/userblogdata").then(response=>response.json()).then((res)=>{
            // console.log(res);
             userblogs=""
+            count=0
             res.forEach(element => {
                 if(id==element.user_id){
+                    count++;
                     var formateddate=dateformate(element.created_at);
                     userblogs+= ` <div class="col-lg-4 responsive-column-half" >
                     <div class="card card-item hover-y">
@@ -679,7 +335,7 @@
                             <small class="meta">
                             <span class="pr-1">${formateddate}</span>`
                 if(authuserid==element.user_id){
-              userblogs += `<span class="pr-1 hover"><a onclick="deleteblog(${element.id})"><b>Delete Blog</b></a></span>`
+              userblogs += `<span class="pr-1 hover-y hover"><a onclick="deleteblog(${element.id})"><b>Delete Blog</b></a></span>`
                 }
               userblogs +=  `</small>
                         </div><!-- end card-body -->
@@ -687,6 +343,12 @@
                 </div><!-- end col-lg-6 -->`;
                 }
             });
+            if(count==0)
+            {
+                userblogs+=`<br><div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
+                                    <h3 class="fs-17">No Data Found</h3>
+                                </div>`
+            }
             document.getElementById('user-blogdata').innerHTML=userblogs;
         })
    }
@@ -697,10 +359,11 @@
     fetch("http://localhost:8000/api/userquestion").then(response=>response.json()).then((res)=>{
         //console.log(res);
         userquestions=""
-        count=1
+        count=0
         res.forEach(element => {
             if(userid==element.user_id)
             {
+                count++;
                 userquestions+=`<div class="item post p-0">
                                             <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
                                                 <div class="votes answered-accepted">
@@ -717,6 +380,12 @@
             }
             
         });
+        if(count==0)
+            {
+                userquestions+=`<br><div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
+                                    <h3 class="fs-17">No Data Found</h3>
+                                </div>`
+            }
         document.getElementById('user-questiondata').innerHTML=userquestions;
     })
    }
@@ -725,11 +394,14 @@
     useranswer(userid)
     function useranswer(userid)
     {
+        
         fetch("http://localhost:8000/api/useranswers").then(response=>response.json()).then((res)=>{
             // console.log(res);
             useranswers=""
+            count=0;
             res.forEach(element => {
                 if(userid==element.user_id){
+                    count++
                         useranswers+=`<div class="item post p-0">
                                             <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
                                                 <div class="votes answered-accepted">
@@ -747,6 +419,12 @@
                 }
                 
             });
+            if(count==0)
+            {
+                useranswers+=`<br><div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
+                                    <h3 class="fs-17">No Data Found</h3>
+                                </div>`
+            }
             document.getElementById('user-answerdata').innerHTML=useranswers;
         })
     }
@@ -761,7 +439,141 @@
 
     }
 
- //cart-question   
+if(authuserid!=0){
+//cart-question  
+    usersavedquestion()
+    function usersavedquestion()
+    {
+        fetch("http://localhost:8000/api/usersavedquestion/"+authuserid).then(response=>response.json()).then((res)=>{
+            //console.log(res);
+            savedquestion=""
+            count=0
+            res.forEach(element => {
+               
+                var formateddate=dateformate(element.created_at);
+                count++
+                
+                savedquestion+=`<div class="item p-0">
+                                            <div class="media media-card media--card align-items-center shadow-none rounded-0 mb-0 bg-transparent">
+                                                <div class="votes">
+                                                   
+                                                   
+                                                    <div class="vote-block d-flex align-items-center justify-content-between" title="Votes">
+                                                        <a onclick="removequestion(${element.id})"><span class=" hover">Remove <i class="la la-times-circle"></i></span></a>
+                                                    </div>
+                                                    <div class="answer-block d-flex align-items-center justify-content-between" title="Answers">
+                                                        <span class="vote-counts">${element.answers}</span>
+                                                        <span class="answer-icon"></span>
+                                                    </div>
+                                                   
+                                                </div>
+                                                <div class="media-body">
+                                                    <h5><a href="/questiondetail/${element.question_id}" class="d-flex align-items-center"><span class="badge bg-12 mr-2 text-white">+${element.views}</span>${element.question}</a></h5>
+                                                   
+                                                    <small class="meta">
+                                                        <span class="pr-1">${formateddate}</span>
+                                                        <a href="/profile/${element.name}" class="author">${element.name}</a>
+                                                    </small>
+                                                    <div class="tags">`
+
+        let tags=element.tags;
+        const myArray = tags.split(",");
+        //console.log(myArray);
+        myArray.forEach(myfunction);
+        function myfunction(items){
+            savedquestion += ' <a href="#" class="tag-link">'+items+'</a>';
+        } 
+                                                        
+                                    savedquestion+=`</div>
+                                                </div>
+                                            </div><!-- end media -->
+                                        </div><!-- end item -->`
+                    
+            });
+            if(count==0)
+            {
+                savedquestion+=`<br><div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
+                                    <h3 class="fs-17">No Data Found</h3>
+                                </div>`
+            }
+            document.getElementById('user-saved-question').innerHTML=savedquestion
+        })
+    }
+
+//show-user-saved-blog
+    showsavedblog()
+    function showsavedblog()
+    {
+        fetch("http://localhost:8000/api/usersavedblog/"+authuserid).then(response=>response.json()).then((res)=>{
+            //console.log(res);
+            count=0;
+            savedblog=""
+            res.forEach(element => {
+                count++
+                savedblog+=`<div class="col-lg-4 responsive-column-half">
+                        <div class="card card-item hover-y">
+                            <a href="/blog/${element.blog_id}" class="card-img">`
+                            if(element.image.includes(",")==true){
+                                const myArray = element.image.split(",");
+                                let image = myArray[0];
+                                savedblog += `<img class="lazy" src="{{URL::asset('asset/${image}')}}" data-src="{{URL::asset('asset/${image}')}}" alt="Card image">`
+                            }
+                            else{
+                                savedblog += `<img class="lazy" src="{{URL::asset('asset/${element.image}')}}" data-src="{{URL::asset('asset/${element.image}')}}" alt="Card image">`
+                            }
+
+                    savedblog+=`</a>
+                            <div class="card-body pt-0">
+                                <a href="#" class="card-link">${element.categoryname}</a>
+                                <h5 class="card-title fw-medium"><a href="/blog/${element.blog_id}">${element.blog_title}</a></h5>
+                                <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 mt-4 bg-transparent">
+                                    <a href="/profile/${element.name}" class="media-img media-img--sm d-block mr-2 rounded-full">
+                                        <img src="{{URL::asset('asset/${element.profile_pic}')}}" alt="avatar" class="rounded-full">
+                                    </a>
+                                    <div class="media-body">
+                                        <h5 class="fs-14 fw-medium">By <a href="/profile/${element.name}">${element.name}</a></h5>
+                                     
+                                    </div>
+                                    <small class="meta d-block lh-20">
+                                            <span class=" hover"><a onclick="removeblog(${element.id})"><b>Remove From List</b></a></span>
+                                    </small>
+                                </div>
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+                    </div><!-- end col-lg-4 -->`
+                
+            });
+            if(count==0)
+            {
+                savedblog+=`<br><div class="bg-gray p-3 rounded-rounded d-flex align-items-center justify-content-between">
+                                    <h3 class="fs-17">No Data Found</h3>
+                                </div>`
+            }
+            document.getElementById('user-saved-blog').innerHTML=savedblog;
+        })
+    }
+//remove-blog
+    function  removeblog(bcid)
+    {
+        // console.log(bcid);
+        fetch("http://localhost:8000/api/removeblog/"+bcid).then(response=>response.json()).then((res)=>{
+            console.log(res);
+            userblog(userid);
+        })
+    }
+//remove-blog
+    function  removequestion(qcid)
+    {
+         console.log(qcid);
+        fetch("http://localhost:8000/api/removequestion/"+qcid).then(response=>response.json()).then((res)=>{
+            console.log(res);
+            userblog(userid);
+        })
+    }
+
+}
+
+
 </script>
 @endpush
 

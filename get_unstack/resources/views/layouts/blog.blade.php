@@ -18,6 +18,15 @@ element.style {
 .close-button{
     margin-left: 500px;
 }
+.py-50{
+    padding-top:50px;
+}
+.card-item .card-img img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width: 100%;
+    height: 220px;
+}
 </style>
 <!--======================================
         START HERO AREA
@@ -30,6 +39,8 @@ element.style {
     <span class="stroke-shape stroke-shape-5"></span>
     <span class="stroke-shape stroke-shape-6"></span>
     <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ">
         <div class="hero-content">
             <ul class="breadcrumb-list pb-2">
                 <li><a href="#">Home</a><span><svg xmlns="http://www.w3.org/2000/svg" height="19px" viewBox="0 0 24 24" width="19px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg></span></li>
@@ -42,7 +53,7 @@ element.style {
                     <img src="{{URL::asset('asset/'.$userdata->profile_pic)}}" data-src="{{URL::asset('asset/'.$userdata->profile_pic)}}" alt="avatar" class="rounded-full lazy">
                 </a>
                 <div class="media-body">
-                    <h5 class="fs-14 fw-medium">By <a href="#">{{$userdata->name}}</a></h5>
+                    <h5 class="fs-14 fw-medium">By <a href="/profile/{{$userdata->id}}">{{$userdata->name}}</a></h5>
                     <small class="meta d-block lh-20">
                         <span class="mr-2">{{date('d M,Y', strtotime($blogdata->created_at))}}</span>
                         <span class="mr-2 fs-15">.</span>
@@ -51,6 +62,23 @@ element.style {
                 </div>
             </div>
         </div><!-- end hero-content -->
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="hero-btn-box text-right py-50">
+                @if(Auth::check())
+                    @if($cart==0)
+                    <button class="btn theme-btn " onclick="saveblog({{$blogdata->id}},{{Auth::user()->id}})"><i class="la la-bookmark mr-1"></i>Save Blog</button>
+                    @else
+                    <button class="btn theme-btn bg-3" onclick="removeblog({{$blogdata->id}},{{Auth::user()->id}})"><i class="la la-bookmark mr-1"></i>Remove From Collection</button>
+                    @endif
+                @else
+                <button class="btn theme-btn "  disabled><i class="la la-bookmark mr-1"></i>Save Blog</button>
+
+                @endif
+            </div>
+        </div><!-- end col-lg-4 -->
+        </div>
     </div><!-- end container -->
 </section><!-- end hero-area -->
 <!--======================================
@@ -104,92 +132,27 @@ element.style {
                         <div class="form-group col-lg-12">
                             <h4 class="fs-20">Leave a Reply</h4>
                         </div><!-- end form-group -->
-                       <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                       <input type="hidden" name="user_id" value="{{$uid}}">
                        <input type="hidden" name="blog_id" value="{{$blogdata->id}}">
-                       <input type="hidden" name="user_name" value="{{Auth::user()->name}}">
                         <div class="form-group col-lg-12">
                             <label class="fs-13 text-black lh-20">Message</label>
                             <textarea class="form-control form--control" name="comment" rows="5" placeholder="Your comment here..."></textarea>
                         </div><!-- end form-group -->
                         <div class="form-group col-lg-12 mb-0">
-                            <button class="btn theme-btn" type="submit">Post Comment </button>
+                            <button class="btn theme-btn" type="submit" onclick="postblogcomment({{$uid}})">Post Comment </button>
                         </div><!-- end form-group -->
                     </div><!-- end card-body -->
                 </form>
             </div><!-- end col-lg-8 -->
             <div class="col-lg-4">
                 <div class="sidebar">
-                    <div class="card card-item">
-                        <div class="card-body">
-                            <h3 class="fs-17 pb-3">Search blog</h3>
-                            <div class="divider"><span></span></div>
-                            <form method="post" class="pt-4">
-                                <div class="form-group mb-0">
-                                    <input class="form-control form--control form--control-bg-gray" type="text" name="search" placeholder="Type your search words...">
-                                    <button class="form-btn" type="button"><i class="la la-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div><!-- end card -->
-                    <div class="card card-item">
-                        <div class="card-body">
-                            <h3 class="fs-17 pb-3">Categories</h3>
-                            <div class="divider"><span></span></div>
-                            <div class="category-list pt-4">
-                                <a href="#" class="cat-item d-flex align-items-center justify-content-between mb-3 hover-y">
-                                    <span class="cat-title">Technology</span>
-                                    <span class="cat-number">238</span>
-                                </a>
-                                <a href="#" class="cat-item d-flex align-items-center justify-content-between mb-3 hover-y">
-                                    <span class="cat-title">Project Management</span>
-                                    <span class="cat-number">238</span>
-                                </a>
-                                <a href="#" class="cat-item d-flex align-items-center justify-content-between mb-3 hover-y">
-                                    <span class="cat-title">Business</span>
-                                    <span class="cat-number">238</span>
-                                </a>
-                                <a href="#" class="cat-item d-flex align-items-center justify-content-between mb-3 hover-y">
-                                    <span class="cat-title">Digital design</span>
-                                    <span class="cat-number">238</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div><!-- end card -->
+                   
                     <div class="card card-item">
                         <div class="card-body">
                             <h3 class="fs-17 pb-3">Trending Posts</h3>
                             <div class="divider"><span></span></div>
-                            <div class="sidebar-questions pt-3">
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">Using web3 to call precompile contract</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">2 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Sudhir Kumbhare</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">Is it true while finding Time Complexity of the algorithm [closed]</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">48 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">wimax</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">image picker and store them into firebase with flutter</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">1 hour ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Antonin gavrel</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
+                            <div class="sidebar-questions pt-3" id="trending-post">
+                               
                             </div><!-- end sidebar-questions -->
                         </div>
                     </div><!-- end card -->
@@ -197,16 +160,8 @@ element.style {
                         <div class="card-body">
                             <h3 class="fs-17 pb-3">Trending Tags</h3>
                             <div class="divider"><span></span></div>
-                            <div class="tags pt-4">
-                                <a href="#" class="tag-link tag-link-md">analytics</a>
-                                <a href="#" class="tag-link tag-link-md">computer</a>
-                                <a href="#" class="tag-link tag-link-md">python</a>
-                                <a href="#" class="tag-link tag-link-md">java</a>
-                                <a href="#" class="tag-link tag-link-md">swift</a>
-                                <a href="#" class="tag-link tag-link-md">javascript</a>
-                                <a href="#" class="tag-link tag-link-md">c#</a>
-                                <a href="#" class="tag-link tag-link-md">html</a>
-                                <a href="#" class="tag-link tag-link-md">machine-language</a>
+                            <div class="tags pt-4" id="tags-data">
+                               
                             </div>
                         </div>
                     </div><!-- end card -->
@@ -242,89 +197,22 @@ element.style {
 <!-- ================================
          START BLOG AREA
 ================================= -->
-<section class="blog-area pt-80px pb-50px bg-gray">
-    <div class="container">
-        <h2 class="section-title fs-30">Related posts</h2>
-        <div class="row mt-40px">
-            <div class="col-lg-4">
-                <div class="card card-item hover-y">
-                    <a href="blog-single.html" class="card-img">
-                        <img class="lazy" src="images/img-loading.png" data-src="images/img9.jpg" alt="Card image">
-                    </a>
-                    <div class="card-body pt-0">
-                        <a href="#" class="card-link">Digital design</a>
-                        <h5 class="card-title fw-medium"><a href="blog-single.html">Designers should always keep their users in mind</a></h5>
-                        <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 mt-4 bg-transparent">
-                            <a href="#" class="media-img media-img--sm d-block mr-2 rounded-full">
-                                <img src="images/img1.jpg" alt="avatar" class="rounded-full">
-                            </a>
-                            <div class="media-body">
-                                <h5 class="fs-14 fw-medium">By <a href="#">Arden Smith</a></h5>
-                                <small class="meta d-block lh-20">
-                                    <span>Feb 25, 2021</span>
-                                </small>
-                            </div>
-                        </div>
-                    </div><!-- end card-body -->
-                </div><!-- end card -->
-            </div><!-- end col-lg-4 -->
-            <div class="col-lg-4">
-                <div class="card card-item hover-y">
-                    <a href="blog-single.html" class="card-img">
-                        <img class="lazy" src="images/img-loading.png" data-src="images/img10.jpg" alt="Card image">
-                    </a>
-                    <div class="card-body pt-0">
-                        <a href="#" class="card-link">Project Management</a>
-                        <h5 class="card-title fw-medium"><a href="blog-single.html">What You Can Learn About Managing Projects</a></h5>
-                        <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 mt-4 bg-transparent">
-                            <a href="#" class="media-img media-img--sm d-block mr-2 rounded-full">
-                                <img src="images/img2.jpg" alt="avatar" class="rounded-full">
-                            </a>
-                            <div class="media-body">
-                                <h5 class="fs-14 fw-medium">By <a href="#">Kevin Martin</a></h5>
-                                <small class="meta d-block lh-20">
-                                    <span>Feb 25, 2021</span>
-                                </small>
-                            </div>
-                        </div>
-                    </div><!-- end card-body -->
-                </div><!-- end card -->
-            </div><!-- end col-lg-4 -->
-            <div class="col-lg-4">
-                <div class="card card-item hover-y">
-                    <a href="blog-single.html" class="card-img">
-                        <img class="lazy" src="images/img-loading.png" data-src="images/img11.jpg" alt="Card image">
-                    </a>
-                    <div class="card-body pt-0">
-                        <a href="#" class="card-link">Business</a>
-                        <h5 class="card-title fw-medium"><a href="blog-single.html">Open space – new trend in office design</a></h5>
-                        <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 mt-4 bg-transparent">
-                            <a href="#" class="media-img media-img--sm d-block mr-2 rounded-full">
-                                <img src="images/img3.jpg" alt="avatar" class="rounded-full">
-                            </a>
-                            <div class="media-body">
-                                <h5 class="fs-14 fw-medium">By <a href="#">Tim Brooks</a></h5>
-                                <small class="meta d-block lh-20">
-                                    <span>Feb 25, 2021</span>
-                                </small>
-                            </div>
-                        </div>
-                    </div><!-- end card-body -->
-                </div><!-- end card -->
-            </div><!-- end col-lg-4 -->
-        </div><!-- end row -->
-    </div><!-- end container -->
-</section><!-- end blog-area -->
+<section class="gallery-area pt-90px pb-90px ">
+    <h2 class="section-title fs-40 pb-60px text-center">Related Blogs</h2>
+        <div class="gallery-carousel owl-carousel owl-theme owl-action-styled container" id="blog-section">
+        </div>
+</section>
+
 <!-- ================================
          END BLOG AREA
 ================================= -->
 
 <div id="popup-box"></div>
 
-
-@push('blod-details')
+{{-- @stack('front-blog') --}}
+@push('blog-details')
 <script>
-    var user={{Auth::user()->id}}
+    var user={{Js::from($uid)}}
     var userdata={{Js::from($userdata)}}
     //console.log(userdata)
     var blogdata={{Js::from($blogdata)}}
@@ -341,15 +229,15 @@ element.style {
             for(let i=0;i<myArray.length;i++){
                 var image = myArray[i];
             blogimage+=`<div class="col-lg-6">
-                                <a href="images/img6.jpg" class="gallery-item overflow-hidden mb-4" data-fancybox="gallery">
-                                    <img class="lazy" src="{{URL::asset('asset/${image}')}}" data-src="images/img6.jpg" alt="review image">
+                                <a href="{{URL::asset('asset/${image}')}}" class="gallery-item overflow-hidden mb-4" data-fancybox="gallery">
+                                    <img class="lazy" src="{{URL::asset('asset/${image}')}}"  alt="review image">
                                 </a>
                             </div><!-- end col-lg-6 -->`
                         }
         }else{
             blogimage+=`<div class="col-lg-6">
-                                <a href="images/img6.jpg" class="gallery-item overflow-hidden mb-4" data-fancybox="gallery">
-                                    <img class="lazy" src="{{URL::asset('asset/${blogdata.image}')}}" data-src="images/img6.jpg" alt="review image">
+                                <a href="{{URL::asset('asset/${image}')}}" class="gallery-item overflow-hidden mb-4" data-fancybox="gallery">
+                                    <img class="lazy" src="{{URL::asset('asset/${blogdata.image}')}}"  alt="review image">
                                 </a>
                             </div><!-- end col-lg-6 -->`
         }
@@ -375,15 +263,27 @@ element.style {
 
 //blog-post-comment
 
- $('form#blogcomment').submit(function(event) {
+ function postblogcomment(uid){
     event.preventDefault();
 
-    var formData = $(this).serialize();
-
+    // var formData = $(this).serialize();
+        if(uid==0)
+        {
+           loginpopup();
+        }
+        else{
+        event.preventDefault();
+        let FormData = $("#blogcomment").serializeArray() ;  
+        console.log(FormData);
+        var result = {};
+        $.each(FormData, function() {
+            result[this.name] = this.value;   
+        });
+    
     $.ajax({
         url: 'http://localhost:8000/api/bcomment',
         type: 'POST',
-        data: formData,
+        data: result,
         success: function(response) {
             console.log(response);
             showblogcomment();
@@ -392,7 +292,8 @@ element.style {
             console.log(error);
         }
     });
- });
+    }
+ }
 
 
 //show-blog-comment
@@ -431,9 +332,15 @@ element.style {
 
 
 //post-blog-subcomment
- function postblogsubcomment(){
+ function postblogsubcomment(uid){
    
     event.preventDefault();
+    if(uid==0)
+    {
+        loginpopup();
+    }
+    else
+    {
     let FormData = $("#blogsubcomment").serializeArray() ;  
     //console.log(FormData);
     var result = {};
@@ -441,7 +348,7 @@ element.style {
         result[this.name] = this.value;   
     });
         
-    //console.log(result);
+    console.log(result);
     $.ajax({
         url: 'http://localhost:8000/api/bsubcomment',
         type: 'POST',
@@ -455,7 +362,7 @@ element.style {
             
         }
     });
- 
+     }
  }
 
 //show-blog-sub-comment
@@ -470,8 +377,7 @@ element.style {
             if(id==element.comment_id){
             var formateddate=dateformate(element.created_at);
             if(user==element.user_id){
-                blogsubcomment+=`<a onclick="deletesubcomment(${element.id})" class="close-button"  title="Delete Your Comment" ><b><i class="la la-close la-lg mr-0"></i></b></a>
-`
+                blogsubcomment+=`<a onclick="deletesubcomment(${element.id})" class="close-button"  title="Delete Your Comment" ><b><i class="la la-close la-lg mr-0"></i></b></a>`
                 }
             blogsubcomment+=`<li class="mb-3 comment-reply">
                                 <div class="comment-avatar">
@@ -508,8 +414,7 @@ element.style {
             <div class="modal-body">
                 <form method="post" id="blogsubcomment">
                     @csrf
-                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                    <input type="hidden" name="user_name" value="{{Auth::user()->name}}">
+                    <input type="hidden" name="user_id" value="${user}">
                     <input type="hidden" name="bid" value="{{$blogdata->id}}">
                     <input type="hidden" name="comment_id" value="${id}">
                                             
@@ -518,7 +423,7 @@ element.style {
                         <textarea class="form-control form--control" rows="5" placeholder="Write message here..." name="comment"></textarea>
                     </div>
                     <div class="btn-box">
-                        <button type="submit" class="btn theme-btn w-100" onclick="postblogsubcomment()">
+                        <button type="submit" class="btn theme-btn w-100" onclick="postblogsubcomment(${user})">
                             Reply <i class="la la-arrow-right icon ml-1"></i>
                         </button>
                     </div>
@@ -527,11 +432,11 @@ element.style {
         </div>
     </div>
  </div>`
-document.getElementById('popup-box').innerHTML=popupbox;
+ document.getElementById('popup-box').innerHTML=popupbox;
  }
 
 
- //delte-sub-comment
+//delte-sub-comment
  function deletesubcomment(id){
     // console.log(id);
     fetch("http://localhost:8000/api/deletesubcomment/"+id).then(response=>response.json()).then((res)=>{
@@ -540,7 +445,7 @@ document.getElementById('popup-box').innerHTML=popupbox;
     })
  }
 
- //delte comment
+//delte comment
  function deletecomment(id){
     // console.log(id);
     fetch("http://localhost:8000/api/deletecomment/"+id).then(response=>response.json()).then((res)=>{
@@ -548,6 +453,26 @@ document.getElementById('popup-box').innerHTML=popupbox;
         showblogcomment();
     })
  }
+
+//save blog
+ function saveblog(bid,uid)
+ {
+    fetch("http://localhost:8000/api/saveblog/"+bid+"/"+uid).then(response=>response.json()).then((res)=>{
+        // console.log(res);
+        location.reload();
+    })
+ }
+
+//remove-blog
+ function removeblog(bid,uid)
+ {
+    fetch("http://localhost:8000/api/removeblog/"+bid+"/"+uid).then(response=>response.json()).then((res)=>{
+        // console.log(res);
+        location.reload();
+    })
+ }
+ 
+
 </script>
     
 @endpush

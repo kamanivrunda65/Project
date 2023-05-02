@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -37,14 +38,22 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        
     }
-    public function authenticate(Request $request)
+    public function authenticate(Request $request,User $user)
     {
         $credentials = $request->only('email', 'password');
- 
+        //dd(Auth::user()->id);
+
         if (Auth::attempt($credentials)) {
             // Authentication passed...
+            
+            $userid=$user->where('email',"=","$request->email")->value('id');
+            $userdata=$user->find($userid);
+            $userdata->last_login = now();
+            $userdata->save();
             return redirect()->intended('dashboard');
         }
     }
+   
 }

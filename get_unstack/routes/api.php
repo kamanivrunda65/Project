@@ -27,18 +27,34 @@ Route::get('/blogsubcomment', [App\Http\Controllers\BlogSubCommentController::cl
 Route::get('/answercomment', [App\Http\Controllers\AnswerCommentController::class, 'show']);
 Route::get('/answer', [App\Http\Controllers\AnswerController::class, 'show']);
 Route::get('/category', [App\Http\Controllers\CategoryController::class, 'show']);
+Route::get('/tags', [App\Http\Controllers\TagsController::class, 'show']);
+Route::get('/trendingpost', [App\Http\Controllers\BlogController::class, 'trending']);
+Route::get('/blogsection', [App\Http\Controllers\BlogController::class, 'blogsection']);
+Route::get('/trendingquestion', [App\Http\Controllers\QuestionController::class, 'trending']);
+Route::get('/achievement', [App\Http\Controllers\IndexController::class, 'achievement']);
+Route::get('/notification', [App\Http\Controllers\ProfileController::class, 'notificationdata']);
 
 
+
+Route::post('/searchquestion', [App\Http\Controllers\QuestionController::class, 'searchquestion']);
 Route::post('/qcomment', [App\Http\Controllers\QuestionCommentController::class, 'store']);
 Route::post('/bcomment', [App\Http\Controllers\BlogCommentController::class, 'store']);
 Route::post('/acomment', [App\Http\Controllers\AnswerCommentController::class, 'store']);
 Route::post('/bsubcomment', [App\Http\Controllers\BlogSubCommentController::class, 'store']);
 Route::post('/searchblog', [App\Http\Controllers\BlogController::class, 'searchblog']);
 Route::post('/postcategory', [App\Http\Controllers\CategoryController::class, 'store']);
+Route::post('/sendpasswordmail',[App\Http\Controllers\ProfileController::class,'sendpasswordmail']);
+Route::post('/review',[App\Http\Controllers\ProfileController::class,'review']);
 
 Route::get('/userblogdata', [App\Http\Controllers\ProfileController::class, 'userblog']);
 Route::get('/userquestion', [App\Http\Controllers\ProfileController::class, 'userquestion']);
 Route::get('/useranswers', [App\Http\Controllers\ProfileController::class, 'useranswers']);
+Route::get('/usersavedquestion/{userid}', [App\Http\Controllers\CartController::class, 'usersavedquestion']);
+Route::get('/removequestion/{qcid}', [App\Http\Controllers\CartController::class, 'cartquestiondrop']);
+Route::get('/usersavedblog/{userid}', [App\Http\Controllers\BlogcartController::class, 'usersavedblog']);
+Route::get('/removeblog/{bcid}', [App\Http\Controllers\BlogcartController::class, 'cartblogdrop']);
+Route::get('/deletereview/{uid}', [App\Http\Controllers\ProfileController::class, 'dropreview']);
+Route::get('/linkopen/{id}', [App\Http\Controllers\ProfileController::class, 'linkopen']);
 
 
 
@@ -55,6 +71,8 @@ Route::get('/rightanswer/{aid}/{qid}', [App\Http\Controllers\AnswerController::c
 Route::get('/wronganswer/{aid}/{qid}', [App\Http\Controllers\AnswerController::class, 'wronganswer']);
 Route::get('/questionvote/{qid}/{uid}', [App\Http\Controllers\QuestionvoteController::class, 'store']);
 Route::get('/categorystatus/{id}/{status}', [App\Http\Controllers\CategoryController::class, 'statuschange']);
+Route::get('/cartquestion/{qid}/{uid}', [App\Http\Controllers\CartController::class, 'cartquestionstore']);
+Route::get('/removecartquestion/{qid}/{uid}', [App\Http\Controllers\CartController::class, 'cartquestiondrop']);
+Route::get('/saveblog/{bid}/{uid}', [App\Http\Controllers\BlogcartController::class, 'saveblog']);
+Route::get('/removeblog/{bid}/{uid}', [App\Http\Controllers\BlogcartController::class, 'dropblog']);
 
-Route::post('/sendpasswordmail',[App\Http\Controllers\ProfileController::class,'sendpasswordmail']);
-Route::post('/resetpassword',[App\Http\Controllers\ProfileController::class,'resetpassworddata']);

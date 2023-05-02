@@ -91,4 +91,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Questionvote::class);
     }
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+    public function blogcarts()
+    {
+        return $this->hasMany(Blogcart::class);
+    }
+    public function reviews()
+    {
+        return $this->hasOne(Review::class);
+    }
 }
